@@ -1,0 +1,345 @@
+@page "{id:int}"
+@model EditModel
+@{
+    ViewData["Title"] = "Edit Member";
+    Layout = "_AdminLayout";
+}
+
+<div class="mb-8">
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Edit Member</h1>
+            <p class="text-gray-600">Update member information and settings</p>
+        </div>
+        <div class="flex space-x-3">
+            <a href="/Admin/Members" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Members
+            </a>
+        </div>
+    </div>
+</div>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+        <div class="flex">
+            <i class="fas fa-exclamation-circle text-red-400 mr-2"></i>
+            <div>
+                <h3 class="text-sm font-medium text-red-800">Please correct the following errors:</h3>
+                <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+
+<form method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Member.Id" />
+    <input type="hidden" asp-for="Member.MemberId" />
+    <input type="hidden" asp-for="Member.CreatedAt" />
+    
+    <div class="space-y-8">
+        <!-- Personal Information -->
+        <div class="bg-white rounded-xl p-6 shadow-sm">
+            <h3 class="text-lg font-semibold text-gray-900 mb-6 border-b pb-2">Personal Information</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div>
+                    <label asp-for="Member.FirstName" class="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                    <input asp-for="Member.FirstName" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" />
+                    <span asp-validation-for="Member.FirstName" class="text-red-500 text-sm"></span>
+                </div>
+                
+                <div>
+                    <label asp-for="Member.MiddleName" class="block text-sm font-medium text-gray-700 mb-2">Middle Name</label>
+                    <input asp-for="Member.MiddleName" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" />
+                    <span asp-validation-for="Member.MiddleName" class="text-red-500 text-sm"></span>
+                </div>
+                
+                <div>
+                    <label asp-for="Member.LastName" class="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                    <input asp-for="Member.LastName" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" />
+                    <span asp-validation-for="Member.LastName" class="text-red-500 text-sm"></span>
+                </div>
+                
+                <div>
+                    <label asp-for="Member.DateOfBirth" class="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
+                    <input asp-for="Member.DateOfBirth" type="date" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" />
+                    <span asp-validation-for="Member.DateOfBirth" class="text-red-500 text-sm"></span>
+                </div>
+                
+                <div>
+                    <label asp-for="Member.Gender" class="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                    <select asp-for="Member.Gender" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent">
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <span asp-validation-for="Member.Gender" class="text-red-500 text-sm"></span>
+                </div>
+                
+                <div>
+                    <label asp-for="Member.Nationality" class="block text-sm font-medium text-gray-700 mb-2">Nationality</label>
+                    <select asp-for="Member.Nationality" id="nationality-select" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent">
+                        <option value="">Select Nationality</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                    <span asp-validation-for="Member.Nationality" class="text-red-500 text-sm"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="bg-white rounded-xl p-6 shadow-sm">
+            <h3 class="text-lg font-semibold text-gray-900 mb-6 border-b pb-2">Contact Information</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label asp-for="Member.EmailAddress" class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                    <input asp-for="Member.EmailAddress" type="email" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" />
+                    <span asp-validation-for="Member.EmailAddress" class="text-red-500 text-sm"></span>
+                </div>
+                
+                <div>
+                    <label asp-for="Member.PhoneNumber" class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                    <input asp-for="Member.PhoneNumber" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" />
+                    <span asp-validation-for="Member.PhoneNumber" class="text-red-500 text-sm"></span>
+                </div>
+                
+                <div class="md:col-span-2">
+                    <label asp-for="Member.Address" class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                    <textarea asp-for="Member.Address" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent"></textarea>
+                    <span asp-validation-for="Member.Address" class="text-red-500 text-sm"></span>
+                </div>
+                
+                <div>
+                    <label asp-for="Member.City" class="block text-sm font-medium text-gray-700 mb-2">City</label>
+                    <input asp-for="Member.City" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" />
+                    <span asp-validation-for="Member.City" class="text-red-500 text-sm"></span>
+                </div>
+                
+                <div>
+                    <label asp-for="Member.Emirate" class="block text-sm font-medium text-gray-700 mb-2">Emirate</label>
+                    <select asp-for="Member.Emirate" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent">
+                        <option value="">Select Emirate</option>
+                        <option value="Abu Dhabi">Abu Dhabi</option>
+                        <option value="Dubai">Dubai</option>
+                        <option value="Sharjah">Sharjah</option>
+                        <option value="Ajman">Ajman</option>
+                        <option value="Umm Al Quwain">Umm Al Quwain</option>
+                        <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                        <option value="Fujairah">Fujairah</option>
+                    </select>
+                    <span asp-validation-for="Member.Emirate" class="text-red-500 text-sm"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Identity Documents -->
+        <div class="bg-white rounded-xl p-6 shadow-sm">
+            <h3 class="text-lg font-semibold text-gray-900 mb-6 border-b pb-2">Identity Documents</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label asp-for="Member.PassportNumber" class="block text-sm font-medium text-gray-700 mb-2">Passport Number</label>
+                    <input asp-for="Member.PassportNumber" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" />
+                    <span asp-validation-for="Member.PassportNumber" class="text-red-500 text-sm"></span>
+                </div>
+                
+                <div>
+                    <label asp-for="Member.EmiratesId" class="block text-sm font-medium text-gray-700 mb-2">Emirates ID</label>
+                    <input asp-for="Member.EmiratesId" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" />
+                    <span asp-validation-for="Member.EmiratesId" class="text-red-500 text-sm"></span>
+                </div>
+                
+                <div>
+                    <label asp-for="Member.VisaType" class="block text-sm font-medium text-gray-700 mb-2">Visa Type</label>
+                    <select asp-for="Member.VisaType" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent">
+                        <option value="">Select Visa Type</option>
+                        <option value="Tourist Visa">Tourist Visa</option>
+                        <option value="Business Visa">Business Visa</option>
+                        <option value="Employment Visa">Employment Visa</option>
+                        <option value="Student Visa">Student Visa</option>
+                        <option value="Family Visa">Family Visa</option>
+                        <option value="Transit Visa">Transit Visa</option>
+                        <option value="Residence Visa">Residence Visa</option>
+                        <option value="Golden Visa">Golden Visa</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <span asp-validation-for="Member.VisaType" class="text-red-500 text-sm"></span>
+                </div>
+                
+                @if (!string.IsNullOrEmpty(Model.Member.VisaIdFilePath))
+                {
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Current Uploaded Document</label>
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <div class="flex items-center space-x-3">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-file-pdf text-red-500 text-xl"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-gray-900">Visa/ID Document</p>
+                                    <p class="text-xs text-gray-500">Uploaded on @Model.Member.CreatedAt.ToString("dd/MM/yyyy")</p>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <a href="@Model.Member.VisaIdFilePath" target="_blank" 
+                                       class="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md text-tanzanian-green bg-green-50 hover:bg-green-100 transition-colors">
+                                        <i class="fas fa-download mr-1"></i>
+                                        Download
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Employment Information -->
+        <div class="bg-white rounded-xl p-6 shadow-sm">
+            <h3 class="text-lg font-semibold text-gray-900 mb-6 border-b pb-2">Employment Information</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label asp-for="Member.EmploymentStatus" class="block text-sm font-medium text-gray-700 mb-2">Employment Status</label>
+                    <select asp-for="Member.EmploymentStatus" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent">
+                        <option value="">Select Employment Status</option>
+                        <option value="Employed">Employed</option>
+                        <option value="Self-employed">Self-employed</option>
+                        <option value="Unemployed">Unemployed</option>
+                        <option value="Student">Student</option>
+                        <option value="Retired">Retired</option>
+                    </select>
+                    <span asp-validation-for="Member.EmploymentStatus" class="text-red-500 text-sm"></span>
+                </div>
+                
+                <div>
+                    <label asp-for="Member.CompanyName" class="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+                    <input asp-for="Member.CompanyName" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" />
+                    <span asp-validation-for="Member.CompanyName" class="text-red-500 text-sm"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Member Status & Services -->
+        <div class="bg-white rounded-xl p-6 shadow-sm">
+            <h3 class="text-lg font-semibold text-gray-900 mb-6 border-b pb-2">Member Status & Services</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label asp-for="Member.NidaServiceStatus" class="block text-sm font-medium text-gray-700 mb-2">NIDA Service Status</label>
+                    <select asp-for="Member.NidaServiceStatus" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent">
+                        <option value="0">None</option>
+                        <option value="1">Pending Payment</option>
+                        <option value="2">Paid</option>
+                        <option value="3">Appointment Scheduled</option>
+                        <option value="4">Completed</option>
+                    </select>
+                    <span asp-validation-for="Member.NidaServiceStatus" class="text-red-500 text-sm"></span>
+                </div>
+                
+                <div class="flex items-center space-x-6">
+                    <div class="flex items-center">
+                        <input asp-for="Member.OptInNidaService" type="checkbox" class="h-4 w-4 text-tanzanian-green focus:ring-tanzanian-green border-gray-300 rounded" />
+                        <label asp-for="Member.OptInNidaService" class="ml-2 block text-sm text-gray-700">Opt-in for NIDA Service</label>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <input asp-for="Member.DoYouKnowAboutTAE" type="checkbox" class="h-4 w-4 text-tanzanian-green focus:ring-tanzanian-green border-gray-300 rounded" />
+                        <label asp-for="Member.DoYouKnowAboutTAE" class="ml-2 block text-sm text-gray-700">Knows about TAE</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6">
+                <label asp-for="Member.Advice" class="block text-sm font-medium text-gray-700 mb-2">Additional Notes/Advice</label>
+                <textarea asp-for="Member.Advice" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" placeholder="Any additional information or advice..."></textarea>
+                <span asp-validation-for="Member.Advice" class="text-red-500 text-sm"></span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Form Actions -->
+    <div class="mt-8 flex items-center justify-between">
+        <div class="text-sm text-gray-500">
+            <i class="fas fa-info-circle mr-1"></i>
+            Fields marked with * are required
+        </div>
+        <div class="flex space-x-4">
+            <a href="/Admin/Members" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                Cancel
+            </a>
+            <button type="submit" class="px-6 py-2 bg-tanzanian-green text-white rounded-lg hover:bg-tanzanian-blue transition-colors">
+                <i class="fas fa-save mr-2"></i>Update Member
+            </button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Populate nationality dropdown
+        const nationalitySelect = document.getElementById('nationality-select');
+        const currentNationality = '@Model.Member.Nationality';
+        
+        // Load countries from REST Countries API
+        fetch('https://restcountries.com/v3.1/all?fields=name')
+            .then(response => response.json())
+            .then(countries => {
+                // Clear existing options except the first one
+                const existingOptions = nationalitySelect.querySelectorAll('option:not([value=""])');
+                existingOptions.forEach(option => option.remove());
+                
+                // Add Tanzania first
+                const tanzaniaOption = document.createElement('option');
+                tanzaniaOption.value = 'Tanzania';
+                tanzaniaOption.textContent = 'Tanzania';
+                nationalitySelect.appendChild(tanzaniaOption);
+                
+                // Sort and add other countries
+                const sortedCountries = countries
+                    .filter(country => country.name.common !== 'Tanzania')
+                    .sort((a, b) => a.name.common.localeCompare(b.name.common));
+                
+                sortedCountries.forEach(country => {
+                    const option = document.createElement('option');
+                    option.value = country.name.common;
+                    option.textContent = country.name.common;
+                    nationalitySelect.appendChild(option);
+                });
+                
+                // Set the current value
+                if (currentNationality) {
+                    nationalitySelect.value = currentNationality;
+                }
+            })
+            .catch(error => {
+                console.error('Error loading countries:', error);
+                // Fallback to common nationalities
+                const commonNationalities = [
+                    'Tanzania', 'Kenya', 'Uganda', 'Rwanda', 'Burundi', 'South Sudan',
+                    'United Arab Emirates', 'Saudi Arabia', 'Qatar', 'Kuwait', 'Oman', 'Bahrain',
+                    'United States', 'United Kingdom', 'Germany', 'France', 'Canada', 'Australia',
+                    'India', 'Pakistan', 'Bangladesh', 'Sri Lanka', 'Nepal', 'Philippines',
+                    'Egypt', 'Nigeria', 'South Africa', 'Morocco', 'Algeria', 'Tunisia'
+                ];
+                
+                commonNationalities.forEach(nationality => {
+                    const option = document.createElement('option');
+                    option.value = nationality;
+                    option.textContent = nationality;
+                    nationalitySelect.appendChild(option);
+                });
+                
+                if (currentNationality) {
+                    nationalitySelect.value = currentNationality;
+                }
+            });
+    });
+    </script>
+}

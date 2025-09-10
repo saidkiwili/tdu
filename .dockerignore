@@ -1,0 +1,18 @@
+# Docker ignores
+**/.dockerignore
+**/Dockerfile*
+**/docker-compose*
+**/.git
+**/.gitignore
+**/.vs
+**/.vscode
+**/bin
+**/obj
+**/*.user
+**/node_modules
+**/npm-debug.log
+**/README.md
+**/wwwroot/uploads/*
+**/.env
+**/appsettings.Development.json
+**/appsettings.Production.json

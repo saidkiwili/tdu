@@ -1,0 +1,142 @@
+@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<!-- Login Section -->
+<section class="login-section" style="min-height: 100vh; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); display: flex; align-items: center; justify-content: center; padding: 40px 20px;">
+    <div class="login-container" style="width: 100%; max-width: 400px;">
+        <!-- Logo Section -->
+        <div class="login-header text-center mb-8 fade-in">
+            <img src="~/img/logo.png" alt="TAE Logo" class="mx-auto mb-4" style="height: auto; width: 100px;" />
+            <h1 class="text-2xl font-bold mb-2" style="color: #1f2937;">Welcome Back</h1>
+            <p class="text-gray-600">Sign in to your TAE account</p>
+        </div>
+
+        <!-- Login Form -->
+        <div class="login-form-container card fade-in" style="background: white; border-radius: 16px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); padding: 32px; animation-delay: 0.2s;">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-red-600 mb-4"></div>
+                
+                <!-- Email Field -->
+                <div class="form-group mb-6">
+                    <label asp-for="Input.Email" class="form-label" style="display: block; font-weight: 600; color: #374151; margin-bottom: 8px; font-size: 14px;">Email Address</label>
+                    <div class="input-container" style="position: relative;">
+                        <i class="fas fa-envelope" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #9ca3af; font-size: 16px;"></i>
+                        <input asp-for="Input.Email" 
+                               class="form-input" 
+                               style="width: 100%; padding: 12px 12px 12px 40px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px; transition: all 0.2s ease; background: #f9fafb;"
+                               placeholder="Enter your email"
+                               autocomplete="username" />
+                    </div>
+                    <span asp-validation-for="Input.Email" class="text-red-600 text-sm"></span>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group mb-6">
+                    <label asp-for="Input.Password" class="form-label" style="display: block; font-weight: 600; color: #374151; margin-bottom: 8px; font-size: 14px;">Password</label>
+                    <div class="input-container" style="position: relative;">
+                        <i class="fas fa-lock" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #9ca3af; font-size: 16px;"></i>
+                        <input asp-for="Input.Password" 
+                               type="password" 
+                               class="form-input" 
+                               style="width: 100%; padding: 12px 12px 12px 40px; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 16px; transition: all 0.2s ease; background: #f9fafb;"
+                               placeholder="Enter your password"
+                               autocomplete="current-password" />
+                    </div>
+                    <span asp-validation-for="Input.Password" class="text-red-600 text-sm"></span>
+                </div>
+
+                <!-- Remember Me -->
+                <div class="form-group mb-6">
+                    <label class="flex items-center cursor-pointer">
+                        <input asp-for="Input.RememberMe" 
+                               type="checkbox" 
+                               class="checkbox-input" 
+                               style="width: 18px; height: 18px; border: 2px solid #e5e7eb; border-radius: 4px; margin-right: 8px; accent-color: #00B04F;" />
+                        <span style="color: #6b7280; font-size: 14px;">Remember me</span>
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-login" style="width: 100%; background: linear-gradient(135deg, #00B04F 0%, #0F4A6C 100%); color: white !important; padding: 14px; border-radius: 8px; font-weight: 600; font-size: 16px; border: none; cursor: pointer; transition: all 0.2s ease; margin-bottom: 24px;">
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    Sign In
+                </button>
+
+                <!-- Forgot Password -->
+                <div class="text-center mb-4">
+                    <a asp-page="./ForgotPassword" class="forgot-link" style="color: #00B04F; text-decoration: none; font-size: 14px; font-weight: 500;">
+                        Forgot your password?
+                    </a>
+                </div>
+            </form>
+
+            <!-- Register Link -->
+            <div class="register-section text-center" style="border-top: 1px solid #e5e7eb; padding-top: 24px;">
+                <p style="color: #6b7280; font-size: 14px; margin-bottom: 16px;">Don't have an account?</p>
+                <a asp-page="./Register" class="btn-register" style="display: inline-flex; align-items: center; background: white; color: #0F4A6C; border: 2px solid #0F4A6C; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.2s ease;">
+                    <i class="fas fa-user-plus mr-2"></i>
+                    Create Account
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Input Focus Styles */
+    .form-input:focus {
+        outline: none;
+        border-color: #00B04F !important;
+        box-shadow: 0 0 0 3px rgba(0, 176, 79, 0.1);
+        background: white !important;
+    }
+
+    /* Button Hover Effects */
+    .btn-login {
+        color: white !important;
+    }
+    
+    .btn-login:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 176, 79, 0.3);
+        color: white !important;
+    }
+
+    .btn-register:hover {
+        background: #0F4A6C;
+        color: white;
+    }
+
+    .forgot-link:hover {
+        color: #0F4A6C;
+        text-decoration: underline;
+    }
+
+    /* Animations */
+    .fade-in {
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @@media (max-width: 480px) {
+        .login-form-container {
+            padding: 24px !important;
+        }
+        
+        .login-section {
+            padding: 20px 16px !important;
+        }
+    }
+</style>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

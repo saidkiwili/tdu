@@ -1,0 +1,34 @@
+@page
+@model tae_app.Pages.Account.PortalModel
+@{
+    ViewData["Title"] = "Portal";
+}
+
+<section class="max-w-5xl mx-auto py-12 px-4">
+    <div class="bg-white rounded-xl shadow-lg p-8">
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-900">Member Portal</h2>
+                <p class="text-gray-500">Quick links and tools for your account.</p>
+            </div>
+            <div>
+                <a asp-page="/Account/Profile" class="px-4 py-2 bg-white border border-gray-200 rounded-lg">View Profile</a>
+            </div>
+        </div>
+
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <a href="/Events" class="block p-6 bg-gray-50 rounded-lg hover:shadow transition-shadow">
+                <h3 class="font-semibold">Events & RSVPs</h3>
+                <p class="text-sm text-gray-500 mt-2">See upcoming events and manage your RSVPs.</p>
+            </a>
+            <a href="/Services/NIDA" class="block p-6 bg-gray-50 rounded-lg hover:shadow transition-shadow">
+                <h3 class="font-semibold">NIDA Services</h3>
+                <p class="text-sm text-gray-500 mt-2">Track your NIDA service requests and documents.</p>
+            </a>
+            <a href="/Account/Membership" class="block p-6 bg-gray-50 rounded-lg hover:shadow transition-shadow">
+                <h3 class="font-semibold">Membership</h3>
+                <p class="text-sm text-gray-500 mt-2">Manage membership details and payments.</p>
+            </a>
+        </div>
+    </div>
+</section>

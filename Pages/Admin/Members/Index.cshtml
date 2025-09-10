@@ -1,0 +1,641 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Members";
+    Layout = "_AdminLayout";
+}
+
+<!-- Members Header -->
+<div class="mb-8">
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Member Management</h1>
+            <p class="text-gray-600">View and manage all registered members (@Model.TotalMembers total)</p>
+        </div>
+        <div class="flex space-x-3">
+            <a href="/Account/Register" class="px-4 py-2 bg-tanzanian-green text-white rounded-lg hover:bg-tanzanian-blue transition-colors">
+                <i class="fas fa-user-plus mr-2"></i>Add Member
+            </a>
+            <div class="relative">
+                <button id="exportBtn" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                    <i class="fas fa-download mr-2"></i>Export
+                </button>
+                <div id="exportMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 hidden">
+                    <div class="py-1">
+                        <a href="?handler=Export&format=csv&search=@Model.SearchTerm&status=@Model.StatusFilter&membershipType=@Model.MembershipTypeFilter" 
+                           class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-file-csv mr-2"></i>Export as CSV
+                        </a>
+                        <a href="?handler=Export&format=json&search=@Model.SearchTerm&status=@Model.StatusFilter&membershipType=@Model.MembershipTypeFilter" 
+                           class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <i class="fas fa-file-code mr-2"></i>Export as JSON
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Alert Messages -->
+@if (TempData["Success"] != null)
+{
+    <div class="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+        <div class="flex">
+            <i class="fas fa-check-circle text-green-400 mr-2"></i>
+            <span class="text-green-800">@TempData["Success"]</span>
+        </div>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+        <div class="flex">
+            <i class="fas fa-exclamation-circle text-red-400 mr-2"></i>
+            <span class="text-red-800">@TempData["Error"]</span>
+        </div>
+    </div>
+}
+
+<!-- Filters and Search -->
+<div class="bg-white rounded-xl p-6 shadow-sm mb-6">
+    <form method="get" class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div class="flex flex-col md:flex-row gap-4 flex-1">
+            <div class="relative flex-1">
+                <i style="margin: 10px;" class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                <input type="text" name="search" value="@Model.SearchTerm" placeholder="Search members..." 
+                       class="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent">
+            </div>
+            <select name="status" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent">
+                <option value="">All Status</option>
+               
+                <option value="active" selected="@(Model.StatusFilter == "active")">Active</option>
+                <option value="blocked" selected="@(Model.StatusFilter == "blocked")">Blocked</option>
+            </select>
+           
+            <select name="pageSize" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent">
+                <option value="10" selected="@(Model.PageSize == 10)">10 per page</option>
+                <option value="25" selected="@(Model.PageSize == 25)">25 per page</option>
+                <option value="50" selected="@(Model.PageSize == 50)">50 per page</option>
+                <option value="100" selected="@(Model.PageSize == 100)">100 per page</option>
+            </select>
+        </div>
+        <div class="flex gap-2">
+            <button type="submit" class="px-4 py-2 bg-tanzanian-green text-white rounded-lg hover:bg-tanzanian-blue transition-colors">
+                <i class="fas fa-filter mr-2"></i>Filter
+            </button>
+            <a href="/Admin/Members" class="px-4 py-2 text-gray-500 hover:bg-gray-100 rounded-lg transition-colors">
+                <i class="fas fa-times mr-2"></i>Clear
+            </a>
+        </div>
+        <!-- Hidden fields for pagination -->
+        <input type="hidden" name="page" value="@Model.CurrentPage">
+        <input type="hidden" name="sortBy" value="@Model.SortBy">
+        <input type="hidden" name="sortOrder" value="@Model.SortOrder">
+    </form>
+</div>
+
+<!-- Members Table -->
+<div class="bg-white rounded-xl shadow-sm overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <input type="checkbox" id="selectAll" class="rounded border-gray-300 text-tanzanian-green focus:ring-tanzanian-green">
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <a href="?search=@Model.SearchTerm&status=@Model.StatusFilter&membershipType=@Model.MembershipTypeFilter&page=@Model.CurrentPage&pageSize=@Model.PageSize&sortBy=name&sortOrder=@(Model.SortBy == "name" && Model.SortOrder == "asc" ? "desc" : "asc")" 
+                           class="hover:text-tanzanian-green">
+                            Member
+                            @if (Model.SortBy == "name")
+                            {
+                                <i class="fas fa-sort-@(Model.SortOrder == "asc" ? "up" : "down") ml-1"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-sort ml-1 text-gray-300"></i>
+                            }
+                        </a>
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <a href="?search=@Model.SearchTerm&status=@Model.StatusFilter&membershipType=@Model.MembershipTypeFilter&page=@Model.CurrentPage&pageSize=@Model.PageSize&sortBy=email&sortOrder=@(Model.SortBy == "email" && Model.SortOrder == "asc" ? "desc" : "asc")" 
+                           class="hover:text-tanzanian-green">
+                            Email
+                            @if (Model.SortBy == "email")
+                            {
+                                <i class="fas fa-sort-@(Model.SortOrder == "asc" ? "up" : "down") ml-1"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-sort ml-1 text-gray-300"></i>
+                            }
+                        </a>
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <a href="?search=@Model.SearchTerm&status=@Model.StatusFilter&membershipType=@Model.MembershipTypeFilter&page=@Model.CurrentPage&pageSize=@Model.PageSize&sortBy=phone&sortOrder=@(Model.SortBy == "phone" && Model.SortOrder == "asc" ? "desc" : "asc")" 
+                           class="hover:text-tanzanian-green">
+                            Phone
+                            @if (Model.SortBy == "phone")
+                            {
+                                <i class="fas fa-sort-@(Model.SortOrder == "asc" ? "up" : "down") ml-1"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-sort ml-1 text-gray-300"></i>
+                            }
+                        </a>
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">City</th>
+
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Employment Status</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @if (Model.Members.Any())
+                {
+                    @foreach (var member in Model.Members)
+                    {
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <input type="checkbox" class="member-checkbox rounded border-gray-300 text-tanzanian-green focus:ring-tanzanian-green" data-member-id="@member.Id">
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-gradient-to-br from-tanzanian-green to-tanzanian-blue rounded-full flex items-center justify-center text-white font-semibold">
+                                        @(member.FirstName?.Substring(0, 1))@(member.LastName?.Substring(0, 1))
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">@member.FullName</div>
+                                        <div class="text-sm text-gray-500">ID: @member.MemberId</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">@member.EmailAddress</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">@member.PhoneNumber</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">@member.City</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">@member.EmploymentStatus</div>
+                            </td>
+                          
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                @member.CreatedAt.ToString("MMM dd, yyyy")
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <div class="flex space-x-2">
+                                    <button onclick="event.stopPropagation(); viewMember(@member.Id)" class="text-tanzanian-green" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin") || User.IsInRole("MemberEditor"))
+                                    {
+                                        <a href="/Admin/Members/Edit/@member.Id" class="text-blue-600" title="Edit Member">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        @if (member.NidaServiceStatus != Models.NidaServiceStatus.Completed)
+                                        {
+                                            <form method="post" asp-page-handler="Approve" class="inline" onsubmit="return confirmApprove(event, '@member.FullName')">
+                                                <input type="hidden" name="id" value="@member.Id" />
+                                                <button type="submit" class="text-green-600" title="Approve Member">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </form>
+                                        }
+                                        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                                        {
+                                            @if (member.ApplicationUser != null)
+                                            {
+                                                @if (member.ApplicationUser.IsActive)
+                                                {
+                                                    <form method="post" asp-page-handler="Block" class="inline" onsubmit="return confirmBlock(event, '@member.FullName')">
+                                                        <input type="hidden" name="id" value="@member.Id" />
+                                                        <button type="submit" class="text-amber-600" title="Block Member">
+                                                            <i class="fas fa-ban"></i>
+                                                        </button>
+                                                    </form>
+                                                }
+                                                else
+                                                {
+                                                    <form method="post" asp-page-handler="Unblock" class="inline" onsubmit="return confirmUnblock(event, '@member.FullName')">
+                                                        <input type="hidden" name="id" value="@member.Id" />
+                                                        <button type="submit" class="text-green-600" title="Unblock Member">
+                                                            <i class="fas fa-user-check"></i>
+                                                        </button>
+                                                    </form>
+                                                }
+                                            }
+                                        }
+                                        @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                                        {
+                                            <form method="post" asp-page-handler="Delete" class="inline" onsubmit="return confirmDelete(event, '@member.FullName')">
+                                                <input type="hidden" name="id" value="@member.Id" />
+                                                <button type="submit" class="text-red-600" title="Delete Member">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        }
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="px-6 py-12 text-center">
+                            <div class="text-gray-500">
+                                <i class="fas fa-users text-4xl mb-4"></i>
+                                <p class="text-lg font-medium mb-2">No members found</p>
+                                <p class="text-sm">Try adjusting your search criteria or add a new member.</p>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Pagination -->
+    @if (Model.TotalPages > 1)
+    {
+        <div class="bg-white px-6 py-3 border-t border-gray-200">
+            <div class="flex items-center justify-between">
+                <div class="text-sm text-gray-700">
+                    Showing <span class="font-medium">@((Model.CurrentPage - 1) * Model.PageSize + 1)</span> to 
+                    <span class="font-medium">@(Math.Min(Model.CurrentPage * Model.PageSize, Model.TotalMembers))</span> of 
+                    <span class="font-medium">@Model.TotalMembers</span> members
+                </div>
+                <div class="flex space-x-1">
+                    @if (Model.CurrentPage > 1)
+                    {
+                        <a href="?search=@Model.SearchTerm&status=@Model.StatusFilter&membershipType=@Model.MembershipTypeFilter&page=@(Model.CurrentPage - 1)&pageSize=@Model.PageSize&sortBy=@Model.SortBy&sortOrder=@Model.SortOrder" 
+                           class="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50">Previous</a>
+                    }
+                    else
+                    {
+                        <span class="px-3 py-1 text-sm border border-gray-300 rounded bg-gray-100 text-gray-400">Previous</span>
+                    }
+
+                    @for (int i = Math.Max(1, Model.CurrentPage - 2); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 2); i++)
+                    {
+                        @if (i == Model.CurrentPage)
+                        {
+                            <span class="px-3 py-1 text-sm bg-tanzanian-green text-white rounded">@i</span>
+                        }
+                        else
+                        {
+                            <a href="?search=@Model.SearchTerm&status=@Model.StatusFilter&membershipType=@Model.MembershipTypeFilter&page=@i&pageSize=@Model.PageSize&sortBy=@Model.SortBy&sortOrder=@Model.SortOrder" 
+                               class="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50">@i</a>
+                        }
+                    }
+
+                    @if (Model.CurrentPage < Model.TotalPages)
+                    {
+                        <a href="?search=@Model.SearchTerm&status=@Model.StatusFilter&membershipType=@Model.MembershipTypeFilter&page=@(Model.CurrentPage + 1)&pageSize=@Model.PageSize&sortBy=@Model.SortBy&sortOrder=@Model.SortOrder" 
+                           class="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50">Next</a>
+                    }
+                    else
+                    {
+                        <span class="px-3 py-1 text-sm border border-gray-300 rounded bg-gray-100 text-gray-400">Next</span>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Member Details Modal -->
+<div id="memberModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen px-4">
+        <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
+        <div class="relative bg-white rounded-xl max-w-2xl w-full max-h-screen overflow-y-auto">
+            <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-gray-900">Member Details</h3>
+                <button onclick="closeMemberModal()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="memberDetails" class="p-6">
+                <div class="animate-pulse">
+                    <div class="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+                    <div class="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
+                    <div class="h-4 bg-gray-200 rounded w-5/6 mb-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Members page initialized');
+        
+        // Export dropdown functionality
+        const exportBtn = document.getElementById('exportBtn');
+        const exportMenu = document.getElementById('exportMenu');
+        
+        exportBtn?.addEventListener('click', function(e) {
+            e.preventDefault();
+            exportMenu.classList.toggle('hidden');
+        });
+        
+        // Close export menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!exportBtn?.contains(e.target) && !exportMenu?.contains(e.target)) {
+                exportMenu?.classList.add('hidden');
+            }
+        });
+        
+        // Select all functionality
+        const selectAllCheckbox = document.getElementById('selectAll');
+        const memberCheckboxes = document.querySelectorAll('.member-checkbox');
+        
+        selectAllCheckbox?.addEventListener('change', function() {
+            memberCheckboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+        
+        // Update select all checkbox when individual checkboxes change
+        memberCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const checkedCount = document.querySelectorAll('.member-checkbox:checked').length;
+                const totalCount = memberCheckboxes.length;
+                
+                if (checkedCount === 0) {
+                    selectAllCheckbox.checked = false;
+                    selectAllCheckbox.indeterminate = false;
+                } else if (checkedCount === totalCount) {
+                    selectAllCheckbox.checked = true;
+                    selectAllCheckbox.indeterminate = false;
+                } else {
+                    selectAllCheckbox.checked = false;
+                    selectAllCheckbox.indeterminate = true;
+                }
+            });
+        });
+    });
+
+    async function viewMember(memberId) {
+        try {
+            const response = await fetch(`?handler=View&id=${memberId}`);
+            if (!response.ok) throw new Error('Failed to fetch member details');
+
+            const member = await response.json();
+            const m = {};
+            for (const key in member) {
+                m[key.charAt(0).toLowerCase() + key.slice(1)] = member[key];
+                m[key] = member[key];
+            }
+
+            const initials = (m.fullName || m.FullName || 'N/A').split(' ').map(n => n[0]).join('') || 'N/A';
+            const rawFile = m.visaIdFilePath || m.VisaIdFilePath || null;
+            const fileUrl = rawFile ? (rawFile.startsWith('/') ? rawFile : '/' + rawFile) : null;
+
+            const html = `
+                <div style="max-height:60vh;overflow:auto;text-align:left;font-family:inherit;color:inherit;">
+                    <div style="display:flex;gap:16px;align-items:center;margin-bottom:12px;">
+                        <div style="width:64px;height:64px;border-radius:9999px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#00B04F,#0077C8);color:white;font-weight:700;font-size:20px;">
+                            ${initials}
+                        </div>
+                        <div>
+                            <div style="font-size:18px;font-weight:600;margin-bottom:4px;">${m.fullName || m.FullName || 'N/A'}</div>
+                            <div style="color:#6B7280;margin-bottom:6px;">Member ID: ${m.memberId || m.MemberId || 'N/A'}</div>
+                            <div><span style="display:inline-block;padding:4px 8px;border-radius:9999px;font-size:12px;background:${m.status === 'Approved' ? '#DCFCE7' : m.status === 'Active' ? '#DBEAFE' : m.status === 'Blocked' ? '#FEE2E2' : '#FEF3C7'};color:${m.status === 'Approved' ? '#14532D' : m.status === 'Active' ? '#1E3A8A' : m.status === 'Blocked' ? '#7F1D1D' : '#92400E'};">${m.status || m.Status || 'Unknown'}</span></div>
+                        </div>
+                    </div>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+                        <div>
+                            <div style="font-weight:600;color:#374151;margin-bottom:6px;">Contact</div>
+                            <div style="margin-bottom:6px;"><strong>Email:</strong> ${m.emailAddress || m.EmailAddress || 'N/A'}</div>
+                            <div style="margin-bottom:6px;"><strong>Phone:</strong> ${m.phoneNumber || m.PhoneNumber || 'N/A'}</div>
+                            <div style="margin-bottom:6px;"><strong>Address:</strong> ${m.address || m.Address || 'N/A'}</div>
+                            <div style="margin-bottom:6px;"><strong>City:</strong> ${m.city || m.City || 'N/A'}</div>
+                        </div>
+                        <div>
+                            <div style="font-weight:600;color:#374151;margin-bottom:6px;">Personal</div>
+                            <div style="margin-bottom:6px;"><strong>DOB:</strong> ${(m.dateOfBirth || m.DateOfBirth) ? new Date(m.dateOfBirth || m.DateOfBirth).toLocaleDateString() : 'N/A'}</div>
+                            <div style="margin-bottom:6px;"><strong>Gender:</strong> ${m.gender || m.Gender || 'N/A'}</div>
+                            <div style="margin-bottom:6px;"><strong>Nationality:</strong> ${m.nationality || m.Nationality || 'N/A'}</div>
+                            <div style="margin-bottom:6px;"><strong>Passport #:</strong> ${m.passportNumber || m.PassportNumber || 'N/A'}</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom:12px;">
+                        <div style="font-weight:600;color:#374151;margin-bottom:6px;">Employment</div>
+                        <div style="margin-bottom:6px;"><strong>Status:</strong> ${m.employmentStatus || m.EmploymentStatus || 'N/A'}</div>
+                        <div style="margin-bottom:6px;"><strong>Company:</strong> ${m.companyName || m.CompanyName || 'N/A'}</div>
+                        <div style="margin-bottom:6px;"><strong>Visa Type:</strong> ${m.visaType || m.VisaType || 'N/A'}</div>
+                    </div>
+
+                    ${fileUrl ? `<div style="margin-bottom:12px;padding:12px;border-radius:8px;background:#F9FAFB;display:flex;align-items:center;justify-content:space-between;"><div><strong>Uploaded Document</strong><div style="font-size:12px;color:#6B7280;margin-top:4px;">Uploaded on ${(m.createdAt || m.CreatedAt) ? new Date(m.createdAt || m.CreatedAt).toLocaleDateString() : 'N/A'}</div></div><div><a href="${fileUrl}" target="_blank" style="display:inline-block;padding:6px 10px;border-radius:6px;background:#ECFDF5;color:#065F46;text-decoration:none;font-weight:600;">Download</a></div></div>` : ''}
+
+                    ${m.advice || m.Advice ? `<div style="margin-bottom:12px;"><div style="font-weight:600;color:#374151;margin-bottom:6px;">Advice / Comments</div><div style="background:#FFF7ED;padding:10px;border-radius:6px;color:#92400E;">${(m.advice || m.Advice)}</div></div>` : ''}
+
+                    <div>
+                        <div style="font-weight:600;color:#374151;margin-bottom:6px;">Registration</div>
+                        <div><strong>Date:</strong> ${(m.createdAt || m.CreatedAt) ? new Date(m.createdAt || m.CreatedAt).toLocaleString() : 'N/A'}</div>
+                        <div style="margin-top:6px;"><strong>NIDA:</strong> ${m.optInNidaService ? 'Yes' : 'No'} ${m.nidaServiceStatus ? `(${m.nidaServiceStatus})` : ''}</div>
+                    </div>
+                </div>
+            `;
+
+            Swal.fire({
+                title: 'Member Details',
+                html: html,
+                width: 800,
+                showCloseButton: true,
+                showConfirmButton: true,
+                confirmButtonText: 'Close',
+                customClass: { popup: 'swal2-member-details' },
+                didOpen: (popup) => {
+                    const closeBtn = popup.querySelector('.swal2-close');
+                    if (closeBtn) {
+                        closeBtn.style.backgroundColor = 'chocolate';
+                        closeBtn.style.color = 'white';
+                        closeBtn.style.borderRadius = '6px';
+                        closeBtn.style.padding = '6px 8px';
+                        closeBtn.style.border = 'none';
+                    }
+                }
+            });
+
+        } catch (error) {
+            console.error('Error loading member details:', error);
+            Swal.fire({ icon: 'error', title: 'Error', text: 'Failed to load member details. Please try again.', confirmButtonColor: '#00B04F' });
+        }
+    }
+
+    function closeMemberModal() {
+        const modal = document.getElementById('memberModal');
+        modal.classList.add('hidden');
+    }
+
+    // Close modal when clicking outside
+    document.addEventListener('click', function(e) {
+        const modal = document.getElementById('memberModal');
+        const modalContent = modal?.querySelector('.relative');
+        
+        if (modal && !modal.classList.contains('hidden') && 
+            !modalContent?.contains(e.target)) {
+            closeMemberModal();
+        }
+    });
+
+    // Bulk actions (placeholder for future implementation)
+    function performBulkAction(action) {
+        const checkedBoxes = document.querySelectorAll('.member-checkbox:checked');
+        const memberIds = Array.from(checkedBoxes).map(cb => cb.dataset.memberId);
+        
+        if (memberIds.length === 0) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'No Selection',
+                text: 'Please select at least one member to perform bulk actions.',
+                confirmButtonColor: '#00B04F'
+            });
+            return;
+        }
+        
+        // This would be implemented based on requirements
+        console.log(`Performing ${action} on members:`, memberIds);
+    }
+
+    // Delete confirmation with SweetAlert
+    function confirmDelete(event, memberName) {
+        event.preventDefault();
+        
+        Swal.fire({
+            title: 'Delete Member?',
+            html: `Are you sure you want to delete <strong>${memberName}</strong>?<br><br>This action cannot be undone.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#CE1126',
+            cancelButtonColor: '#6B7280',
+            confirmButtonText: '<i class="fas fa-trash mr-2"></i>Yes, Delete',
+            cancelButtonText: 'Cancel'
+        ,
+            didOpen: (popup) => {
+                const confirmBtn = popup.querySelector('.swal2-confirm');
+                const cancelBtn = popup.querySelector('.swal2-cancel');
+                if (confirmBtn) {
+                    confirmBtn.style.backgroundColor = 'white';
+                    confirmBtn.style.color = '#CE1126';
+                    confirmBtn.style.border = '1px solid #CE1126';
+                }
+                if (cancelBtn) {
+                    cancelBtn.style.backgroundColor = 'white';
+                    cancelBtn.style.color = '#6B7280';
+                    cancelBtn.style.border = '1px solid #6B7280';
+                }
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit the form
+                event.target.submit();
+            }
+        });
+        
+        return false;
+    }
+
+    // Block confirmation with SweetAlert
+    function confirmBlock(event, memberName) {
+        event.preventDefault();
+        
+        Swal.fire({
+            title: 'Block Member?',
+            html: `Are you sure you want to block <strong>${memberName}</strong>?<br><br>This will prevent them from accessing their account.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#F59E0B',
+            cancelButtonColor: '#6B7280',
+            confirmButtonText: '<i class="fas fa-ban mr-2"></i>Yes, Block',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit the form
+                event.target.submit();
+            }
+        });
+        
+        return false;
+    }
+
+    // Unblock confirmation with SweetAlert
+    function confirmUnblock(event, memberName) {
+        event.preventDefault();
+        
+        Swal.fire({
+            title: 'Unblock Member?',
+            html: `Are you sure you want to unblock <strong>${memberName}</strong>?<br><br>This will restore their account access.`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#10B981',
+            cancelButtonColor: '#6B7280',
+            confirmButtonText: '<i class="fas fa-user-check mr-2"></i>Yes, Unblock',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit the form
+                event.target.submit();
+            }
+        });
+        
+        return false;
+    }
+
+    // Approve confirmation with SweetAlert
+    function confirmApprove(event, memberName) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Approve Member?',
+            html: `Are you sure you want to approve <strong>${memberName}</strong>?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#10B981',
+            cancelButtonColor: '#6B7280',
+            confirmButtonText: '<i class="fas fa-check mr-2"></i>Yes, Approve',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                event.target.submit();
+            }
+        });
+        return false;
+    }
+</script>
+}
+
+<style>
+    /* Custom scrollbar for modal */
+    #memberModal .overflow-y-auto::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    #memberModal .overflow-y-auto::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    
+    #memberModal .overflow-y-auto::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 3px;
+    }
+    
+    #memberModal .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+    }
+</style>
+
+
+              

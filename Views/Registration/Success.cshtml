@@ -1,0 +1,42 @@
+@{
+    ViewData["Title"] = "Registration Successful";
+}
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h3>Registration Successful!</h3>
+            </div>
+            <div class="card-body text-center">
+                <div class="alert alert-success">
+                    <h4>Welcome to TAE Community!</h4>
+                    <p>Your registration has been completed successfully.</p>
+                </div>
+
+                <div class="mb-4">
+                    <h5>Your Member ID:</h5>
+                    <div class="badge bg-primary fs-5 p-3">@ViewBag.MemberId</div>
+                    <p class="text-muted mt-2">Please save this ID for future reference</p>
+                </div>
+
+                <div class="alert alert-info">
+                    <h5>What's Next?</h5>
+                    <ul class="text-start">
+                        <li>You will receive a confirmation email shortly</li>
+                        <li>Explore our job opportunities</li>
+                        <li>Join upcoming community events</li>
+                        <li>Access business networking opportunities</li>
+                        <li>Get support and resources for life in UAE</li>
+                    </ul>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <a asp-controller="Jobs" asp-action="Index" class="btn btn-primary">Browse Jobs</a>
+                    <a asp-controller="Events" asp-action="Index" class="btn btn-outline-primary">View Events</a>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Go to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

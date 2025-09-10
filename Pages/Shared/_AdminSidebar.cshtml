@@ -1,0 +1,126 @@
+<!-- Admin Sidebar -->
+<nav class="sidebar" id="adminSidebar">
+    <!-- Sidebar Header -->
+    <div style="padding: 24px; border-bottom: 1px solid #475569;">
+        <div class="flex items-center">
+            <img src="~/images/logo.png" alt="TAE Logo" style="width: 40px; height: auto; margin-right: 12px;">
+            <div>
+                <h2 style="font-size: 18px; font-weight: 700; margin: 0; color: white;">TAE Admin</h2>
+                <p style="font-size: 12px; color: #94a3b8; margin: 0;">Management Portal</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Navigation Menu -->
+    <div style="padding: 16px 0;">
+        <!-- Dashboard -->
+        <a href="/Admin/Dashboard" class="sidebar-link" style="display: flex; align-items: center; padding: 12px 24px; color: #e2e8f0; text-decoration: none; transition: all 0.2s ease; border-left: 3px solid transparent;">
+            <i class="fas fa-tachometer-alt" style="width: 20px; margin-right: 12px; font-size: 16px;"></i>
+            <span style="font-weight: 500;">Dashboard</span>
+        </a>
+        
+        <!-- Members Management -->
+        <div class="sidebar-section" style="margin-top: 16px;">
+            <div style="padding: 8px 24px; font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">
+                Members
+            </div>
+            <a href="/Admin/Members" class="sidebar-link" style="display: flex; align-items: center; padding: 12px 24px; color: #e2e8f0; text-decoration: none; transition: all 0.2s ease; border-left: 3px solid transparent;">
+                <i class="fas fa-users" style="width: 20px; margin-right: 12px; font-size: 16px;"></i>
+                <span style="font-weight: 500;">All Members</span>
+            </a>
+            <a href="/Admin/Members/Pending" class="sidebar-link" style="display: flex; align-items: center; padding: 12px 24px; color: #e2e8f0; text-decoration: none; transition: all 0.2s ease; border-left: 3px solid transparent;">
+                <i class="fas fa-clock" style="width: 20px; margin-right: 12px; font-size: 16px;"></i>
+                <span style="font-weight: 500;">Pending Approvals</span>
+            </a>
+        </div>
+        
+        <!-- Events Management -->
+        <div class="sidebar-section" style="margin-top: 16px;">
+            <div style="padding: 8px 24px; font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">
+                Events
+            </div>
+            <a href="/Admin/Events" class="sidebar-link" style="display: flex; align-items: center; padding: 12px 24px; color: #e2e8f0; text-decoration: none; transition: all 0.2s ease; border-left: 3px solid transparent;">
+                <i class="fas fa-calendar-alt" style="width: 20px; margin-right: 12px; font-size: 16px;"></i>
+                <span style="font-weight: 500;">All Events</span>
+            </a>
+            <a href="/Admin/Events/Create" class="sidebar-link" style="display: flex; align-items: center; padding: 12px 24px; color: #e2e8f0; text-decoration: none; transition: all 0.2s ease; border-left: 3px solid transparent;">
+                <i class="fas fa-plus-circle" style="width: 20px; margin-right: 12px; font-size: 16px;"></i>
+                <span style="font-weight: 500;">Create Event</span>
+            </a>
+        </div>
+        
+        <!-- Services Management -->
+        <div class="sidebar-section" style="margin-top: 16px;">
+            <div style="padding: 8px 24px; font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">
+                Services
+            </div>
+            <a href="/Admin/Services/NIDA" class="sidebar-link" style="display: flex; align-items: center; padding: 12px 24px; color: #e2e8f0; text-decoration: none; transition: all 0.2s ease; border-left: 3px solid transparent;">
+                <i class="fas fa-id-card" style="width: 20px; margin-right: 12px; font-size: 16px;"></i>
+                <span style="font-weight: 500;">NIDA Services</span>
+            </a>
+            <a href="/Admin/Services/Appointments" class="sidebar-link" style="display: flex; align-items: center; padding: 12px 24px; color: #e2e8f0; text-decoration: none; transition: all 0.2s ease; border-left: 3px solid transparent;">
+                <i class="fas fa-calendar-check" style="width: 20px; margin-right: 12px; font-size: 16px;"></i>
+                <span style="font-weight: 500;">Appointments</span>
+            </a>
+        </div>
+        
+        <!-- System Management -->
+        <div class="sidebar-section" style="margin-top: 16px;">
+            <div style="padding: 8px 24px; font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">
+                System
+            </div>
+            <a href="/Admin/Users" class="sidebar-link" style="display: flex; align-items: center; padding: 12px 24px; color: #e2e8f0; text-decoration: none; transition: all 0.2s ease; border-left: 3px solid transparent;">
+                <i class="fas fa-user-cog" style="width: 20px; margin-right: 12px; font-size: 16px;"></i>
+                <span style="font-weight: 500;">User Management</span>
+            </a>
+            <a href="/Admin/Roles" class="sidebar-link" style="display: flex; align-items: center; padding: 12px 24px; color: #e2e8f0; text-decoration: none; transition: all 0.2s ease; border-left: 3px solid transparent;">
+                <i class="fas fa-shield-alt" style="width: 20px; margin-right: 12px; font-size: 16px;"></i>
+                <span style="font-weight: 500;">Roles & Permissions</span>
+            </a>
+            <a href="/Admin/Settings" class="sidebar-link" style="display: flex; align-items: center; padding: 12px 24px; color: #e2e8f0; text-decoration: none; transition: all 0.2s ease; border-left: 3px solid transparent;">
+                <i class="fas fa-cog" style="width: 20px; margin-right: 12px; font-size: 16px;"></i>
+                <span style="font-weight: 500;">Settings</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Sidebar Footer -->
+    <div style="margin-top: auto; padding: 24px; border-top: 1px solid #475569;">
+        <div style="font-size: 12px; color: #94a3b8; text-align: center;">
+            TAE Admin Portal v1.0<br>
+            © 2025 Tanzanian Association Emirates
+        </div>
+    </div>
+</nav>
+
+<style>
+    .sidebar-link:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        border-left-color: #00B04F !important;
+    }
+    
+    .sidebar-link.active {
+        background-color: rgba(0, 176, 79, 0.1) !important;
+        border-left-color: #00B04F !important;
+        color: #00B04F !important;
+    }
+    
+    .sidebar-link.active i {
+        color: #00B04F !important;
+    }
+</style>
+
+<script>
+    // Highlight active menu item
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPath = window.location.pathname;
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+        
+        sidebarLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && currentPath.startsWith(href)) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>

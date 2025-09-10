@@ -1,0 +1,181 @@
+@using Microsoft.AspNetCore.Identity
+@using tae_app.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!-- Admin Navbar -->
+<nav class="admin-navbar">
+    <div class="flex items-center">
+        <!-- Mobile Menu Toggle -->
+        <button id="mobileMenuToggle" class="md:hidden p-2 rounded-md hover:bg-gray-100 transition-colors mr-3">
+            <i class="fas fa-bars text-gray-600 text-xl"></i>
+        </button>
+        
+        <!-- Desktop Menu Toggle -->
+        <button id="menuToggle" class="hidden md:block p-2 rounded-md hover:bg-gray-100 transition-colors mr-4">
+            <i class="fas fa-bars text-gray-600"></i>
+        </button>
+        
+        <!-- Breadcrumb -->
+        <div class="flex items-center space-x-2 text-sm">
+            <i class="fas fa-home text-gray-400"></i>
+            <span class="text-gray-400">/</span>
+            <span class="text-gray-600 font-medium">@ViewData["Title"]</span>
+        </div>
+    </div>
+    
+    <div class="flex items-center space-x-4">
+        <!-- Search Bar (Desktop Only) -->
+        <div class="hidden lg:block">
+            <div class="relative">
+                <input type="text" placeholder="Search..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent w-64">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+            </div>
+        </div>
+        
+        <!-- Notifications -->
+        <div class="relative">
+            <button class="p-2 rounded-full hover:bg-gray-100 transition-colors relative">
+                <i class="fas fa-bell text-gray-600 text-lg"></i>
+                <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+            </button>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="hidden md:block">
+            <button class="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                <i class="fas fa-plus text-gray-600 text-lg"></i>
+            </button>
+        </div>
+        
+        <!-- User Profile Dropdown -->
+        <div class="relative">
+            <button id="userMenuToggle" class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <div class="w-8 h-8 bg-tanzanian-green rounded-full flex items-center justify-center">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        var user = await UserManager.GetUserAsync(User);
+                        <span class="text-white text-sm font-semibold">
+                            @((user?.FirstName?.Substring(0, 1) ?? "").ToUpper())@((user?.LastName?.Substring(0, 1) ?? "").ToUpper())
+                        </span>
+                    }
+                    else
+                    {
+                        <i class="fas fa-user text-white text-sm"></i>
+                    }
+                </div>
+                <div class="hidden md:block text-left">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        var user = await UserManager.GetUserAsync(User);
+                        <div class="text-sm font-semibold text-gray-800">@user?.FirstName @user?.LastName</div>
+                        <div class="text-xs text-gray-500">Administrator</div>
+                    }
+                    else
+                    {
+                        <div class="text-sm font-semibold text-gray-800">Guest</div>
+                    }
+                </div>
+                <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
+            </button>
+            
+            <!-- User Dropdown Menu -->
+            <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50 hidden">
+                <div class="py-2">
+                    <a href="/Admin/Profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-user mr-2"></i>My Profile
+                    </a>
+                    <a href="/Admin/Settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-cog mr-2"></i>Settings
+                    </a>
+                    <hr class="my-2 border-gray-200">
+                    <a href="/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-home mr-2"></i>View Website
+                    </a>
+                    <hr class="my-2 border-gray-200">
+                    <form method="post" action="/Account/Logout" class="block">
+                        <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Sign Out
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<style>
+    .flex {
+        display: flex;
+    }
+    
+    .items-center {
+        align-items: center;
+    }
+    
+    .space-x-2 > * + * {
+        margin-left: 0.5rem;
+    }
+    
+    .space-x-3 > * + * {
+        margin-left: 0.75rem;
+    }
+    
+    .space-x-4 > * + * {
+        margin-left: 1rem;
+    }
+    
+    .text-left {
+        text-align: left;
+    }
+    
+    .relative {
+        position: relative;
+    }
+    
+    .absolute {
+        position: absolute;
+    }
+    
+    .hidden {
+        display: none;
+    }
+    
+    @@media (min-width: 768px) {
+        .md\\:block {
+            display: block;
+        }
+        
+        .md\\:hidden {
+            display: none;
+        }
+    }
+    
+    @@media (min-width: 1024px) {
+        .lg\\:block {
+            display: block;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const userMenuToggle = document.getElementById('userMenuToggle');
+        const userDropdown = document.getElementById('userDropdown');
+        
+        // User dropdown toggle
+        if (userMenuToggle && userDropdown) {
+            userMenuToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                userDropdown.classList.toggle('hidden');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!userMenuToggle.contains(e.target)) {
+                    userDropdown.classList.add('hidden');
+                }
+            });
+        }
+    });
+</script>

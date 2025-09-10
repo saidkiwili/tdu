@@ -1,0 +1,57 @@
+@{
+    ViewData["Title"] = "NIDA Payment";
+}
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h3>NIDA Service Payment</h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <h5>Member Information:</h5>
+                    <p><strong>Name:</strong> @ViewBag.Member.FullName</p>
+                    <p><strong>Member ID:</strong> @ViewBag.Member.MemberId</p>
+                    <p><strong>Email:</strong> @ViewBag.Member.EmailAddress</p>
+                </div>
+
+                <div class="alert alert-success">
+                    <h5>Service Details:</h5>
+                    <p><strong>Service:</strong> NIDA Assistance</p>
+                    <p><strong>Fee:</strong> AED @ViewBag.NidaServiceFee</p>
+                    <p><strong>What's included:</strong></p>
+                    <ul>
+                        <li>Document preparation assistance</li>
+                        <li>Application guidance</li>
+                        <li>One-on-one consultation</li>
+                        <li>Follow-up support</li>
+                    </ul>
+                </div>
+
+                <form asp-action="ProcessNidaPayment" method="post">
+                    <input type="hidden" name="memberId" value="@ViewBag.Member.Id" />
+                    
+                    <div class="form-group mb-3">
+                        <label for="paymentMethod" class="form-label">Payment Method</label>
+                        <select name="paymentMethod" class="form-control" required>
+                            <option value="">Select Payment Method</option>
+                            <option value="Cash">Cash (Pay at office)</option>
+                            <option value="Bank Transfer">Bank Transfer</option>
+                            <option value="Credit Card">Credit Card (Sandbox)</option>
+                        </select>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <strong>Note:</strong> This is a demo payment system. In production, this would integrate with a real payment gateway.
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">Process Payment</button>
+                        <a asp-controller="Registration" asp-action="Success" asp-route-memberId="@ViewBag.Member.MemberId" class="btn btn-secondary">Skip Payment (Register Only)</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

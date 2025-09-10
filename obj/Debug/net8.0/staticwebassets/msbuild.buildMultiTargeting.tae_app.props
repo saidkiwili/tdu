@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/tae_app.props" />
+</Project>

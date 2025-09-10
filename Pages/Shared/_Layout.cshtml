@@ -1,0 +1,415 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TAE</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/tae_app.styles.css" asp-append-version="true" />
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <style>
+        /* Modern navbar styles */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            transition: all 0.2s ease;
+        }
+        
+        .navbar.scrolled {
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        
+        .nav-logo {
+            height: auto;
+            width: 100px;
+        }
+        
+        .nav-link {
+            color: #374151 !important;
+            text-decoration: none !important;
+            font-weight: 500 !important;
+            padding: 8px 16px !important;
+            border-radius: 6px !important;
+            transition: all 0.2s ease !important;
+        }
+        
+        .nav-link:hover {
+            color: #00B04F !important;
+            background-color: #f3f4f6 !important;
+            text-decoration: none !important;
+        }
+        
+        /* Dropdown */
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            min-width: 240px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 50;
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-item {
+            display: block;
+            padding: 12px 16px;
+            color: #374151;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f3f4f6;
+            color: #00B04F;
+            text-decoration: none;
+        }
+        
+        /* Mobile menu styles */
+        .mobile-menu {
+            display: none;
+        }
+        
+        .mobile-menu.active {
+            display: block;
+        }
+        
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            color: #374151;
+            cursor: pointer;
+        }
+        
+        @@media (max-width: 768px) {
+            .desktop-nav {
+                display: none;
+            }
+            
+            .mobile-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="font-inter">
+    <!-- Clean Navigation -->
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center">
+                        <img src="~/img/logo.png" alt="TAE Logo" class="nav-logo" />
+                    </a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="desktop-nav hidden md:flex items-center space-x-6">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/About" class="nav-link">About</a>
+                    
+                    <!-- Services Dropdown -->
+                    <div class="dropdown">
+                        <button class="nav-link flex items-center">
+                            Services <i class="fas fa-chevron-down ml-2 text-sm"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="/Services/NIDA" class="dropdown-item flex items-center">
+                                <i class="fas fa-id-card mr-3 text-green-600"></i>
+                                <div>
+                                    <div class="font-semibold">NIDA Services</div>
+                                    <div class="text-sm text-gray-500">Identity verification</div>
+                                </div>
+                            </a>
+                            <a href="/Services/Community" class="dropdown-item flex items-center">
+                                <i class="fas fa-users mr-3 text-blue-600"></i>
+                                <div>
+                                    <div class="font-semibold">Community</div>
+                                    <div class="text-sm text-gray-500">Events & networking</div>
+                                </div>
+                            </a>
+                            <a href="/Services/Business" class="dropdown-item flex items-center">
+                                <i class="fas fa-briefcase mr-3 text-red-600"></i>
+                                <div>
+                                    <div class="font-semibold">Business</div>
+                                    <div class="text-sm text-gray-500">Professional network</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <a href="/Events" class="nav-link">Events</a>
+                    <a href="/Contact" class="nav-link">Contact</a>
+                    
+                    <!-- Auth Buttons -->
+                    @using Microsoft.AspNetCore.Identity
+                    @inject UserManager<tae_app.Models.ApplicationUser> UserManager
+
+                    <div class="flex items-center space-x-4">
+                        @using Microsoft.AspNetCore.Identity
+                        @inject SignInManager<tae_app.Models.ApplicationUser> SignInManager
+                        @inject UserManager<tae_app.Models.ApplicationUser> UserManager
+
+                        @if (User?.Identity?.IsAuthenticated == true)
+                        {
+                            <!-- Profile avatar dropdown (public site) -->
+                            <div class="relative">
+                                <button id="publicUserToggle" class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                                    <div class="w-9 h-9 bg-tanzanian-green rounded-full flex items-center justify-center overflow-hidden">
+                                        @{
+                                            var currentUser = await UserManager.GetUserAsync(User);
+                                            var initials = "";
+                                            if (currentUser != null)
+                                            {
+                                                var f = currentUser.FirstName ?? "";
+                                                var l = currentUser.LastName ?? "";
+                                                initials = (f.Length > 0 ? f.Substring(0,1) : "") + (l.Length > 0 ? l.Substring(0,1) : "");
+                                            }
+                                        }
+                                        <span class="text-white font-semibold">@initials.ToUpper()</span>
+                                    </div>
+                                    <div class="hidden md:block text-left">
+                                        <div class="text-sm font-semibold text-gray-800">@currentUser?.FirstName @currentUser?.LastName</div>
+                                        <div class="text-xs text-gray-500">@currentUser?.Email</div>
+                                    </div>
+                                    <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
+                                </button>
+
+                                <div id="publicUserDropdown" class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 z-50 hidden">
+                                    <div class="py-2">
+                                        <a asp-page="/Account/Profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                            <i class="fas fa-user mr-2"></i>Profile
+                                        </a>
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <a href="/Admin/Dashboard" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                                <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+                                            </a>
+                                        }
+                                        @if (User.IsInRole("Member"))
+                                        {
+                                            <a asp-page="/Account/Portal" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                                <i class="fas fa-door-open mr-2"></i>Portal
+                                            </a>
+                                        }
+                                        <hr class="my-2 border-gray-100">
+                                        <form method="post" asp-page="/Account/Logout">
+                                            <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                                                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <a href="/Account/Login" class="nav-link">Login</a>
+                            <a href="/Account/Register" class="bg-gradient-to-r from-tanzanian-green to-tanzanian-blue text-white px-4 py-2 rounded-lg hover:from-tanzanian-blue hover:to-primary-700 transition-all duration-300 transform hover:scale-105 shadow-lg font-semibold">Join Us</a>
+                        }
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="mobile-toggle md:hidden" id="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Navigation -->
+            <div id="mobile-menu" class="mobile-menu">
+                <div class="py-4 space-y-2 border-t border-gray-200">
+                    <a href="/" class="nav-link block">Home</a>
+                    <a href="/About" class="nav-link block">About</a>
+                    
+                    <div class="px-4 py-2">
+                        <div class="font-semibold mb-2 text-gray-700">Services</div>
+                        <div class="space-y-2 pl-4">
+                            <a href="/Services/NIDA" class="nav-link block">
+                                <i class="fas fa-id-card mr-2"></i>NIDA Services
+                            </a>
+                            <a href="/Services/Community" class="nav-link block">
+                                <i class="fas fa-users mr-2"></i>Community
+                            </a>
+                            <a href="/Services/Business" class="nav-link block">
+                                <i class="fas fa-briefcase mr-2"></i>Business
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <a href="/Events" class="nav-link block">Events</a>
+                    <a href="/Contact" class="nav-link block">Contact</a>
+                    
+                    <div class="px-4 py-4 space-y-2 border-t border-gray-200">
+                        @if (User?.Identity?.IsAuthenticated == true)
+                        {
+                            <a href="/Account/Profile" class="nav-link block text-center">Profile</a>
+                            <form method="post" asp-page="/Account/Logout" class="block text-center">
+                                <button type="submit" class="nav-link">Logout</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <a href="/Account/Login" class="nav-link block text-center">Login</a>
+                            <a href="/Account/Register" class="bg-gradient-to-r from-tanzanian-green to-tanzanian-blue text-white px-4 py-2 rounded-lg block text-center font-semibold">Join Us</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+            <!-- Mobile menu -->
+            <div class="md:hidden hidden" id="mobile-menu">
+                <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200">
+                    <a class="block px-3 py-2 text-gray-700 hover:text-tanzanian-green hover:bg-gray-50 rounded-md transition-colors duration-200" asp-area="" asp-page="/Index">Home</a>
+                    <a class="block px-3 py-2 text-gray-700 hover:text-tanzanian-green hover:bg-gray-50 rounded-md transition-colors duration-200" asp-area="" asp-page="/Privacy">Privacy</a>
+                    <hr class="my-2">
+                    <a class="block px-3 py-2 text-tanzanian-green hover:text-tanzanian-blue hover:bg-gray-50 rounded-md transition-colors duration-200 font-medium" asp-area="" asp-page="/Account/Login">Login</a>
+                    <a class="block px-3 py-2 bg-tanzanian-green text-white rounded-md hover:bg-tanzanian-blue transition-colors duration-200 font-medium text-center" asp-area="" asp-page="/Account/Register">Register</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Main Content -->
+    <main>
+        @RenderBody()
+    </main>
+
+    <!-- Clean Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-auto">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Logo & Description -->
+                <div class="md:col-span-2">
+                    <img src="~/img/logo.png" alt="TAE Logo" style="height: auto; width: 100px;" class="mb-4" />
+                    <p class="text-gray-600 max-w-md">
+                        Connecting Tanzanians in the UAE through community, culture, and shared opportunities.
+                    </p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-semibold text-gray-900 mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/About" class="text-gray-600 hover:text-tanzanian-green transition-colors">About Us</a></li>
+                        <li><a href="/Services/NIDA" class="text-gray-600 hover:text-tanzanian-green transition-colors">NIDA Services</a></li>
+                        <li><a href="/Events" class="text-gray-600 hover:text-tanzanian-green transition-colors">Events</a></li>
+                        <li><a href="/Contact" class="text-gray-600 hover:text-tanzanian-green transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-semibold text-gray-900 mb-4">Contact</h4>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><i class="fas fa-envelope mr-2 text-tanzanian-green"></i>info@tae-uae.org</li>
+                        <li><i class="fas fa-phone mr-2 text-tanzanian-green"></i>+971 XX XXX XXXX</li>
+                        <li><i class="fas fa-map-marker-alt mr-2 text-tanzanian-green"></i>Dubai, UAE</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="my-8 border-gray-200">
+            
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-gray-500 text-sm mb-4 md:mb-0">
+                    &copy; 2025 TAE - Tanzanian Association Emirates. All rights reserved.
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-tanzanian-green transition-colors">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-tanzanian-green transition-colors">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-tanzanian-green transition-colors">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-tanzanian-green transition-colors">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.toggle('active');
+            });
+        }
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 10) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Public user dropdown toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('publicUserToggle');
+            const dropdown = document.getElementById('publicUserDropdown');
+            if (toggle && dropdown) {
+                toggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dropdown.classList.toggle('hidden');
+                });
+
+                document.addEventListener('click', function(e) {
+                    if (!toggle.contains(e.target)) {
+                        dropdown.classList.add('hidden');
+                    }
+                });
+            }
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

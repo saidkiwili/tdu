@@ -1,0 +1,256 @@
+@model Member
+
+@{
+    ViewData["Title"] = "Member Registration";
+}
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h2>TAE Community Registration</h2>
+                <p class="text-muted">Join the Tanzanian diaspora community in UAE</p>
+            </div>
+            <div class="card-body">
+                <form asp-action="Index" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    
+                    <!-- Personal Information -->
+                    <h5 class="mb-3">Personal Information</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="FirstName" class="form-label">First Name *</label>
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="MiddleName" class="form-label">Middle Name</label>
+                                <input asp-for="MiddleName" class="form-control" />
+                                <span asp-validation-for="MiddleName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="LastName" class="form-label">Last Name *</label>
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="DateOfBirth" class="form-label">Date of Birth</label>
+                                <input asp-for="DateOfBirth" type="date" class="form-control" />
+                                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Gender" class="form-label">Gender</label>
+                                <select asp-for="Gender" class="form-control">
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <span asp-validation-for="Gender" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Nationality" class="form-label">Nationality</label>
+                                <input asp-for="Nationality" class="form-control" value="Tanzanian" />
+                                <span asp-validation-for="Nationality" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <h5 class="mb-3 mt-4">Contact Information</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="PhoneNumber" class="form-label">Phone Number *</label>
+                                <input asp-for="PhoneNumber" class="form-control" placeholder="+971-XX-XXX-XXXX" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="EmailAddress" class="form-label">Email Address *</label>
+                                <input asp-for="EmailAddress" type="email" class="form-control" />
+                                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Address" class="form-label">Address</label>
+                        <textarea asp-for="Address" class="form-control" rows="2"></textarea>
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="City" class="form-label">City</label>
+                                <input asp-for="City" class="form-control" />
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="Emirate" class="form-label">Emirate</label>
+                                <select asp-for="Emirate" class="form-control">
+                                    <option value="">Select Emirate</option>
+                                    <option value="Abu Dhabi">Abu Dhabi</option>
+                                    <option value="Dubai">Dubai</option>
+                                    <option value="Sharjah">Sharjah</option>
+                                    <option value="Ajman">Ajman</option>
+                                    <option value="Fujairah">Fujairah</option>
+                                    <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+                                    <option value="Umm Al Quwain">Umm Al Quwain</option>
+                                </select>
+                                <span asp-validation-for="Emirate" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Employment Information -->
+                    <h5 class="mb-3 mt-4">Employment Information</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="EmploymentStatus" class="form-label">Employment Status</label>
+                                <select asp-for="EmploymentStatus" class="form-control">
+                                    <option value="">Select Status</option>
+                                    <option value="Employed">Employed</option>
+                                    <option value="Self-employed">Self-employed</option>
+                                    <option value="Student">Student</option>
+                                    <option value="Unemployed">Unemployed</option>
+                                    <option value="Retired">Retired</option>
+                                </select>
+                                <span asp-validation-for="EmploymentStatus" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="CompanyName" class="form-label">Company Name</label>
+                                <input asp-for="CompanyName" class="form-control" />
+                                <span asp-validation-for="CompanyName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visa Information -->
+                    <h5 class="mb-3 mt-4">Visa Information</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="VisaType" class="form-label">Visa Type</label>
+                                <select asp-for="VisaType" class="form-control" id="visaType">
+                                    <option value="">Select Visa Type</option>
+                                    <option value="Residence Visa">Residence Visa</option>
+                                    <option value="Tourist Visa">Tourist Visa</option>
+                                    <option value="Business Visa">Business Visa</option>
+                                    <option value="Student Visa">Student Visa</option>
+                                </select>
+                                <span asp-validation-for="VisaType" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="PassportNumber" class="form-label">Passport Number</label>
+                                <input asp-for="PassportNumber" class="form-control" />
+                                <span asp-validation-for="PassportNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label asp-for="EmiratesId" class="form-label">Emirates ID</label>
+                                <input asp-for="EmiratesId" class="form-control" />
+                                <span asp-validation-for="EmiratesId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3" id="visaFileGroup" style="display: none;">
+                                <label asp-for="VisaIdFile" class="form-label">Visa ID File</label>
+                                <input asp-for="VisaIdFile" type="file" class="form-control" accept=".jpg,.jpeg,.png,.pdf" />
+                                <span asp-validation-for="VisaIdFile" class="text-danger"></span>
+                                <small class="form-text text-muted">Upload image or PDF of your visa (max 10MB)</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAE Information -->
+                    <h5 class="mb-3 mt-4">About TAE</h5>
+                    <div class="form-group mb-3">
+                        <div class="form-check">
+                            <input asp-for="DoYouKnowAboutTAE" class="form-check-input" type="checkbox" />
+                            <label asp-for="DoYouKnowAboutTAE" class="form-check-label">
+                                I know about TAE Community
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Advice" class="form-label">Any advice or suggestions?</label>
+                        <textarea asp-for="Advice" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Advice" class="text-danger"></span>
+                    </div>
+
+                    <!-- NIDA Service Option -->
+                    <div class="card mt-4 mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">NIDA Services</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input asp-for="OptInNidaService" class="form-check-input" type="checkbox" />
+                                    <label asp-for="OptInNidaService" class="form-check-label">
+                                        <strong>I want NIDA services (AED 50)</strong>
+                                    </label>
+                                </div>
+                                <small class="form-text text-muted">
+                                    Check this if you need assistance with NIDA (National Identification Authority) services. 
+                                    After registration, you'll be redirected to make payment and schedule an appointment.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">Register Now</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('#visaType').change(function() {
+                var visaType = $(this).val();
+                if (visaType === 'Residence Visa') {
+                    $('#visaFileGroup').show();
+                } else {
+                    $('#visaFileGroup').hide();
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,796 @@
+@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Join TAE Community";
+    Layout = "_Layout";
+}
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Join TAE Community</h1>
+            <p class="text-xl text-gray-600">Connect with Tanzanians in the UAE</p>
+        </div>
+
+        <!-- Registration Card -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <!-- Tab Navigation -->
+            <div class="bg-gray-50 border-b border-gray-200">
+                <nav class="flex">
+                    <button type="button" 
+                            class="tab-btn flex-1 py-4 px-6 text-center font-medium border-b-2 border-tanzanian-green text-tanzanian-green bg-white" 
+                            data-tab="personal">
+                        <i class="fas fa-user mr-2"></i>Personal Information
+                    </button>
+                    <button type="button" 
+                            class="tab-btn flex-1 py-4 px-6 text-center font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700" 
+                            data-tab="contact">
+                        <i class="fas fa-phone mr-2"></i>Contact & Location
+                    </button>
+                    <button type="button" 
+                            class="tab-btn flex-1 py-4 px-6 text-center font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700" 
+                            data-tab="employment">
+                        <i class="fas fa-briefcase mr-2"></i>Employment & Documents
+                    </button>
+                    <button type="button" 
+                            class="tab-btn flex-1 py-4 px-6 text-center font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700" 
+                            data-tab="services">
+                        <i class="fas fa-id-card mr-2"></i>NIDA Services
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Form Content -->
+            <div class="p-8">
+                <form method="post" enctype="multipart/form-data" class="space-y-6">
+                    <div asp-validation-summary="ModelOnly" data-valmsg-summary="true" class="text-red-600 mb-4"></div>
+
+                    <!-- Tab 1: Personal Information -->
+                    <div id="tab-personal" class="tab-content">
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-6">Personal Information</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label asp-for="Input.FirstName" class="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                                <input asp-for="Input.FirstName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" placeholder="Enter your first name" />
+                                <span asp-validation-for="Input.FirstName" data-valmsg-for="Input.FirstName" class="text-red-600 text-sm"></span>
+                            </div>
+                            
+                            <div>
+                                <label asp-for="Input.MiddleName" class="block text-sm font-medium text-gray-700 mb-2">Middle Name</label>
+                                <input asp-for="Input.MiddleName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" placeholder="Enter your middle name (optional)" />
+                                <span asp-validation-for="Input.MiddleName" data-valmsg-for="Input.MiddleName" class="text-red-600 text-sm"></span>
+                            </div>
+                            
+                            <div>
+                                <label asp-for="Input.LastName" class="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                                <input asp-for="Input.LastName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" placeholder="Enter your last name" />
+                                <span asp-validation-for="Input.LastName" data-valmsg-for="Input.LastName" class="text-red-600 text-sm"></span>
+                            </div>
+                            
+                            <div>
+                                <label asp-for="Input.DateOfBirth" class="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
+                                <input asp-for="Input.DateOfBirth" type="date" max="2025-12-31" value="2000-01-01" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" />
+                                <span asp-validation-for="Input.DateOfBirth" data-valmsg-for="Input.DateOfBirth" class="text-red-600 text-sm"></span>
+                            </div>
+                            
+                            <div>
+                                <label asp-for="Input.Gender" class="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                                <select asp-for="Input.Gender" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent">
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                                <span asp-validation-for="Input.Gender" data-valmsg-for="Input.Gender" class="text-red-600 text-sm"></span>
+                            </div>
+                            
+                            <div>
+                                <label asp-for="Input.Nationality" class="block text-sm font-medium text-gray-700 mb-2">Nationality</label>
+                                <select asp-for="Input.Nationality" id="nationality-select" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent">
+                                    <option value="">Select Nationality</option>
+                                    <option value="Tanzania" selected>🇹🇿 Tanzania</option>
+                                </select>
+                                <span asp-validation-for="Input.Nationality" data-valmsg-for="Input.Nationality" class="text-red-600 text-sm"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 2: Contact & Location -->
+                    <div id="tab-contact" class="tab-content hidden">
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-6">Contact & Location Information</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label asp-for="Input.Email" class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                                <input asp-for="Input.Email" type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" placeholder="Enter your email address" />
+                                <span asp-validation-for="Input.Email" class="text-red-600 text-sm"></span>
+                            </div>
+                            
+                            <div>
+                                <label asp-for="Input.PhoneNumber" class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                                <input asp-for="Input.PhoneNumber" type="tel" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" placeholder="+971 50 123 4567" />
+                                <span asp-validation-for="Input.PhoneNumber" class="text-red-600 text-sm"></span>
+                            </div>
+                            
+                            <div>
+                                <label asp-for="Input.PassportNumber" class="block text-sm font-medium text-gray-700 mb-2">Passport Number</label>
+                                <input asp-for="Input.PassportNumber" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" placeholder="Enter passport number" />
+                                <span asp-validation-for="Input.PassportNumber" class="text-red-600 text-sm"></span>
+                            </div>
+                            
+                            <div>
+                                <label asp-for="Input.EmiratesId" class="block text-sm font-medium text-gray-700 mb-2">Emirates ID</label>
+                                <input asp-for="Input.EmiratesId" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" placeholder="784-YYYY-XXXXXXX-X" />
+                                <span asp-validation-for="Input.EmiratesId" class="text-red-600 text-sm"></span>
+                            </div>
+                            
+                            <div>
+                                <label asp-for="Input.Emirate" class="block text-sm font-medium text-gray-700 mb-2">Emirate</label>
+                                <select asp-for="Input.Emirate" id="emirate-select" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent">
+                                    <option value="">Select Emirate</option>
+                                </select>
+                                <span asp-validation-for="Input.Emirate" class="text-red-600 text-sm"></span>
+                            </div>
+                            
+                            <div>
+                                <label asp-for="Input.City" class="block text-sm font-medium text-gray-700 mb-2">City</label>
+                                <select asp-for="Input.City" id="city-select" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent">
+                                    <option value="">Select City</option>
+                                </select>
+                                <span asp-validation-for="Input.City" class="text-red-600 text-sm"></span>
+                            </div>
+                            
+                            <div class="md:col-span-2">
+                                <label asp-for="Input.Address" class="block text-sm font-medium text-gray-700 mb-2">Full Address *</label>
+                                <input asp-for="Input.Address" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" placeholder="Enter your full address" />
+                                <span asp-validation-for="Input.Address" class="text-red-600 text-sm"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 3: Employment & Documents -->
+                    <div id="tab-employment" class="tab-content hidden">
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-6">Employment & Documents</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label asp-for="Input.EmploymentStatus" class="block text-sm font-medium text-gray-700 mb-2">Employment Status</label>
+                                <select asp-for="Input.EmploymentStatus" id="employment-select" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent">
+                                    <option value="">Select Employment Status</option>
+                                </select>
+                                <span asp-validation-for="Input.EmploymentStatus" class="text-red-600 text-sm"></span>
+                            </div>
+                            
+                            <div>
+                                <label asp-for="Input.CompanyName" class="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+                                <input asp-for="Input.CompanyName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" placeholder="Enter company name" />
+                                <span asp-validation-for="Input.CompanyName" class="text-red-600 text-sm"></span>
+                            </div>
+                            
+                            <div>
+                                <label asp-for="Input.VisaType" class="block text-sm font-medium text-gray-700 mb-2">Visa Type *</label>
+                                <select asp-for="Input.VisaType" id="visa-type-select" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent">
+                                    <option value="">Select Visa Type</option>
+                                </select>
+                                <span asp-validation-for="Input.VisaType" class="text-red-600 text-sm"></span>
+                            </div>
+                            
+                            <div>
+                                <label asp-for="Input.VisaIdFile" class="block text-sm font-medium text-gray-700 mb-2">Visa/ID Document *</label>
+                                <input asp-for="Input.VisaIdFile" type="file" accept="image/*,application/pdf,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-tanzanian-green file:text-white hover:file:bg-tanzanian-blue" />
+                                <span asp-validation-for="Input.VisaIdFile" class="text-red-600 text-sm"></span>
+                                <p class="text-sm text-gray-500 mt-1">Upload image, PDF, or DOCX file (max 10MB)</p>
+                            </div>
+                            
+                            <div class="md:col-span-2">
+                                <label class="flex items-center">
+                                    <input asp-for="Input.DoYouKnowAboutTAE" type="checkbox" class="rounded border-gray-300 text-tanzanian-green shadow-sm focus:ring-tanzanian-green mr-3" />
+                                    <span class="text-sm text-gray-700">I learned about TAE through friends, family, or community events</span>
+                                </label>
+                            </div>
+                            
+                            <div class="md:col-span-2">
+                                <label asp-for="Input.Advice" class="block text-sm font-medium text-gray-700 mb-2">Any suggestions or advice for TAE?</label>
+                                <textarea asp-for="Input.Advice" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" placeholder="Share your thoughts or suggestions (optional)"></textarea>
+                                <span asp-validation-for="Input.Advice" class="text-red-600 text-sm"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 4: NIDA Services -->
+                    <div id="tab-services" class="tab-content hidden">
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-6">NIDA Services</h3>
+                        
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+                            <div class="flex items-start">
+                                <i class="fas fa-info-circle text-blue-500 text-xl mr-3 mt-1"></i>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-blue-900 mb-2">NIDA Identity Verification Services</h4>
+                                    <p class="text-blue-800 text-sm leading-relaxed">
+                                        TAE provides convenient NIDA identity verification services for Tanzanian citizens in the UAE. 
+                                        This service helps you access essential government services and maintain your connection with Tanzania.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <label class="flex items-start">
+                                    <input asp-for="Input.OptInNidaService" type="checkbox" class="rounded border-gray-300 text-tanzanian-green shadow-sm focus:ring-tanzanian-green mr-3 mt-1" />
+                                    <div>
+                                        <span class="text-sm font-medium text-gray-700">Yes, I'm interested in NIDA services</span>
+                                        <p class="text-sm text-gray-500 mt-1">
+                                            By selecting this option, you'll receive information about available NIDA services, 
+                                            pricing, and appointment scheduling. This is optional and you can change your preference anytime.
+                                        </p>
+                                    </div>
+                                </label>
+                            </div>
+                            
+                            <div class="bg-gray-50 border border-gray-200 rounded-lg p-6">
+                                <h5 class="font-medium text-gray-900 mb-3">Service Benefits:</h5>
+                                <ul class="space-y-2 text-sm text-gray-700">
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                        Fast and reliable identity verification
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                        Convenient appointment scheduling
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                        Professional support in Arabic and English
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                        Secure document handling
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Account Creation -->
+                            <div class="bg-white border border-gray-200 rounded-lg p-6">
+                                <h5 class="font-medium text-gray-900 mb-4">Create Your Account</h5>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label asp-for="Input.Password" class="block text-sm font-medium text-gray-700 mb-2">Password *</label>
+                                        <input asp-for="Input.Password" type="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" placeholder="Enter a secure password" />
+                                        <span asp-validation-for="Input.Password" class="text-red-600 text-sm"></span>
+                                    </div>
+                                    
+                                    <div>
+                                        <label asp-for="Input.ConfirmPassword" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password *</label>
+                                        <input asp-for="Input.ConfirmPassword" type="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent" placeholder="Confirm your password" />
+                                        <span asp-validation-for="Input.ConfirmPassword" class="text-red-600 text-sm"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="flex justify-between pt-8 border-t border-gray-200">
+                        <button type="button" id="prev-btn" class="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 focus:ring-2 focus:ring-tanzanian-green focus:ring-offset-2 hidden">
+                            <i class="fas fa-arrow-left mr-2"></i>Previous
+                        </button>
+                        
+                        <div class="flex space-x-4">
+                            <button type="button" id="next-btn" class="px-8 py-3 bg-tanzanian-green text-white rounded-lg font-medium hover:bg-tanzanian-blue focus:ring-2 focus:ring-tanzanian-green focus:ring-offset-2 transition-colors">
+                                Next<i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                            
+                            <button type="submit" id="submit-btn" class="px-8 py-3 rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-300 hidden" style="background: linear-gradient(135deg, #00B04F 0%, #0F4A6C 100%); color: white !important; border: none; cursor: pointer;">
+                                <i class="fas fa-user-plus mr-2" style="color: white !important;"></i>Join Community
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Tab functionality
+const tabs = document.querySelectorAll('.tab-btn');
+const contents = document.querySelectorAll('.tab-content');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const submitBtn = document.getElementById('submit-btn');
+let currentTab = 0;
+
+// Load JSON data
+let countriesData = [];
+let emiratesCitiesData = [];
+let employmentStatusData = [];
+let visaTypesData = [];
+
+// Load data function
+async function loadData() {
+    try {
+        const [countries, emiratesCities, employmentStatus, visaTypes] = await Promise.all([
+            fetch('/Data/StaticData/countries.json').then(r => r.json()),
+            fetch('/Data/StaticData/emirates-cities.json').then(r => r.json()),
+            fetch('/Data/StaticData/employment-status.json').then(r => r.json()),
+            fetch('/Data/StaticData/visa-types.json').then(r => r.json())
+        ]);
+        
+        countriesData = countries;
+        emiratesCitiesData = emiratesCities;
+        employmentStatusData = employmentStatus;
+        visaTypesData = visaTypes;
+        
+        populateDropdowns();
+    } catch (error) {
+        console.error('Error loading data:', error);
+        // Fallback data if JSON files fail
+        populateDropdowns();
+    }
+}
+
+// Populate dropdowns
+function populateDropdowns() {
+    // Populate countries
+    const nationalitySelect = document.getElementById('nationality-select');
+    if (countriesData.length > 0) {
+        // Clear existing options except the default Tanzania
+        const existingOptions = nationalitySelect.querySelectorAll('option:not([value="Tanzania"])');
+        existingOptions.forEach(option => option.remove());
+        
+        countriesData.forEach(country => {
+            if (country.name !== 'Tanzania') { // Don't duplicate Tanzania
+                const option = document.createElement('option');
+                option.value = country.name;
+                option.textContent = `${country.flag} ${country.name}`;
+                nationalitySelect.appendChild(option);
+            }
+        });
+    } else {
+        // Clear existing options except the default Tanzania
+        const existingOptions = nationalitySelect.querySelectorAll('option:not([value="Tanzania"])');
+        existingOptions.forEach(option => option.remove());
+        
+        // Fallback country data
+        const fallbackCountries = ['Kenya', 'Uganda', 'Rwanda', 'Burundi', 'South Sudan', 'Democratic Republic of Congo', 'Zambia', 'Malawi', 'Mozambique'];
+        fallbackCountries.forEach(country => {
+            const option = document.createElement('option');
+            option.value = country;
+            option.textContent = country;
+            nationalitySelect.appendChild(option);
+        });
+    }
+    
+    // Populate emirates
+    const emirateSelect = document.getElementById('emirate-select');
+    if (emiratesCitiesData.length > 0) {
+        emiratesCitiesData.forEach(emirate => {
+            const option = document.createElement('option');
+            option.value = emirate.emirate;
+            option.textContent = emirate.emirate;
+            emirateSelect.appendChild(option);
+        });
+    } else {
+        // Fallback emirates data
+        const fallbackEmirates = ['Abu Dhabi', 'Dubai', 'Sharjah', 'Ajman', 'Umm Al Quwain', 'Ras Al Khaimah', 'Fujairah'];
+        fallbackEmirates.forEach(emirate => {
+            const option = document.createElement('option');
+            option.value = emirate;
+            option.textContent = emirate;
+            emirateSelect.appendChild(option);
+        });
+    }
+    
+    // Populate employment status
+    const employmentSelect = document.getElementById('employment-select');
+    if (employmentStatusData.length > 0) {
+        employmentStatusData.forEach(status => {
+            const option = document.createElement('option');
+            option.value = status;
+            option.textContent = status;
+            employmentSelect.appendChild(option);
+        });
+    } else {
+        // Fallback employment status data
+        const fallbackEmployment = ['Employed', 'Self-Employed', 'Student', 'Unemployed', 'Retired', 'Housewife/Househusband', 'Business Owner'];
+        fallbackEmployment.forEach(status => {
+            const option = document.createElement('option');
+            option.value = status;
+            option.textContent = status;
+            employmentSelect.appendChild(option);
+        });
+    }
+    
+    // Populate visa types
+    const visaTypeSelect = document.getElementById('visa-type-select');
+    if (visaTypesData.length > 0) {
+        visaTypesData.forEach(visaType => {
+            const option = document.createElement('option');
+            option.value = visaType;
+            option.textContent = visaType;
+            visaTypeSelect.appendChild(option);
+        });
+    } else {
+        // Fallback visa types data
+        const fallbackVisaTypes = ['Employment Visa', 'Student Visa', 'Tourist Visa', 'Family Visa', 'Investment Visa', 'Freelance Visa', 'Golden Visa'];
+        fallbackVisaTypes.forEach(visaType => {
+            const option = document.createElement('option');
+            option.value = visaType;
+            option.textContent = visaType;
+            visaTypeSelect.appendChild(option);
+        });
+    }
+}
+
+// Handle emirate change to populate cities
+document.getElementById('emirate-select').addEventListener('change', function() {
+    const citySelect = document.getElementById('city-select');
+    const selectedEmirate = this.value;
+    
+    // Clear existing options
+    citySelect.innerHTML = '<option value="">Select City</option>';
+    
+    if (selectedEmirate) {
+        const emirateData = emiratesCitiesData.find(e => e.emirate === selectedEmirate);
+        if (emirateData) {
+            emirateData.cities.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+        } else {
+            // Fallback cities for each emirate
+            const fallbackCities = {
+                'Abu Dhabi': ['Abu Dhabi City', 'Al Ain', 'Zayed City', 'Madinat Zayed', 'Ruwais'],
+                'Dubai': ['Dubai City', 'Deira', 'Bur Dubai', 'Jumeirah', 'Dubai Marina', 'Downtown Dubai'],
+                'Sharjah': ['Sharjah City', 'Kalba', 'Khor Fakkan', 'Dibba Al-Hisn'],
+                'Ajman': ['Ajman City', 'Masfout', 'Manama'],
+                'Umm Al Quwain': ['Umm Al Quwain City', 'Falaj Al Mualla'],
+                'Ras Al Khaimah': ['Ras Al Khaimah City', 'Digdaga', 'Khatt', 'Rams'],
+                'Fujairah': ['Fujairah City', 'Dibba', 'Masafi', 'Bidiyah']
+            };
+            
+            if (fallbackCities[selectedEmirate]) {
+                fallbackCities[selectedEmirate].forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    citySelect.appendChild(option);
+                });
+            }
+        }
+    }
+});
+
+// Tab switching function
+function showTab(tabIndex) {
+    contents.forEach((content, index) => {
+        content.classList.toggle('hidden', index !== tabIndex);
+    });
+    
+    tabs.forEach((tab, index) => {
+        if (index === tabIndex) {
+            tab.classList.add('border-tanzanian-green', 'text-tanzanian-green', 'bg-white');
+            tab.classList.remove('border-transparent', 'text-gray-500');
+        } else {
+            tab.classList.remove('border-tanzanian-green', 'text-tanzanian-green', 'bg-white');
+            tab.classList.add('border-transparent', 'text-gray-500');
+        }
+    });
+    
+    // Show/hide navigation buttons
+    prevBtn.classList.toggle('hidden', tabIndex === 0);
+    nextBtn.classList.toggle('hidden', tabIndex === tabs.length - 1);
+    submitBtn.classList.toggle('hidden', tabIndex !== tabs.length - 1);
+    
+    currentTab = tabIndex;
+}
+
+// Tab click handlers
+tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => showTab(index));
+});
+
+// Navigation button handlers
+nextBtn.addEventListener('click', () => {
+    if (currentTab < tabs.length - 1) {
+        showTab(currentTab + 1);
+    }
+});
+
+prevBtn.addEventListener('click', () => {
+    if (currentTab > 0) {
+        showTab(currentTab - 1);
+    }
+});
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    // Always populate dropdowns with fallback data first
+    populateDropdowns();
+    // Then try to load JSON data to override fallback
+    loadData();
+    showTab(0);
+    
+    // Form submission handling with AJAX
+    const form = document.querySelector('form');
+    
+    // Function to find the tab containing an error field
+    function findErrorTab() {
+        const errorFields = form.querySelectorAll('.text-red-600:not(:empty)');
+        if (errorFields.length > 0) {
+            for (let errorField of errorFields) {
+                const tabContent = errorField.closest('.tab-content');
+                if (tabContent) {
+                    const tabId = tabContent.id;
+                    const tabIndex = Array.from(contents).findIndex(content => content.id === tabId);
+                    if (tabIndex !== -1) {
+                        showTab(tabIndex);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    
+    // Function to clear validation errors
+    function clearValidationErrors() {
+        const errorSpans = form.querySelectorAll('span[data-valmsg-for]');
+        errorSpans.forEach(span => {
+            span.textContent = '';
+            span.classList.remove('field-validation-error');
+            span.classList.add('field-validation-valid');
+        });
+        
+        const validationSummary = form.querySelector('[data-valmsg-summary="true"]');
+        if (validationSummary) {
+            validationSummary.innerHTML = '';
+            validationSummary.classList.remove('validation-summary-errors');
+            validationSummary.classList.add('validation-summary-valid');
+        }
+    }
+    
+    // Function to display validation errors
+    function displayValidationErrors(errors) {
+        clearValidationErrors();
+        
+        let firstErrorTab = -1;
+        
+        Object.keys(errors).forEach(fieldName => {
+            const errorMessages = errors[fieldName];
+            const errorSpan = form.querySelector(`span[data-valmsg-for="${fieldName}"]`);
+            
+            if (errorSpan && errorMessages.length > 0) {
+                errorSpan.textContent = errorMessages[0];
+                errorSpan.classList.remove('field-validation-valid');
+                errorSpan.classList.add('field-validation-error');
+                
+                // Find which tab this field belongs to
+                if (firstErrorTab === -1) {
+                    const tabContent = errorSpan.closest('.tab-content');
+                    if (tabContent) {
+                        const tabIndex = Array.from(contents).findIndex(content => content.id === tabContent.id);
+                        if (tabIndex !== -1) {
+                            firstErrorTab = tabIndex;
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Navigate to the first tab with errors
+        if (firstErrorTab !== -1) {
+            showTab(firstErrorTab);
+        }
+        
+        return firstErrorTab !== -1;
+    }
+    
+    // AJAX form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Clear previous validation errors
+        clearValidationErrors();
+        
+        // Create FormData object
+        const formData = new FormData(form);
+        
+        // Show loading SweetAlert with progress
+        let timerInterval;
+        Swal.fire({
+            title: 'Creating Your Account',
+            html: `
+                <div class="mb-4">
+                    <i class="fas fa-user-plus text-4xl text-green-500 mb-4"></i>
+                    <p class="text-gray-600">Please wait while we process your registration...</p>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2.5 mt-4">
+                    <div class="bg-green-500 h-2.5 rounded-full transition-all duration-300" style="width: <b></b>%"></div>
+                </div>
+            `,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+                const progressBar = Swal.getPopup().querySelector('b');
+                let progress = 0;
+                
+                timerInterval = setInterval(() => {
+                    progress += Math.random() * 15;
+                    if (progress > 90) progress = 90;
+                    progressBar.textContent = Math.round(progress);
+                    progressBar.parentElement.style.width = progress + '%';
+                }, 300);
+            },
+            willClose: () => {
+                clearInterval(timerInterval);
+            }
+        });
+        
+        // Submit form via AJAX
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+            }
+        })
+        .then(response => {
+            if (response.redirected) {
+                // Success - redirected to success page
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Welcome to TAE!',
+                    html: `
+                        <div class="text-center">
+                            <i class="fas fa-check-circle text-6xl text-green-500 mb-4"></i>
+                            <h3 class="text-xl font-semibold mb-2">Registration Successful!</h3>
+                            <p class="text-gray-600 mb-4">Your account has been created successfully.</p>
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                <p class="text-sm text-green-800">You will be redirected to your dashboard shortly.</p>
+                            </div>
+                        </div>
+                    `,
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                }).then(() => {
+                    window.location.href = response.url;
+                });
+                return null;
+            }
+            return response.text();
+        })
+        .then(html => {
+            if (html) {
+                // Parse the returned HTML to check for validation errors
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Check for validation errors
+                const validationSummary = doc.querySelector('[data-valmsg-summary="true"]');
+                const errorSpans = doc.querySelectorAll('span.field-validation-error');
+                
+                if (validationSummary && validationSummary.textContent.trim() || errorSpans.length > 0) {
+                    // There are validation errors
+                    const errors = {};
+                    
+                    // Collect field-specific errors
+                    errorSpans.forEach(span => {
+                        const fieldName = span.getAttribute('data-valmsg-for');
+                        if (fieldName && span.textContent.trim()) {
+                            if (!errors[fieldName]) errors[fieldName] = [];
+                            errors[fieldName].push(span.textContent.trim());
+                        }
+                    });
+                    
+                    // Display validation errors
+                    const hasErrors = displayValidationErrors(errors);
+                    
+                    // Show error SweetAlert
+                    let errorMessage = 'Please correct the errors below and try again.';
+                    if (validationSummary && validationSummary.textContent.trim()) {
+                        errorMessage = validationSummary.textContent.trim();
+                    }
+                    
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Registration Failed',
+                        html: `
+                            <div class="text-center">
+                                <i class="fas fa-exclamation-triangle text-6xl text-red-500 mb-4"></i>
+                                <h3 class="text-xl font-semibold mb-2">Validation Error</h3>
+                                <p class="text-gray-600 mb-4">${errorMessage}</p>
+                                <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                                    <p class="text-sm text-red-800">Please check the highlighted fields and try again.</p>
+                                </div>
+                            </div>
+                        `,
+                        confirmButtonText: 'Fix Errors',
+                        confirmButtonColor: '#ef4444',
+                    });
+                } else {
+                    // Check for server errors
+                    const serverError = doc.querySelector('.alert-danger, .text-danger');
+                    if (serverError) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Server Error',
+                            html: `
+                                <div class="text-center">
+                                    <i class="fas fa-server text-6xl text-red-500 mb-4"></i>
+                                    <h3 class="text-xl font-semibold mb-2">Something went wrong</h3>
+                                    <p class="text-gray-600 mb-4">${serverError.textContent.trim()}</p>
+                                    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                                        <p class="text-sm text-red-800">Please try again in a moment.</p>
+                                    </div>
+                                </div>
+                            `,
+                            confirmButtonText: 'Try Again',
+                            confirmButtonColor: '#ef4444',
+                        });
+                    }
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Network Error',
+                html: `
+                    <div class="text-center">
+                        <i class="fas fa-wifi text-6xl text-red-500 mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Connection Failed</h3>
+                        <p class="text-gray-600 mb-4">Unable to connect to the server. Please check your internet connection.</p>
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                            <p class="text-sm text-red-800">Please try again when your connection is stable.</p>
+                        </div>
+                    </div>
+                `,
+                confirmButtonText: 'Retry',
+                confirmButtonColor: '#ef4444',
+            });
+        });
+    });
+    
+    // Handle server-side errors on initial page load (if any)
+    const initialErrors = {};
+    const initialErrorSpans = document.querySelectorAll('span.field-validation-error');
+    
+    initialErrorSpans.forEach(span => {
+        const fieldName = span.getAttribute('data-valmsg-for');
+        if (fieldName && span.textContent.trim()) {
+            if (!initialErrors[fieldName]) initialErrors[fieldName] = [];
+            initialErrors[fieldName].push(span.textContent.trim());
+        }
+    });
+    
+    if (Object.keys(initialErrors).length > 0) {
+        displayValidationErrors(initialErrors);
+        
+        const validationSummary = document.querySelector('[data-valmsg-summary="true"]');
+        let errorMessage = 'Please correct the errors below and try again.';
+        if (validationSummary && validationSummary.textContent.trim()) {
+            errorMessage = validationSummary.textContent.trim();
+        }
+        
+        Swal.fire({
+            icon: 'error',
+            title: 'Validation Error',
+            text: errorMessage,
+            confirmButtonText: 'Fix Errors',
+            confirmButtonColor: '#ef4444',
+        });
+    }
+});
+</script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

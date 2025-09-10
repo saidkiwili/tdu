@@ -1,0 +1,246 @@
+@page
+@model DashboardModel
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "_AdminLayout";
+}
+
+<!-- Dashboard Header -->
+<div class="mb-8">
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
+            <p class="text-gray-600">Welcome back! Here's what's happening with TAE today.</p>
+        </div>
+        <div class="flex space-x-3">
+            <button class="px-4 py-2 bg-tanzanian-green text-white rounded-lg hover:bg-tanzanian-blue transition-colors">
+                <i class="fas fa-plus mr-2"></i>Quick Action
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Stats Cards -->
+<div class="stats-grid grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <!-- Total Users Card -->
+    <div class="stat-card bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-tanzanian-green to-tanzanian-blue rounded-xl flex items-center justify-center">
+                <i class="fas fa-users text-white text-xl"></i>
+            </div>
+            <span class="text-tanzanian-green text-sm font-semibold">+12%</span>
+        </div>
+        <div class="text-2xl font-bold text-gray-900 mb-1">1,247</div>
+        <div class="text-sm text-gray-500">Total Users</div>
+    </div>
+
+    <!-- Active Members Card -->
+    <div class="stat-card bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-tanzanian-blue to-uae-red rounded-xl flex items-center justify-center">
+                <i class="fas fa-user-check text-white text-xl"></i>
+            </div>
+            <span class="text-tanzanian-green text-sm font-semibold">+8%</span>
+        </div>
+        <div class="text-2xl font-bold text-gray-900 mb-1">856</div>
+        <div class="text-sm text-gray-500">Active Members</div>
+    </div>
+
+    <!-- Pending Approvals Card -->
+    <div class="stat-card bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-uae-red to-tanzanian-green rounded-xl flex items-center justify-center">
+                <i class="fas fa-clock text-white text-xl"></i>
+            </div>
+            <span class="text-amber-500 text-sm font-semibold">23</span>
+        </div>
+        <div class="text-2xl font-bold text-gray-900 mb-1">23</div>
+        <div class="text-sm text-gray-500">Pending Approvals</div>
+    </div>
+
+    <!-- System Status Card -->
+    <div class="stat-card bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                <i class="fas fa-server text-white text-xl"></i>
+            </div>
+            <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+        </div>
+        <div class="text-lg font-bold text-emerald-500 mb-1">Online</div>
+        <div class="text-sm text-gray-500">System Status</div>
+    </div>
+</div>
+
+<!-- Management Cards -->
+<div class="mb-8">
+    <h2 class="text-xl font-bold text-gray-900 mb-6">System Management</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- User Management -->
+        <div class="management-card bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-all cursor-pointer group">
+            <div class="w-16 h-16 bg-gradient-to-br from-tanzanian-green to-tanzanian-blue rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
+                <i class="fas fa-users-cog text-white text-2xl"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-center text-gray-900 mb-2">User Management</h3>
+            <p class="text-center text-sm text-gray-500 mb-4 leading-relaxed">Manage user accounts, profiles, and access permissions</p>
+            <div class="text-center">
+                <span class="text-tanzanian-green font-semibold text-sm group-hover:text-tanzanian-blue transition-colors">
+                    Manage Users <i class="fas fa-arrow-right ml-1"></i>
+                </span>
+            </div>
+        </div>
+
+        <!-- Member Management -->
+        <div class="management-card bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-all cursor-pointer group">
+            <div class="w-16 h-16 bg-gradient-to-br from-tanzanian-blue to-uae-red rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
+                <i class="fas fa-id-card text-white text-2xl"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-center text-gray-900 mb-2">Members</h3>
+            <p class="text-center text-sm text-gray-500 mb-4 leading-relaxed">View and manage member registrations and profiles</p>
+            <div class="text-center">
+                <a href="/Admin/Members" class="text-tanzanian-green font-semibold text-sm group-hover:text-tanzanian-blue transition-colors">
+                    View Members <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Events Management -->
+        <div class="management-card bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-all cursor-pointer group">
+            <div class="w-16 h-16 bg-gradient-to-br from-uae-red to-tanzanian-green rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
+                <i class="fas fa-calendar-alt text-white text-2xl"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-center text-gray-900 mb-2">Events</h3>
+            <p class="text-center text-sm text-gray-500 mb-4 leading-relaxed">Create and manage TAE events and activities</p>
+            <div class="text-center">
+                <span class="text-tanzanian-green font-semibold text-sm group-hover:text-tanzanian-blue transition-colors">
+                    Manage Events <i class="fas fa-arrow-right ml-1"></i>
+                </span>
+            </div>
+        </div>
+
+        <!-- Reports -->
+        <div class="management-card bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-all cursor-pointer group">
+            <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
+                <i class="fas fa-chart-bar text-white text-2xl"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-center text-gray-900 mb-2">Reports</h3>
+            <p class="text-center text-sm text-gray-500 mb-4 leading-relaxed">Generate and view system reports and analytics</p>
+            <div class="text-center">
+                <span class="text-tanzanian-green font-semibold text-sm group-hover:text-tanzanian-blue transition-colors">
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Recent Registrations -->
+    <div class="bg-white rounded-xl p-6 shadow-sm">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-semibold text-gray-900">Recent Registrations</h3>
+            <a href="#" class="text-tanzanian-green text-sm font-semibold hover:text-tanzanian-blue transition-colors">View All</a>
+        </div>
+        <div class="space-y-4">
+            <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
+                <div class="w-10 h-10 bg-gradient-to-br from-tanzanian-green to-tanzanian-blue rounded-full flex items-center justify-center text-white font-semibold">
+                    JD
+                </div>
+                <div class="flex-1">
+                    <div class="font-medium text-gray-900">John Doe</div>
+                    <div class="text-sm text-gray-500">Registered 2 hours ago</div>
+                </div>
+                <span class="px-2 py-1 text-xs font-semibold text-amber-700 bg-amber-100 rounded-full">Pending</span>
+            </div>
+            <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
+                <div class="w-10 h-10 bg-gradient-to-br from-tanzanian-blue to-uae-red rounded-full flex items-center justify-center text-white font-semibold">
+                    SA
+                </div>
+                <div class="flex-1">
+                    <div class="font-medium text-gray-900">Sarah Ahmed</div>
+                    <div class="text-sm text-gray-500">Registered 5 hours ago</div>
+                </div>
+                <span class="px-2 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full">Approved</span>
+            </div>
+            <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
+                <div class="w-10 h-10 bg-gradient-to-br from-uae-red to-tanzanian-green rounded-full flex items-center justify-center text-white font-semibold">
+                    MK
+                </div>
+                <div class="flex-1">
+                    <div class="font-medium text-gray-900">Mohammed Khan</div>
+                    <div class="text-sm text-gray-500">Registered 1 day ago</div>
+                </div>
+                <span class="px-2 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full">Approved</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Notifications -->
+    <div class="bg-white rounded-xl p-6 shadow-sm">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-semibold text-gray-900">System Notifications</h3>
+            <a href="#" class="text-tanzanian-green text-sm font-semibold hover:text-tanzanian-blue transition-colors">View All</a>
+        </div>
+        <div class="space-y-4">
+            <div class="flex space-x-3 p-3 bg-blue-50 rounded-lg">
+                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                    <i class="fas fa-info text-white text-xs"></i>
+                </div>
+                <div class="flex-1">
+                    <div class="font-medium text-gray-900">System Update Available</div>
+                    <div class="text-sm text-gray-500">A new system update is ready to be installed</div>
+                    <div class="text-xs text-gray-400 mt-1">2 hours ago</div>
+                </div>
+            </div>
+            <div class="flex space-x-3 p-3 bg-green-50 rounded-lg">
+                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                    <i class="fas fa-check text-white text-xs"></i>
+                </div>
+                <div class="flex-1">
+                    <div class="font-medium text-gray-900">Backup Completed</div>
+                    <div class="text-sm text-gray-500">Daily database backup completed successfully</div>
+                    <div class="text-xs text-gray-400 mt-1">4 hours ago</div>
+                </div>
+            </div>
+            <div class="flex space-x-3 p-3 bg-amber-50 rounded-lg">
+                <div class="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center">
+                    <i class="fas fa-exclamation text-white text-xs"></i>
+                </div>
+                <div class="flex-1">
+                    <div class="font-medium text-gray-900">High Registration Volume</div>
+                    <div class="text-sm text-gray-500">Unusually high registration activity detected</div>
+                    <div class="text-xs text-gray-400 mt-1">1 day ago</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Dashboard initialization
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Admin Dashboard initialized');
+        
+        // Add click handlers for management cards
+        document.querySelectorAll('.management-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Handle navigation based on card content
+                const title = this.querySelector('h3').textContent.trim();
+                switch(title) {
+                    case 'User Management':
+                        // Navigate to user management
+                        break;
+                    case 'Members':
+                        window.location.href = '/Admin/Members';
+                        break;
+                    case 'Events':
+                        // Navigate to events management
+                        break;
+                    case 'Reports':
+                        // Navigate to reports
+                        break;
+                }
+            });
+        });
+    });
+</script>

@@ -1,0 +1,76 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h2>Admin Dashboard</h2>
+        <p class="text-muted">TAE Community Management</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3 class="text-primary">@Model.TotalMembers</h3>
+                <p class="card-text">Total Members</p>
+                <a asp-action="Members" class="btn btn-outline-primary btn-sm">View All</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3 class="text-success">@Model.NewMembersThisMonth</h3>
+                <p class="card-text">New This Month</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3 class="text-info">@Model.NidaServiceRequests</h3>
+                <p class="card-text">NIDA Requests</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <h3 class="text-warning">@Model.PendingAppointments</h3>
+                <p class="card-text">Pending Appointments</p>
+                <a asp-action="Appointments" class="btn btn-outline-warning btn-sm">Manage</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a asp-action="Members" class="btn btn-primary">Manage Members</a>
+                    <a asp-action="Appointments" class="btn btn-success">Manage Appointments</a>
+                    <a asp-action="ExportMembers" class="btn btn-outline-secondary">Export Members CSV</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Revenue Summary</h5>
+            </div>
+            <div class="card-body">
+                <h3 class="text-success">AED @Model.TotalRevenue</h3>
+                <p class="text-muted">Total Revenue from NIDA Services</p>
+                <small>Completed: @Model.CompletedAppointments appointments</small>
+            </div>
+        </div>
+    </div>
+</div>

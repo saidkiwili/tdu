@@ -1,0 +1,227 @@
+@{
+    ViewData["Title"] = "TAE Community - Home";
+}
+
+<!-- Hero Section -->
+<div class="relative bg-gradient-to-br from-tanzanian-blue via-primary-600 to-uae-red overflow-hidden">
+    <div class="absolute inset-0 bg-black opacity-20"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+        <div class="text-center">
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+                Karibu TAE Community
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+                Connecting Tanzanians in the United Arab Emirates through unity, opportunity, and shared heritage
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a asp-controller="Registration" asp-action="Index" 
+                   class="inline-flex items-center px-8 py-4 bg-white text-tanzanian-blue font-semibold rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                    </svg>
+                    Join Our Community
+                </a>
+                <a asp-controller="Jobs" asp-action="Index"
+                   class="inline-flex items-center px-8 py-4 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-tanzanian-blue transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2h8z"></path>
+                    </svg>
+                    Explore Jobs
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Decorative elements -->
+    <div class="absolute top-10 left-10 w-20 h-20 bg-white opacity-10 rounded-full"></div>
+    <div class="absolute bottom-20 right-20 w-16 h-16 bg-white opacity-10 rounded-full"></div>
+    <div class="absolute top-1/2 left-1/4 w-8 h-8 bg-white opacity-10 rounded-full"></div>
+</div>
+
+<!-- Stats Section -->
+<div class="bg-white py-16 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div class="transform hover:scale-105 transition-transform duration-300">
+                <div class="text-3xl font-bold text-tanzanian-blue mb-2">500+</div>
+                <div class="text-gray-600 font-medium">Active Members</div>
+            </div>
+            <div class="transform hover:scale-105 transition-transform duration-300">
+                <div class="text-3xl font-bold text-uae-red mb-2">150+</div>
+                <div class="text-gray-600 font-medium">Job Opportunities</div>
+            </div>
+            <div class="transform hover:scale-105 transition-transform duration-300">
+                <div class="text-3xl font-bold text-tanzanian-green mb-2">50+</div>
+                <div class="text-gray-600 font-medium">Events Hosted</div>
+            </div>
+            <div class="transform hover:scale-105 transition-transform duration-300">
+                <div class="text-3xl font-bold text-primary-600 mb-2">200+</div>
+                <div class="text-gray-600 font-medium">NIDA Services</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Services Section -->
+<div class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Services</h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Everything you need to thrive as a Tanzanian in the UAE</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Member Registration Card -->
+            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+                <div class="h-2 bg-gradient-to-r from-tanzanian-blue to-primary-500"></div>
+                <div class="p-8">
+                    <div class="w-16 h-16 bg-gradient-to-br from-tanzanian-blue to-primary-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Member Registration</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">Join our vibrant community and unlock exclusive benefits, networking opportunities, and cultural connections.</p>
+                    <a asp-controller="Registration" asp-action="Index" 
+                       class="inline-flex items-center text-tanzanian-blue font-semibold hover:text-primary-700 transition-colors duration-300">
+                        Get Started 
+                        <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Job Opportunities Card -->
+            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+                <div class="h-2 bg-gradient-to-r from-uae-red to-orange-500"></div>
+                <div class="p-8">
+                    <div class="w-16 h-16 bg-gradient-to-br from-uae-red to-orange-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2h8z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Job Opportunities</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">Discover career opportunities specifically curated for Tanzanians living in the UAE.</p>
+                    <a asp-controller="Jobs" asp-action="Index"
+                       class="inline-flex items-center text-uae-red font-semibold hover:text-red-700 transition-colors duration-300">
+                        Browse Jobs
+                        <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Community Events Card -->
+            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+                <div class="h-2 bg-gradient-to-r from-tanzanian-green to-green-500"></div>
+                <div class="p-8">
+                    <div class="w-16 h-16 bg-gradient-to-br from-tanzanian-green to-green-500 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Community Events</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">Stay connected through cultural celebrations, networking events, and community gatherings.</p>
+                    <a asp-controller="Events" asp-action="Index"
+                       class="inline-flex items-center text-tanzanian-green font-semibold hover:text-green-700 transition-colors duration-300">
+                        View Events
+                        <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- NIDA Services Highlight -->
+<div class="py-20 bg-gradient-to-r from-tanzanian-blue to-primary-600">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+            <div class="mb-12 lg:mb-0">
+                <div class="inline-flex items-center bg-white bg-opacity-20 rounded-full px-4 py-2 mb-6">
+                    <svg class="w-5 h-5 text-white mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                    <span class="text-white font-semibold">Official NIDA Services</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+                    Get NIDA Services Support
+                </h2>
+                <p class="text-xl text-gray-100 mb-8 leading-relaxed">
+                    Professional assistance with National Identification Authority (NIDA) document processing and services. Our experienced team provides guidance every step of the way.
+                </p>
+                <div class="bg-white bg-opacity-10 rounded-2xl p-6 mb-8">
+                    <div class="flex items-center mb-4">
+                        <svg class="w-6 h-6 text-white mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                        </svg>
+                        <span class="text-white font-semibold text-lg">Service Fee: AED 50</span>
+                    </div>
+                    <ul class="text-gray-100 space-y-2">
+                        <li class="flex items-center">
+                            <svg class="w-4 h-4 text-white mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Document verification and processing
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-4 h-4 text-white mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Personal consultation and guidance
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-4 h-4 text-white mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Scheduled appointment assistance
+                        </li>
+                    </ul>
+                </div>
+                <a asp-controller="Registration" asp-action="Index"
+                   class="inline-flex items-center px-8 py-4 bg-white text-tanzanian-blue font-semibold rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                    </svg>
+                    Register & Get NIDA Help
+                </a>
+            </div>
+            <div class="relative">
+                <div class="bg-white bg-opacity-10 rounded-3xl p-8 backdrop-blur-sm">
+                    <div class="text-center">
+                        <div class="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Trusted Service</h3>
+                        <p class="text-gray-100">Over 200 successful NIDA service completions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action Section -->
+<div class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            Ready to Join Our Community?
+        </h2>
+        <p class="text-xl text-gray-600 mb-10 leading-relaxed">
+            Take the first step towards connecting with fellow Tanzanians in the UAE. 
+            Register today and become part of our growing family.
+        </p>
+        <a asp-controller="Registration" asp-action="Index"
+           class="inline-flex items-center px-10 py-4 bg-gradient-to-r from-tanzanian-blue to-primary-600 text-white font-semibold rounded-full hover:from-tanzanian-blue hover:to-primary-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+            </svg>
+            Start Your Registration
+        </a>
+    </div>
+</div>

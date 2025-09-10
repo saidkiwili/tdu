@@ -1,0 +1,115 @@
+@model List<Member>
+
+@{
+    ViewData["Title"] = "Members Management";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Members Management</h2>
+            <a asp-action="ExportMembers" class="btn btn-outline-success">Export CSV</a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Member ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Location</th>
+                                <th>NIDA Service</th>
+                                <th>Registered</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Any())
+                            {
+                                @foreach (var member in Model)
+                                {
+                                    <tr>
+                                        <td><strong>@member.MemberId</strong></td>
+                                        <td>@member.FullName</td>
+                                        <td>@member.EmailAddress</td>
+                                        <td>@member.PhoneNumber</td>
+                                        <td>@member.City, @member.Emirate</td>
+                                        <td>
+                                            @if (member.OptInNidaService)
+                                            {
+                                                <span class="badge bg-@(member.NidaServiceStatus switch 
+                                                {
+                                                    NidaServiceStatus.PendingPayment => "warning",
+                                                    NidaServiceStatus.Paid => "info", 
+                                                    NidaServiceStatus.AppointmentScheduled => "primary",
+                                                    NidaServiceStatus.Completed => "success",
+                                                    _ => "secondary"
+                                                })">
+                                                    @member.NidaServiceStatus
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">Not requested</span>
+                                            }
+                                        </td>
+                                        <td>@member.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                        <td>
+                                            <a asp-action="MemberDetails" asp-route-id="@member.Id" class="btn btn-sm btn-outline-primary">View</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="8" class="text-center text-muted">No members found</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                @if (ViewBag.TotalPages > 1)
+                {
+                    <nav aria-label="Members pagination">
+                        <ul class="pagination justify-content-center">
+                            @if (ViewBag.CurrentPage > 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" asp-action="Members" asp-route-page="@(ViewBag.CurrentPage - 1)">Previous</a>
+                                </li>
+                            }
+                            
+                            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                            {
+                                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                    <a class="page-link" asp-action="Members" asp-route-page="@i">@i</a>
+                                </li>
+                            }
+                            
+                            @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" asp-action="Members" asp-route-page="@(ViewBag.CurrentPage + 1)">Next</a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                }
+
+                <p class="text-muted text-center">
+                    Showing @Model.Count of @ViewBag.TotalMembers members
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

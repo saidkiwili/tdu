@@ -1,0 +1,288 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "User Management";
+    Layout = "_AdminLayout";
+}
+
+<!-- User Management Section -->
+<section class="user-management-section" style="min-height: 100vh; background: #f8fafc; padding: 40px 20px;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto;">
+        
+        <!-- Page Header -->
+        <div class="page-header flex items-center justify-between mb-8 fade-in">
+            <div>
+                <nav class="breadcrumb mb-2">
+                    <a href="/Admin/Dashboard" style="color: #6b7280; text-decoration: none;">Dashboard</a>
+                    <span style="color: #d1d5db; margin: 0 8px;">/</span>
+                    <span style="color: #1f2937; font-weight: 600;">User Management</span>
+                </nav>
+                <h1 class="text-3xl font-bold mb-2" style="color: #1f2937;">User Management</h1>
+                <p style="color: #6b7280;">Manage system users, roles, and permissions</p>
+            </div>
+            <button onclick="openCreateUserModal()" class="btn-create" style="background: linear-gradient(135deg, #00B04F 0%, #0F4A6C 100%); color: white; padding: 12px 24px; border-radius: 8px; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s ease;">
+                <i class="fas fa-user-plus mr-2"></i>Add New User
+            </button>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="stat-card card fade-in" style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <div class="text-2xl font-bold" style="color: #1f2937;">247</div>
+                        <div class="text-sm" style="color: #6b7280;">Total Users</div>
+                    </div>
+                    <div class="stat-icon" style="width: 48px; height: 48px; background: linear-gradient(135deg, #00B04F, #0F4A6C); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-users text-white"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card card fade-in" style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1); animation-delay: 0.1s;">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <div class="text-2xl font-bold" style="color: #1f2937;">189</div>
+                        <div class="text-sm" style="color: #6b7280;">Active Users</div>
+                    </div>
+                    <div class="stat-icon" style="width: 48px; height: 48px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-user-check text-white"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card card fade-in" style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1); animation-delay: 0.2s;">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <div class="text-2xl font-bold" style="color: #1f2937;">12</div>
+                        <div class="text-sm" style="color: #6b7280;">Administrators</div>
+                    </div>
+                    <div class="stat-icon" style="width: 48px; height: 48px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-user-shield text-white"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card card fade-in" style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1); animation-delay: 0.3s;">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <div class="text-2xl font-bold" style="color: #1f2937;">23</div>
+                        <div class="text-sm" style="color: #6b7280;">Pending</div>
+                    </div>
+                    <div class="stat-icon" style="width: 48px; height: 48px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-clock text-white"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users Table -->
+        <div class="users-table-container card fade-in" style="background: white; border-radius: 12px; box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1); overflow: hidden; animation-delay: 0.4s;">
+            <!-- Table Header -->
+            <div class="table-header" style="padding: 24px 32px; border-bottom: 1px solid #e5e7eb;">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-semibold" style="color: #1f2937;">All Users</h2>
+                    <div class="table-controls flex items-center space-x-4">
+                        <!-- Search -->
+                        <div class="search-container" style="position: relative;">
+                            <i class="fas fa-search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #9ca3af;"></i>
+                            <input type="text" placeholder="Search users..." style="padding: 8px 12px 8px 36px; border: 2px solid #e5e7eb; border-radius: 6px; font-size: 14px; width: 240px;">
+                        </div>
+                        
+                        <!-- Filter -->
+                        <select style="padding: 8px 12px; border: 2px solid #e5e7eb; border-radius: 6px; font-size: 14px;">
+                            <option>All Roles</option>
+                            <option>Administrator</option>
+                            <option>Member</option>
+                            <option>Viewer</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Content -->
+            <div class="table-content" style="overflow-x: auto;">
+                <table class="users-table" style="width: 100%; border-collapse: collapse;">
+                    <thead style="background: #f8fafc;">
+                        <tr>
+                            <th style="padding: 16px 24px; text-align: left; font-weight: 600; color: #374151; font-size: 14px; border-bottom: 1px solid #e5e7eb;">User</th>
+                            <th style="padding: 16px 24px; text-align: left; font-weight: 600; color: #374151; font-size: 14px; border-bottom: 1px solid #e5e7eb;">Role</th>
+                            <th style="padding: 16px 24px; text-align: left; font-weight: 600; color: #374151; font-size: 14px; border-bottom: 1px solid #e5e7eb;">Status</th>
+                            <th style="padding: 16px 24px; text-align: left; font-weight: 600; color: #374151; font-size: 14px; border-bottom: 1px solid #e5e7eb;">Last Login</th>
+                            <th style="padding: 16px 24px; text-align: center; font-weight: 600; color: #374151; font-size: 14px; border-bottom: 1px solid #e5e7eb;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #f3f4f6;">
+                            <td style="padding: 16px 24px;">
+                                <div class="flex items-center">
+                                    <div class="user-avatar" style="width: 40px; height: 40px; background: linear-gradient(135deg, #00B04F, #0F4A6C); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 12px; font-size: 14px;">
+                                        JD
+                                    </div>
+                                    <div>
+                                        <div class="font-medium" style="color: #1f2937;">John Doe</div>
+                                        <div class="text-sm" style="color: #6b7280;">john.doe@example.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding: 16px 24px;">
+                                <span class="role-badge" style="background: #dbeafe; color: #1e40af; padding: 4px 12px; border-radius: 16px; font-size: 12px; font-weight: 600;">Administrator</span>
+                            </td>
+                            <td style="padding: 16px 24px;">
+                                <span class="status-badge active" style="background: #dcfce7; color: #166534; padding: 4px 12px; border-radius: 16px; font-size: 12px; font-weight: 600;">Active</span>
+                            </td>
+                            <td style="padding: 16px 24px; color: #6b7280; font-size: 14px;">2 hours ago</td>
+                            <td style="padding: 16px 24px; text-align: center;">
+                                <div class="action-buttons flex items-center justify-center space-x-2">
+                                    <button onclick="openEditUserModal(1)" class="action-btn" style="background: #f3f4f6; border: none; border-radius: 6px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease;" title="Edit User">
+                                        <i class="fas fa-edit" style="color: #6b7280; font-size: 14px;"></i>
+                                    </button>
+                                    <button class="action-btn" style="background: #fef2f2; border: none; border-radius: 6px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease;" title="Delete User">
+                                        <i class="fas fa-trash" style="color: #dc2626; font-size: 14px;"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr style="border-bottom: 1px solid #f3f4f6;">
+                            <td style="padding: 16px 24px;">
+                                <div class="flex items-center">
+                                    <div class="user-avatar" style="width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 12px; font-size: 14px;">
+                                        SA
+                                    </div>
+                                    <div>
+                                        <div class="font-medium" style="color: #1f2937;">Sarah Ahmed</div>
+                                        <div class="text-sm" style="color: #6b7280;">sarah.ahmed@example.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding: 16px 24px;">
+                                <span class="role-badge" style="background: #ecfdf5; color: #065f46; padding: 4px 12px; border-radius: 16px; font-size: 12px; font-weight: 600;">Member</span>
+                            </td>
+                            <td style="padding: 16px 24px;">
+                                <span class="status-badge active" style="background: #dcfce7; color: #166534; padding: 4px 12px; border-radius: 16px; font-size: 12px; font-weight: 600;">Active</span>
+                            </td>
+                            <td style="padding: 16px 24px; color: #6b7280; font-size: 14px;">1 day ago</td>
+                            <td style="padding: 16px 24px; text-align: center;">
+                                <div class="action-buttons flex items-center justify-center space-x-2">
+                                    <button onclick="openEditUserModal(2)" class="action-btn" style="background: #f3f4f6; border: none; border-radius: 6px; width: 32px; height: 32px; display: flex; align-items: center; justify-center; cursor: pointer; transition: all 0.2s ease;" title="Edit User">
+                                        <i class="fas fa-edit" style="color: #6b7280; font-size: 14px;"></i>
+                                    </button>
+                                    <button class="action-btn" style="background: #fef2f2; border: none; border-radius: 6px; width: 32px; height: 32px; display: flex; align-items: center; justify-center; cursor: pointer; transition: all 0.2s ease;" title="Delete User">
+                                        <i class="fas fa-trash" style="color: #dc2626; font-size: 14px;"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr style="border-bottom: 1px solid #f3f4f6;">
+                            <td style="padding: 16px 24px;">
+                                <div class="flex items-center">
+                                    <div class="user-avatar" style="width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 12px; font-size: 14px;">
+                                        MJ
+                                    </div>
+                                    <div>
+                                        <div class="font-medium" style="color: #1f2937;">Michael Johnson</div>
+                                        <div class="text-sm" style="color: #6b7280;">michael.j@example.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="padding: 16px 24px;">
+                                <span class="role-badge" style="background: #f3f4f6; color: #374151; padding: 4px 12px; border-radius: 16px; font-size: 12px; font-weight: 600;">Viewer</span>
+                            </td>
+                            <td style="padding: 16px 24px;">
+                                <span class="status-badge pending" style="background: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 16px; font-size: 12px; font-weight: 600;">Pending</span>
+                            </td>
+                            <td style="padding: 16px 24px; color: #6b7280; font-size: 14px;">Never</td>
+                            <td style="padding: 16px 24px; text-align: center;">
+                                <div class="action-buttons flex items-center justify-center space-x-2">
+                                    <button onclick="openEditUserModal(3)" class="action-btn" style="background: #f3f4f6; border: none; border-radius: 6px; width: 32px; height: 32px; display: flex; align-items: center; justify-center; cursor: pointer; transition: all 0.2s ease;" title="Edit User">
+                                        <i class="fas fa-edit" style="color: #6b7280; font-size: 14px;"></i>
+                                    </button>
+                                    <button class="action-btn" style="background: #fef2f2; border: none; border-radius: 6px; width: 32px; height: 32px; display: flex; align-items: center; justify-center; cursor: pointer; transition: all 0.2s ease;" title="Delete User">
+                                        <i class="fas fa-trash" style="color: #dc2626; font-size: 14px;"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="table-pagination" style="padding: 20px 32px; border-top: 1px solid #e5e7eb; display: flex; items-center: justify-between;">
+                <div style="color: #6b7280; font-size: 14px;">
+                    Showing 1 to 3 of 247 results
+                </div>
+                <div class="pagination-controls flex items-center space-x-2">
+                    <button class="pagination-btn" style="background: white; border: 1px solid #e5e7eb; border-radius: 6px; padding: 8px 12px; font-size: 14px; cursor: pointer; transition: all 0.2s ease;">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="pagination-btn active" style="background: #00B04F; color: white; border: 1px solid #00B04F; border-radius: 6px; padding: 8px 12px; font-size: 14px; cursor: pointer;">1</button>
+                    <button class="pagination-btn" style="background: white; border: 1px solid #e5e7eb; border-radius: 6px; padding: 8px 12px; font-size: 14px; cursor: pointer; transition: all 0.2s ease;">2</button>
+                    <button class="pagination-btn" style="background: white; border: 1px solid #e5e7eb; border-radius: 6px; padding: 8px 12px; font-size: 14px; cursor: pointer; transition: all 0.2s ease;">3</button>
+                    <button class="pagination-btn" style="background: white; border: 1px solid #e5e7eb; border-radius: 6px; padding: 8px 12px; font-size: 14px; cursor: pointer; transition: all 0.2s ease;">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .card:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    }
+
+    .btn-create:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 176, 79, 0.3);
+    }
+
+    .action-btn:hover {
+        background: #e5e7eb !important;
+    }
+
+    .pagination-btn:hover {
+        background: #f3f4f6 !important;
+        border-color: #d1d5db !important;
+    }
+
+    .fade-in {
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive Design */
+    @@media (max-width: 768px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+        }
+        
+        .page-header {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 16px;
+        }
+        
+        .table-header .flex {
+            flex-direction: column !important;
+            gap: 16px;
+        }
+        
+        .table-controls {
+            width: 100%;
+            justify-content: space-between !important;
+        }
+        
+        .search-container input {
+            width: 200px !important;
+        }
+    }
+</style>

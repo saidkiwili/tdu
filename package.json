@@ -1,0 +1,20 @@
+{
+  "name": "tae_app",
+  "version": "1.0.0",
+  "description": "TAE Community Platform - Tanzanian diaspora community management system",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/tailwind.css -o ./wwwroot/css/site.css --watch",
+    "build:css-prod": "tailwindcss -i ./src/tailwind.css -o ./wwwroot/css/site.css --minify",
+    "dev": "npm run build:css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.0"
+  }
+}

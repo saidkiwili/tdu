@@ -1,0 +1,47 @@
+@page
+@model tae_app.Pages.Account.ProfileModel
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<section class="max-w-4xl mx-auto py-12 px-4">
+    <div class="bg-white rounded-xl shadow-lg p-8">
+        <div class="flex items-center space-x-6">
+            <div class="w-24 h-24 bg-tanzanian-green rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                @Model.Initials
+            </div>
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-900">@Model.FullName</h2>
+                <p class="text-sm text-gray-500">@Model.Email</p>
+                <p class="mt-2 text-gray-600">Member since @Model.CreatedAt.ToString("yyyy")</p>
+            </div>
+        </div>
+
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <h3 class="text-lg font-semibold mb-3">Personal Details</h3>
+                <div class="space-y-2 text-gray-700">
+                    <div><span class="font-medium">First name:</span> @Model.FirstName</div>
+                    <div><span class="font-medium">Last name:</span> @Model.LastName</div>
+                    <div><span class="font-medium">Phone:</span> @Model.PhoneNumber</div>
+                    <div><span class="font-medium">Date of Birth:</span> @Model.DateOfBirth?.ToString("yyyy-MM-dd")</div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-semibold mb-3">Account & Actions</h3>
+                <div class="space-y-3">
+                    <a asp-page="/Account/EditProfile" class="inline-block px-4 py-2 bg-tanzanian-green text-white rounded-lg">Edit Profile</a>
+                    <a asp-page="/Account/ChangePassword" class="inline-block px-4 py-2 border border-gray-200 rounded-lg">Change Password</a>
+                </div>
+
+                <hr class="my-4">
+                <h3 class="text-lg font-semibold mb-3">Membership</h3>
+                <div class="text-gray-700">
+                    <div><span class="font-medium">Status:</span> @Model.Status</div>
+                    <div><span class="font-medium">Role(s):</span> @string.Join(", ", Model.Roles)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

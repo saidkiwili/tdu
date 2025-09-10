@@ -1,0 +1,432 @@
+<!-- Modal Base Structure -->
+<div id="modal-overlay" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); z-index: 1000; backdrop-filter: blur(4px);">
+    <div class="modal-container" style="display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px;">
+        <div id="modal-content" class="modal-content" style="background: white; border-radius: 16px; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04); max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative;">
+            <!-- Modal Header -->
+            <div class="modal-header" style="padding: 24px 32px 0 32px; border-bottom: 1px solid #e5e7eb; margin-bottom: 24px;">
+                <div class="flex items-center justify-between">
+                    <h3 id="modal-title" class="text-xl font-bold" style="color: #1f2937;"></h3>
+                    <button onclick="closeModal()" class="modal-close-btn" style="background: #f3f4f6; border: none; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease;">
+                        <i class="fas fa-times" style="color: #6b7280;"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Modal Body -->
+            <div id="modal-body" class="modal-body" style="padding: 0 32px 32px 32px;">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modal-overlay.show {
+        display: flex !important;
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    .modal-content {
+        animation: slideUp 0.3s ease-out;
+    }
+
+    .modal-close-btn:hover {
+        background: #e5e7eb;
+    }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @@keyframes slideUp {
+        from { 
+            opacity: 0; 
+            transform: translateY(20px) scale(0.95); 
+        }
+        to { 
+            opacity: 1; 
+            transform: translateY(0) scale(1); 
+        }
+    }
+
+    /* Form Styles for Modals */
+    .modal-form-group {
+        margin-bottom: 20px;
+    }
+
+    .modal-form-label {
+        display: block;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 6px;
+        font-size: 14px;
+    }
+
+    .modal-form-input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.2s ease;
+        background: #f9fafb;
+    }
+
+    .modal-form-input:focus {
+        outline: none;
+        border-color: #00B04F;
+        box-shadow: 0 0 0 3px rgba(0, 176, 79, 0.1);
+        background: white;
+    }
+
+    .modal-form-select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.2s ease;
+        background: white;
+    }
+
+    .modal-form-select:focus {
+        outline: none;
+        border-color: #00B04F;
+        box-shadow: 0 0 0 3px rgba(0, 176, 79, 0.1);
+    }
+
+    .modal-form-textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.2s ease;
+        background: #f9fafb;
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    .modal-form-textarea:focus {
+        outline: none;
+        border-color: #00B04F;
+        box-shadow: 0 0 0 3px rgba(0, 176, 79, 0.1);
+        background: white;
+    }
+
+    .modal-btn-primary {
+        background: linear-gradient(135deg, #00B04F 0%, #0F4A6C 100%);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-right: 12px;
+    }
+
+    .modal-btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 176, 79, 0.3);
+    }
+
+    .modal-btn-secondary {
+        background: white;
+        color: #6b7280;
+        border: 2px solid #e5e7eb;
+        padding: 10px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .modal-btn-secondary:hover {
+        background: #f3f4f6;
+        border-color: #d1d5db;
+    }
+
+    .modal-error {
+        color: #ef4444;
+        font-size: 14px;
+        margin-top: 4px;
+    }
+
+    .modal-success {
+        color: #22c55e;
+        font-size: 14px;
+        margin-top: 4px;
+    }
+</style>
+
+<script>
+    // Modal management functions
+    function openModal(title, content) {
+        document.getElementById('modal-title').textContent = title;
+        document.getElementById('modal-body').innerHTML = content;
+        document.getElementById('modal-overlay').classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        document.getElementById('modal-overlay').classList.remove('show');
+        document.body.style.overflow = '';
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('modal-overlay').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeModal();
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && document.getElementById('modal-overlay').classList.contains('show')) {
+            closeModal();
+        }
+    });
+
+    // User Management Modal Functions
+    function openCreateUserModal() {
+        const content = `
+            <form id="create-user-form" onsubmit="createUser(event)">
+                <div class="modal-form-group">
+                    <label class="modal-form-label">First Name</label>
+                    <input type="text" name="firstName" class="modal-form-input" required>
+                </div>
+                <div class="modal-form-group">
+                    <label class="modal-form-label">Last Name</label>
+                    <input type="text" name="lastName" class="modal-form-input" required>
+                </div>
+                <div class="modal-form-group">
+                    <label class="modal-form-label">Email</label>
+                    <input type="email" name="email" class="modal-form-input" required>
+                </div>
+                <div class="modal-form-group">
+                    <label class="modal-form-label">Role</label>
+                    <select name="role" class="modal-form-select" required>
+                        <option value="">Select Role</option>
+                        <option value="Administrator">Administrator</option>
+                        <option value="Member">Member</option>
+                        <option value="Viewer">Viewer</option>
+                    </select>
+                </div>
+                <div class="modal-form-group">
+                    <label class="modal-form-label">Password</label>
+                    <input type="password" name="password" class="modal-form-input" required minlength="6">
+                </div>
+                <div class="flex justify-end" style="margin-top: 32px;">
+                    <button type="button" onclick="closeModal()" class="modal-btn-secondary">Cancel</button>
+                    <button type="submit" class="modal-btn-primary">
+                        <i class="fas fa-user-plus mr-2"></i>Create User
+                    </button>
+                </div>
+            </form>
+        `;
+        openModal('Create New User', content);
+    }
+
+    function openEditUserModal(userId) {
+        // This would typically load user data via AJAX
+        const content = `
+            <form id="edit-user-form" onsubmit="updateUser(event, ${userId})">
+                <div class="modal-form-group">
+                    <label class="modal-form-label">First Name</label>
+                    <input type="text" name="firstName" class="modal-form-input" value="John" required>
+                </div>
+                <div class="modal-form-group">
+                    <label class="modal-form-label">Last Name</label>
+                    <input type="text" name="lastName" class="modal-form-input" value="Doe" required>
+                </div>
+                <div class="modal-form-group">
+                    <label class="modal-form-label">Email</label>
+                    <input type="email" name="email" class="modal-form-input" value="john.doe@example.com" required>
+                </div>
+                <div class="modal-form-group">
+                    <label class="modal-form-label">Role</label>
+                    <select name="role" class="modal-form-select" required>
+                        <option value="Administrator" selected>Administrator</option>
+                        <option value="Member">Member</option>
+                        <option value="Viewer">Viewer</option>
+                    </select>
+                </div>
+                <div class="flex justify-end" style="margin-top: 32px;">
+                    <button type="button" onclick="closeModal()" class="modal-btn-secondary">Cancel</button>
+                    <button type="submit" class="modal-btn-primary">
+                        <i class="fas fa-save mr-2"></i>Update User
+                    </button>
+                </div>
+            </form>
+        `;
+        openModal('Edit User', content);
+    }
+
+    // Role Management Modal Functions
+    function openCreateRoleModal() {
+        const content = `
+            <form id="create-role-form" onsubmit="createRole(event)">
+                <div class="modal-form-group">
+                    <label class="modal-form-label">Role Name</label>
+                    <input type="text" name="roleName" class="modal-form-input" required>
+                </div>
+                <div class="modal-form-group">
+                    <label class="modal-form-label">Description</label>
+                    <textarea name="description" class="modal-form-textarea" placeholder="Describe this role's purpose..."></textarea>
+                </div>
+                <div class="modal-form-group">
+                    <label class="modal-form-label">Permissions</label>
+                    <div style="max-height: 200px; overflow-y: auto; border: 2px solid #e5e7eb; border-radius: 8px; padding: 16px; background: #f9fafb;">
+                        <label style="display: flex; align-items: center; margin-bottom: 8px; cursor: pointer;">
+                            <input type="checkbox" name="permissions" value="users.read" style="margin-right: 8px;">
+                            <span>View Users</span>
+                        </label>
+                        <label style="display: flex; align-items: center; margin-bottom: 8px; cursor: pointer;">
+                            <input type="checkbox" name="permissions" value="users.create" style="margin-right: 8px;">
+                            <span>Create Users</span>
+                        </label>
+                        <label style="display: flex; align-items: center; margin-bottom: 8px; cursor: pointer;">
+                            <input type="checkbox" name="permissions" value="users.edit" style="margin-right: 8px;">
+                            <span>Edit Users</span>
+                        </label>
+                        <label style="display: flex; align-items: center; margin-bottom: 8px; cursor: pointer;">
+                            <input type="checkbox" name="permissions" value="users.delete" style="margin-right: 8px;">
+                            <span>Delete Users</span>
+                        </label>
+                        <label style="display: flex; align-items: center; margin-bottom: 8px; cursor: pointer;">
+                            <input type="checkbox" name="permissions" value="roles.manage" style="margin-right: 8px;">
+                            <span>Manage Roles</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="flex justify-end" style="margin-top: 32px;">
+                    <button type="button" onclick="closeModal()" class="modal-btn-secondary">Cancel</button>
+                    <button type="submit" class="modal-btn-primary">
+                        <i class="fas fa-shield-alt mr-2"></i>Create Role
+                    </button>
+                </div>
+            </form>
+        `;
+        openModal('Create New Role', content);
+    }
+
+    // Email Configuration Modal
+    function openEmailConfigModal() {
+        const content = `
+            <form id="email-config-form" onsubmit="updateEmailConfig(event)">
+                <div class="modal-form-group">
+                    <label class="modal-form-label">SMTP Server</label>
+                    <input type="text" name="smtpServer" class="modal-form-input" value="smtp.gmail.com" required>
+                </div>
+                <div class="modal-form-group">
+                    <label class="modal-form-label">SMTP Port</label>
+                    <input type="number" name="smtpPort" class="modal-form-input" value="587" required>
+                </div>
+                <div class="modal-form-group">
+                    <label class="modal-form-label">Username</label>
+                    <input type="text" name="username" class="modal-form-input" required>
+                </div>
+                <div class="modal-form-group">
+                    <label class="modal-form-label">Password</label>
+                    <input type="password" name="password" class="modal-form-input" required>
+                </div>
+                <div class="modal-form-group">
+                    <label class="modal-form-label">From Address</label>
+                    <input type="email" name="fromAddress" class="modal-form-input" required>
+                </div>
+                <div class="modal-form-group">
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" name="useSsl" style="margin-right: 8px;" checked>
+                        <span>Use SSL/TLS</span>
+                    </label>
+                </div>
+                <div class="flex justify-end" style="margin-top: 32px;">
+                    <button type="button" onclick="closeModal()" class="modal-btn-secondary">Cancel</button>
+                    <button type="submit" class="modal-btn-primary">
+                        <i class="fas fa-envelope mr-2"></i>Update Settings
+                    </button>
+                </div>
+            </form>
+        `;
+        openModal('Email Configuration', content);
+    }
+
+    // Form submission handlers (these would connect to your backend APIs)
+    function createUser(event) {
+        event.preventDefault();
+        // Implementation would send data to backend
+        console.log('Creating user...');
+        closeModal();
+        // Show success message
+        showNotification('User created successfully!', 'success');
+    }
+
+    function updateUser(event, userId) {
+        event.preventDefault();
+        // Implementation would send data to backend
+        console.log('Updating user:', userId);
+        closeModal();
+        showNotification('User updated successfully!', 'success');
+    }
+
+    function createRole(event) {
+        event.preventDefault();
+        // Implementation would send data to backend
+        console.log('Creating role...');
+        closeModal();
+        showNotification('Role created successfully!', 'success');
+    }
+
+    function updateEmailConfig(event) {
+        event.preventDefault();
+        // Implementation would send data to backend
+        console.log('Updating email config...');
+        closeModal();
+        showNotification('Email configuration updated!', 'success');
+    }
+
+    // Notification system
+    function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            z-index: 2000;
+            font-weight: 600;
+            animation: slideInRight 0.3s ease-out;
+        `;
+        notification.innerHTML = `
+            <div style="display: flex; align-items: center;">
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'} mr-2"></i>
+                ${message}
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.animation = 'slideOutRight 0.3s ease-out';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+</script>
+
+<style>
+    @@keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @@keyframes slideOutRight {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+</style>

@@ -1,0 +1,9 @@
+[
+  { "emirate": "Abu Dhabi", "cities": ["Abu Dhabi", "Al Ain", "Zayed City", "Khalifa City", "Al Ruwais", "Madinat Zayed", "Liwa Oasis"] },
+  { "emirate": "Dubai", "cities": ["Dubai", "Deira", "Bur Dubai", "Jumeirah", "Dubai Marina", "Downtown Dubai", "Business Bay", "Al Barsha", "Dubailand"] },
+  { "emirate": "Sharjah", "cities": ["Sharjah", "Khorfakkan", "Kalba", "Dibba Al-Hisn", "Al Dhaid", "Mleiha"] },
+  { "emirate": "Ajman", "cities": ["Ajman", "Masfout", "Al Manama"] },
+  { "emirate": "Umm Al-Quwain", "cities": ["Umm Al-Quwain", "Falaj Al Mualla"] },
+  { "emirate": "Ras Al Khaimah", "cities": ["Ras Al Khaimah", "Digdaga", "Al Hamra", "Al Jazirah Al Hamra", "Khatt"] },
+  { "emirate": "Fujairah", "cities": ["Fujairah", "Dibba Al-Fujairah", "Al Bidya", "Masafi", "Qidfa"] }
+]

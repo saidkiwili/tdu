@@ -1,0 +1,241 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Roles Management";
+    Layout = "_AdminLayout";
+}
+
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Roles Management</h1>
+            <p class="text-gray-600">Manage system roles and their permissions</p>
+        </div>
+
+        <!-- Success/Error Messages -->
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="mb-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+        <!-- Action Bar -->
+        <div class="bg-white rounded-lg shadow-sm border p-4 mb-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <input type="text" placeholder="Search roles..." 
+                           class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                    <button class="btn-secondary">
+                        <i class="fas fa-search mr-2"></i>Search
+                    </button>
+                </div>
+                <button onclick="openCreateRoleModal()" class="btn-primary">
+                    <i class="fas fa-plus mr-2"></i>Create Role
+                </button>
+            </div>
+        </div>
+
+        <!-- Roles Table -->
+        <div class="bg-white rounded-lg shadow-sm border overflow-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role Name</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Users Count</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permissions</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach (var role in Model.Roles)
+                    {
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-gradient-to-r from-green-400 to-blue-500 rounded-lg flex items-center justify-center text-white font-semibold">
+                                        @role.Name?.Substring(0, 1).ToUpper()
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-sm font-medium text-gray-900">@role.Name</div>
+                                        <div class="text-sm text-gray-500">ID: @role.Id?.Substring(0, 8)...</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    @role.UserCount users
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex flex-wrap gap-1">
+                                    @foreach (var permission in role.Permissions.Take(3))
+                                    {
+                                        <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-800">
+                                            @permission
+                                        </span>
+                                    }
+                                    @if (role.Permissions.Count > 3)
+                                    {
+                                        <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-200 text-gray-600">
+                                            +@(role.Permissions.Count - 3) more
+                                        </span>
+                                    }
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                @DateTime.Now.AddDays(-new Random().Next(1, 30)).ToString("MMM dd, yyyy")
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <div class="flex items-center justify-end space-x-2">
+                                    <button onclick="editRole('@role.Id', '@role.Name')" 
+                                            class="text-green-600 hover:text-green-900" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button onclick="managePermissions('@role.Id', '@role.Name')" 
+                                            class="text-blue-600 hover:text-blue-900" title="Manage Permissions">
+                                        <i class="fas fa-key"></i>
+                                    </button>
+                                    <button onclick="confirmDelete('@role.Id', '@role.Name')" 
+                                            class="text-red-600 hover:text-red-900" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Create Role Modal -->
+<div id="createRoleModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Create New Role</h3>
+            <button onclick="closeCreateRoleModal()" class="modal-close">&times;</button>
+        </div>
+        <form method="post" asp-page-handler="Create">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label asp-for="CreateRole.Name">Role Name</label>
+                    <input asp-for="CreateRole.Name" class="form-control" required>
+                    <span asp-validation-for="CreateRole.Name" class="text-red-600 text-sm"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label>Permissions</label>
+                    <div class="grid grid-cols-2 gap-2 max-h-60 overflow-y-auto border rounded p-3">
+                        @foreach (var permission in Model.AvailablePermissions)
+                        {
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" asp-for="CreateRole.SelectedPermissions" value="@permission" class="rounded">
+                                <span class="text-sm">@permission</span>
+                            </label>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="closeCreateRoleModal()" class="btn-secondary">Cancel</button>
+                <button type="submit" class="btn-primary">Create Role</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Role Modal -->
+<div id="editRoleModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Edit Role</h3>
+            <button onclick="closeEditRoleModal()" class="modal-close">&times;</button>
+        </div>
+        <form method="post" asp-page-handler="Edit">
+            <div class="modal-body">
+                <input type="hidden" asp-for="EditRole.Id">
+                <div class="form-group">
+                    <label asp-for="EditRole.Name">Role Name</label>
+                    <input asp-for="EditRole.Name" class="form-control" required>
+                    <span asp-validation-for="EditRole.Name" class="text-red-600 text-sm"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label>Permissions</label>
+                    <div class="grid grid-cols-2 gap-2 max-h-60 overflow-y-auto border rounded p-3">
+                        @foreach (var permission in Model.AvailablePermissions)
+                        {
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" asp-for="EditRole.SelectedPermissions" value="@permission" class="rounded">
+                                <span class="text-sm">@permission</span>
+                            </label>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="closeEditRoleModal()" class="btn-secondary">Cancel</button>
+                <button type="submit" class="btn-primary">Update Role</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openCreateRoleModal() {
+        document.getElementById('createRoleModal').style.display = 'block';
+    }
+
+    function closeCreateRoleModal() {
+        document.getElementById('createRoleModal').style.display = 'none';
+    }
+
+    function editRole(id, name) {
+        document.querySelector('#editRoleModal input[name="EditRole.Id"]').value = id;
+        document.querySelector('#editRoleModal input[name="EditRole.Name"]').value = name;
+        document.getElementById('editRoleModal').style.display = 'block';
+    }
+
+    function closeEditRoleModal() {
+        document.getElementById('editRoleModal').style.display = 'none';
+    }
+
+    function managePermissions(roleId, roleName) {
+        // Redirect to permissions management page
+        window.location.href = `/Admin/Permissions?roleId=${roleId}`;
+    }
+
+    function confirmDelete(roleId, roleName) {
+        if (confirm(`Are you sure you want to delete the role "${roleName}"?`)) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '?handler=Delete';
+            
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'id';
+            input.value = roleId;
+            
+            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+            const tokenInput = document.createElement('input');
+            tokenInput.type = 'hidden';
+            tokenInput.name = '__RequestVerificationToken';
+            tokenInput.value = token;
+            
+            form.appendChild(input);
+            form.appendChild(tokenInput);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+</script>
