@@ -4,7 +4,7 @@
     ViewData["Title"] = "Profile";
 }
 
-<section class="max-w-4xl mx-auto py-12 px-4">
+<section style="margin-top: 100px;" class="max-w-4xl mx-auto py-12 px-4 ">
     <div class="bg-white rounded-xl shadow-lg p-8">
         <div class="flex items-center space-x-6">
             <div class="w-24 h-24 bg-tanzanian-green rounded-full flex items-center justify-center text-white text-2xl font-bold">
@@ -29,13 +29,13 @@
             </div>
 
             <div>
-                <h3 class="text-lg font-semibold mb-3">Account & Actions</h3>
-                <div class="space-y-3">
+                <h3 class="text-lg font-semibold ">Account & Actions</h3>
+                <div class="space-y-3" style="margin-bottom: 10px;">
                     <a asp-page="/Account/EditProfile" class="inline-block px-4 py-2 bg-tanzanian-green text-white rounded-lg">Edit Profile</a>
                     <a asp-page="/Account/ChangePassword" class="inline-block px-4 py-2 border border-gray-200 rounded-lg">Change Password</a>
                 </div>
 
-                <hr class="my-4">
+                <hr class="my-4 mt-3" style="margin-bottom: 5px;">
                 <h3 class="text-lg font-semibold mb-3">Membership</h3>
                 <div class="text-gray-700">
                     <div><span class="font-medium">Status:</span> @Model.Status</div>

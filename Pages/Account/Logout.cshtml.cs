@@ -17,11 +17,19 @@ public class LogoutModel : PageModel
     public async Task<IActionResult> OnPostAsync()
     {
         await _signInManager.SignOutAsync();
-        return RedirectToPage("/Index");
+        return Redirect("/");
     }
 
-    public IActionResult OnGet()
+    public async Task<IActionResult> OnGetAsync()
     {
-        return RedirectToPage("/Index");
+        // Perform logout immediately on GET request
+        if (User?.Identity?.IsAuthenticated == true)
+        {
+            await _signInManager.SignOutAsync();
+        }
+
+        // Redirect to home page immediately
+        return Redirect("/");
     }
 }
+

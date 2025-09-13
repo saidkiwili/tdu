@@ -151,3 +151,4 @@
 /Users/admin/Documents/projects/tae_projects/tae_app/bin/Debug/net8.0/RBush.dll
 /Users/admin/Documents/projects/tae_projects/tae_app/bin/Debug/net8.0/SixLabors.Fonts.dll
 /Users/admin/Documents/projects/tae_projects/tae_app/bin/Debug/net8.0/System.IO.Packaging.dll
+/Users/admin/Documents/projects/tae_projects/tae_app/obj/Debug/net8.0/tae_app.sourcelink.json

@@ -182,6 +182,9 @@ public class RegisterModel : PageModel
             {
                 _logger.LogInformation("User created a new account with password.");
 
+                // Assign "Member" role to the new user
+                await _userManager.AddToRoleAsync(user, "Member");
+
                 // Generate Member ID
                 var year = DateTime.Now.Year;
                 var count = await _context.Members.CountAsync() + 1;

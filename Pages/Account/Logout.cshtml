@@ -1,5 +1,16 @@
 @page
 @model tae_app.Pages.Account.LogoutModel
-<div class="p-6">
-    <p>Logging out...</p>
+@{
+    ViewData["Title"] = "Logout";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="min-h-screen flex items-center justify-center bg-gray-50">
+    <div class="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
+        <div class="text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-tanzanian-green mx-auto mb-4"></div>
+            <h2 class="text-xl font-semibold text-gray-800 mb-2">Signing you out...</h2>
+            <p class="text-gray-600">Please wait while we securely log you out.</p>
+        </div>
+    </div>
 </div>

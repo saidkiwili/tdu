@@ -16,17 +16,21 @@ namespace tae_app.Pages.Admin.EmailConfig
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<IndexModel> _logger;
+        private readonly IAuthorizationService _authorizationService;
 
-        public IndexModel(ApplicationDbContext context, ILogger<IndexModel> logger)
+        public IndexModel(ApplicationDbContext context, ILogger<IndexModel> logger, IAuthorizationService authorizationService)
         {
             _context = context;
             _logger = logger;
+            _authorizationService = authorizationService;
         }
 
         [BindProperty]
         public EmailConfigurationModel EmailConfig { get; set; } = new();
 
         public bool IsEmailConfigured { get; set; }
+    // UI permission flags
+    public bool CanEdit { get; set; }
 
         public class EmailConfigurationModel
         {
@@ -55,10 +59,17 @@ namespace tae_app.Pages.Admin.EmailConfig
         public async Task OnGetAsync()
         {
             await LoadEmailConfigAsync();
+
+            // evaluate permission for editing email settings
+            CanEdit = (await _authorizationService.AuthorizeAsync(User, "permission:settings.edit")).Succeeded;
         }
 
         public async Task<IActionResult> OnPostSaveConfigAsync()
         {
+            if (!(await _authorizationService.AuthorizeAsync(User, "permission:settings.edit")).Succeeded)
+            {
+                return Forbid();
+            }
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -100,6 +111,10 @@ namespace tae_app.Pages.Admin.EmailConfig
 
         public async Task<IActionResult> OnPostTestEmailAsync([FromBody] TestEmailRequest request)
         {
+            if (!(await _authorizationService.AuthorizeAsync(User, "permission:settings.edit")).Succeeded)
+            {
+                return Forbid();
+            }
             try
             {
                 var emailSetting = await _context.EmailSettings.FirstOrDefaultAsync();

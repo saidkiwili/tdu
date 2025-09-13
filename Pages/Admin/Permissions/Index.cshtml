@@ -98,9 +98,10 @@
                                     {
                                         <td class="px-3 py-4 text-center">
                                             <input type="checkbox" 
-                                                   class="rounded border-gray-300 text-green-600 focus:ring-green-500"
-                                                   onchange="updateRolePermission('@role.Id', '@permission', this.checked)"
-                                                   @(role.Permissions.Contains(permission) ? "checked" : "")>
+                                                       class="rounded border-gray-300 text-green-600 focus:ring-green-500"
+                                                       onchange="updateRolePermission('@role.Id', '@permission', this.checked)"
+                                                       @(role.Permissions.Contains(permission) ? "checked" : "")
+                                                       @(Model.CanEdit ? "" : "disabled title='You do not have permission to edit'")>
                                         </td>
                                     }
                                 </tr>
@@ -132,6 +133,11 @@
             if (response.ok) {
                 // Show success message
                 showMessage('Permission updated successfully!', 'success');
+            } else if (response.status === 403) {
+                // Forbidden - show permission error and revert
+                if (typeof Swal !== 'undefined') Swal.fire('Forbidden', 'You do not have permission to update permissions.', 'error');
+                else alert('You do not have permission to update permissions.');
+                event.target.checked = !isChecked;
             } else {
                 // Show error and revert checkbox
                 showMessage('Failed to update permission!', 'error');

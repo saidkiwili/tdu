@@ -126,6 +126,7 @@
     </style>
 </head>
 <body class="font-inter">
+    @Html.AntiForgeryToken()
     <!-- Clean Navigation -->
     <nav class="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -180,13 +181,65 @@
                     @inject UserManager<tae_app.Models.ApplicationUser> UserManager
 
                     <div class="flex items-center space-x-4">
+
                         @if (User?.Identity?.IsAuthenticated == true)
                         {
-                            <!-- Show profile and logout -->
-                            <a href="/Account/Profile" class="nav-link">Profile</a>
-                            <form method="post" asp-page="/Account/Logout" class="inline">
-                                <button type="submit" class="nav-link">Logout</button>
-                            </form>
+                            <!-- Profile avatar dropdown (public site) -->
+                            <div class="relative">
+                                <button id="publicUserToggle" class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                                    <div class="w-9 h-9 bg-tanzanian-green rounded-full flex items-center justify-center overflow-hidden">
+                                        @{
+                                            var currentUser = await UserManager.GetUserAsync(User);
+                                            var initials = "";
+                                            if (currentUser != null)
+                                            {
+                                                var f = currentUser.FirstName ?? "";
+                                                var l = currentUser.LastName ?? "";
+                                                initials = (f.Length > 0 ? f.Substring(0,1) : "") + (l.Length > 0 ? l.Substring(0,1) : "");
+                                            }
+                                            var avatar = currentUser?.AvatarPath;
+                                        }
+                                        @if (!string.IsNullOrEmpty(avatar))
+                                        {
+                                            <img src="~/@avatar" alt="avatar" class="w-9 h-9 object-cover" />
+                                        }
+                                        else
+                                        {
+                                            <span class="text-white font-semibold">@initials.ToUpper()</span>
+                                        }
+                                    </div>
+                                    <div class="hidden md:block text-left">
+                                        <div class="text-sm font-semibold text-gray-800">@currentUser?.FirstName @currentUser?.LastName</div>
+                                        <div class="text-xs text-gray-500">@currentUser?.Email</div>
+                                    </div>
+                                    <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
+                                </button>
+
+                                <div id="publicUserDropdown" class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 z-50 hidden">
+                                    <div class="py-2">
+                                        <a asp-page="/Account/Profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                            <i class="fas fa-user mr-2"></i>Profile
+                                        </a>
+                                        @{ 
+                                            var isMember = User.IsInRole("Member");
+                                            var isAdmin = User.IsInRole("Admin");
+                                            var targetLabel = isMember ? "Portal" : "Dashboard";
+                                            var targetIcon = isMember ? "fas fa-door-open" : "fas fa-tachometer-alt";
+                                            var targetHref = isMember ? Url.Page("/Account/Portal") : "/Admin/Dashboard";
+                                        }
+                                        <a href="@targetHref" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                            <i class="@targetIcon mr-2"></i>@targetLabel
+                                        </a>
+                                        <hr class="my-2 border-gray-100">
+                                        <form method="post" asp-page="/Account/Logout">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                                                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         }
                         else
                         {
@@ -231,6 +284,7 @@
                         {
                             <a href="/Account/Profile" class="nav-link block text-center">Profile</a>
                             <form method="post" asp-page="/Account/Logout" class="block text-center">
+                                @Html.AntiForgeryToken()
                                 <button type="submit" class="nav-link">Logout</button>
                             </form>
                         }
@@ -256,14 +310,12 @@
                 </div>
             </div>
         </nav>
-    </header>
-    
+
     <!-- Main Content -->
     <main>
         @RenderBody()
     </main>
 
-    <!-- Clean Footer -->
     <footer class="bg-white border-t border-gray-200 mt-auto">
         <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -340,6 +392,24 @@
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Public user dropdown toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('publicUserToggle');
+            const dropdown = document.getElementById('publicUserDropdown');
+            if (toggle && dropdown) {
+                toggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dropdown.classList.toggle('hidden');
+                });
+
+                document.addEventListener('click', function(e) {
+                    if (!toggle.contains(e.target)) {
+                        dropdown.classList.add('hidden');
+                    }
+                });
             }
         });
     </script>

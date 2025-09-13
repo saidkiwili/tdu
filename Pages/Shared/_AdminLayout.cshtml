@@ -18,6 +18,30 @@
     
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* SweetAlert2 button visibility fixes (override resets) */
+        .swal2-container .swal2-popup .swal2-styled {
+            background-color: #f3f4f6; /* light gray */
+            color: #111827; /* dark text */
+            border: none;
+            padding: .5rem .75rem;
+            border-radius: .375rem;
+        }
+        .swal2-container .swal2-popup .swal2-confirm {
+            background-color: #059669 !important; /* green */
+            color: #fff !important;
+        }
+        .swal2-container .swal2-popup .swal2-cancel {
+            background-color: #6b7280 !important; /* gray */
+            color: #fff !important;
+        }
+        .swal2-container .swal2-popup .swal2-styled:focus {
+            box-shadow: 0 0 0 3px rgba(5,150,105,0.12) !important;
+            outline: none;
+        }
+        /* Support custom confirm button class used elsewhere */
+        .swal-confirm-btn { background-color: #dc2626 !important; color: #fff !important; border: none !important; }
+    </style>
     
     <style>
         body {

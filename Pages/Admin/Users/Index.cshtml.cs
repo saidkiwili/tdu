@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using tae_app.Data;
 using tae_app.Models;
 
 namespace tae_app.Pages.Admin.Users
@@ -13,15 +14,44 @@ namespace tae_app.Pages.Admin.Users
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IAuthorizationService _authorizationService;
+        private readonly ApplicationDbContext _context;
 
-        public IndexModel(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public IndexModel(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IAuthorizationService authorizationService, ApplicationDbContext context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _authorizationService = authorizationService;
+            _context = context;
         }
 
-        public List<UserViewModel> Users { get; set; } = new();
+    public List<UserViewModel> Users { get; set; } = new();
         public List<IdentityRole> Roles { get; set; } = new();
+
+    // Paging and filters
+    [BindProperty(SupportsGet = true)]
+    public string? Search { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public string? RoleFilter { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public int PageIndex { get; set; } = 1;
+
+    [BindProperty(SupportsGet = true)]
+    public int PageSize { get; set; } = 10;
+
+    public int TotalCount { get; set; }
+    public int TotalPages => (int)Math.Ceiling((double)TotalCount / PageSize);
+
+        // Live statistics
+        public int ActiveUsersCount { get; set; }
+        public int AdministratorsCount { get; set; }
+        public int BlockedUsersCount { get; set; }
+    // UI permission flags
+    public bool CanCreate { get; set; }
+    public bool CanEdit { get; set; }
+    public bool CanDelete { get; set; }
 
         [BindProperty]
         public CreateUserModel CreateUser { get; set; } = new();
@@ -77,10 +107,57 @@ namespace tae_app.Pages.Admin.Users
         public async Task OnGetAsync()
         {
             await LoadDataAsync();
+
+            // Evaluate current user's permissions for UI
+            CanCreate = (await _authorizationService.AuthorizeAsync(User, "permission:users.create")).Succeeded;
+            CanEdit = (await _authorizationService.AuthorizeAsync(User, "permission:users.edit")).Succeeded;
+            CanDelete = (await _authorizationService.AuthorizeAsync(User, "permission:users.delete")).Succeeded;
+        }
+
+        public async Task<IActionResult> OnPostToggleBlockAsync(string id)
+        {
+            if (!(await _authorizationService.AuthorizeAsync(User, "permission:users.edit")).Succeeded)
+            {
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                    return new JsonResult(new { success = false, error = "forbidden" }) { StatusCode = 403 };
+                return Forbid();
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "User not found.";
+                return RedirectToPage();
+            }
+
+            user.IsActive = !user.IsActive;
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                TempData["SuccessMessage"] = user.IsActive ? "User unblocked." : "User blocked.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Failed to update user status.";
+            }
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return new JsonResult(new { success = true, isActive = user.IsActive });
+            }
+
+            return RedirectToPage(new { search = Search, roleFilter = RoleFilter, pageIndex = PageIndex });
         }
 
         public async Task<IActionResult> OnPostCreateAsync()
         {
+            if (!(await _authorizationService.AuthorizeAsync(User, "permission:users.create")).Succeeded)
+            {
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                    return new JsonResult(new { success = false, error = "forbidden" }) { StatusCode = 403 };
+                return Forbid();
+            }
+
             if (!ModelState.IsValid)
             {
                 await LoadDataAsync();
@@ -100,14 +177,24 @@ namespace tae_app.Pages.Admin.Users
             var result = await _userManager.CreateAsync(user, CreateUser.Password);
             if (result.Succeeded)
             {
-                // Add roles
                 if (CreateUser.SelectedRoles?.Any() == true)
                 {
                     await _userManager.AddToRolesAsync(user, CreateUser.SelectedRoles);
                 }
 
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return new JsonResult(new { success = true, id = user.Id, email = user.Email });
+                }
+
                 TempData["SuccessMessage"] = "User created successfully!";
                 return RedirectToPage();
+            }
+
+            var errors = result.Errors.Select(e => e.Description).ToList();
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return new JsonResult(new { success = false, errors });
             }
 
             foreach (var error in result.Errors)
@@ -121,6 +208,13 @@ namespace tae_app.Pages.Admin.Users
 
         public async Task<IActionResult> OnPostEditAsync()
         {
+            if (!(await _authorizationService.AuthorizeAsync(User, "permission:users.edit")).Succeeded)
+            {
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                    return new JsonResult(new { success = false, error = "forbidden" }) { StatusCode = 403 };
+                return Forbid();
+            }
+
             if (!ModelState.IsValid)
             {
                 await LoadDataAsync();
@@ -141,17 +235,27 @@ namespace tae_app.Pages.Admin.Users
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-                // Update roles
                 var currentRoles = await _userManager.GetRolesAsync(user);
                 await _userManager.RemoveFromRolesAsync(user, currentRoles);
-                
+
                 if (EditUser.SelectedRoles?.Any() == true)
                 {
                     await _userManager.AddToRolesAsync(user, EditUser.SelectedRoles);
                 }
 
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return new JsonResult(new { success = true });
+                }
+
                 TempData["SuccessMessage"] = "User updated successfully!";
                 return RedirectToPage();
+            }
+
+            var errors = result.Errors.Select(e => e.Description).ToList();
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return new JsonResult(new { success = false, errors });
             }
 
             foreach (var error in result.Errors)
@@ -165,13 +269,27 @@ namespace tae_app.Pages.Admin.Users
 
         public async Task<IActionResult> OnPostDeleteAsync(string id)
         {
+            if (!(await _authorizationService.AuthorizeAsync(User, "permission:users.delete")).Succeeded)
+            {
+                return Forbid();
+            }
+
             var user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
+                // Find and delete associated member record
+                var member = await _context.Members.FirstOrDefaultAsync(m => m.ApplicationUserId == id);
+                if (member != null)
+                {
+                    _context.Members.Remove(member);
+                    await _context.SaveChangesAsync();
+                }
+
+                // Delete the user
                 var result = await _userManager.DeleteAsync(user);
                 if (result.Succeeded)
                 {
-                    TempData["SuccessMessage"] = "User deleted successfully!";
+                    TempData["SuccessMessage"] = "User and associated member record deleted successfully!";
                 }
                 else
                 {
@@ -182,11 +300,66 @@ namespace tae_app.Pages.Admin.Users
             return RedirectToPage();
         }
 
+        // Return user's roles as JSON for AJAX prefill
+        public async Task<IActionResult> OnGetUserRolesAsync(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id)) return BadRequest();
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null) return NotFound();
+            var roles = await _userManager.GetRolesAsync(user);
+            return new JsonResult(roles);
+        }
+
         private async Task LoadDataAsync()
         {
-            var users = await _userManager.Users.ToListAsync();
-            Users = new List<UserViewModel>();
+            var query = _userManager.Users.AsQueryable();
 
+            // Exclude SuperAdmin users from the list
+            var superAdminUsers = await _userManager.GetUsersInRoleAsync("SuperAdmin");
+            var superAdminIds = superAdminUsers.Select(u => u.Id).ToList();
+            query = query.Where(u => !superAdminIds.Contains(u.Id));
+
+            // Search
+            if (!string.IsNullOrWhiteSpace(Search))
+            {
+                var s = Search.Trim().ToLower();
+                query = query.Where(u => (u.Email ?? "").ToLower().Contains(s)
+                                          || (u.FirstName ?? "").ToLower().Contains(s)
+                                          || (u.LastName ?? "").ToLower().Contains(s));
+            }
+
+            // Role filter - fetch ids that match the role
+            if (!string.IsNullOrWhiteSpace(RoleFilter))
+            {
+                var usersInRole = await _userManager.GetUsersInRoleAsync(RoleFilter);
+                var ids = usersInRole.Select(u => u.Id).ToList();
+                query = query.Where(u => ids.Contains(u.Id));
+            }
+
+            TotalCount = await query.CountAsync();
+
+            // Live stats - calculate from filtered query to avoid negative numbers
+            ActiveUsersCount = await query.CountAsync(u => u.IsActive);
+
+            // Count admins (if role exists) - also from filtered query
+            AdministratorsCount = 0;
+            if (await _roleManager.RoleExistsAsync("Admin"))
+            {
+                var adminUsersInFilteredQuery = await _userManager.GetUsersInRoleAsync("Admin");
+                var adminIds = adminUsersInFilteredQuery.Select(u => u.Id).ToList();
+                AdministratorsCount = await query.CountAsync(u => adminIds.Contains(u.Id));
+            }
+
+            // Calculate blocked users from the filtered query
+            BlockedUsersCount = TotalCount - ActiveUsersCount;
+
+            var users = await query
+                .OrderByDescending(u => u.CreatedAt)
+                .Skip((PageIndex - 1) * PageSize)
+                .Take(PageSize)
+                .ToListAsync();
+
+            Users = new List<UserViewModel>();
             foreach (var user in users)
             {
                 var userRoles = await _userManager.GetRolesAsync(user);

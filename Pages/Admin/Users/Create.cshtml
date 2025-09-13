@@ -1,0 +1,114 @@
+@page
+@model tae_app.Pages.Admin.Users.CreateModel
+@{
+    ViewData["Title"] = "Create User";
+    Layout = "_AdminLayout";
+}
+
+<section class="max-w-4xl mx-auto py-12 px-4">
+    <div class="bg-white rounded-xl shadow-lg p-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <nav class="breadcrumb mb-4">
+                <a href="/Admin/Dashboard" class="text-gray-500 hover:text-gray-700">Dashboard</a>
+                <span class="mx-2 text-gray-400">/</span>
+                <a href="/Admin/Users" class="text-gray-500 hover:text-gray-700">User Management</a>
+                <span class="mx-2 text-gray-400">/</span>
+                <span class="text-gray-900 font-medium">Create User</span>
+            </nav>
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Create New User</h1>
+            <p class="text-gray-600">Add a new user to the system with appropriate roles and permissions.</p>
+        </div>
+
+        <!-- Alert Messages -->
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <div class="flex">
+                    <i class="fas fa-exclamation-circle text-red-400 mr-2 mt-0.5"></i>
+                    <span class="text-red-800">@TempData["ErrorMessage"]</span>
+                </div>
+            </div>
+        }
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <div class="flex">
+                    <i class="fas fa-check-circle text-green-400 mr-2 mt-0.5"></i>
+                    <span class="text-green-800">@TempData["SuccessMessage"]</span>
+                </div>
+            </div>
+        }
+
+        <form method="post" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Personal Information -->
+                <div class="md:col-span-2">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Personal Information</h3>
+                </div>
+
+                <div>
+                    <label asp-for="Input.FirstName" class="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                    <input asp-for="Input.FirstName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent transition-colors" placeholder="Enter first name" />
+                    <span asp-validation-for="Input.FirstName" class="text-red-600 text-sm mt-1"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Input.LastName" class="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                    <input asp-for="Input.LastName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent transition-colors" placeholder="Enter last name" />
+                    <span asp-validation-for="Input.LastName" class="text-red-600 text-sm mt-1"></span>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label asp-for="Input.Email" class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                    <input asp-for="Input.Email" type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent transition-colors" placeholder="Enter email address" />
+                    <span asp-validation-for="Input.Email" class="text-red-600 text-sm mt-1"></span>
+                </div>
+
+                <!-- Account Security -->
+                <div class="md:col-span-2">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Account Security</h3>
+                </div>
+
+                <div>
+                    <label asp-for="Input.Password" class="block text-sm font-medium text-gray-700 mb-2">Password *</label>
+                    <input asp-for="Input.Password" type="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent transition-colors" placeholder="Enter password" />
+                    <span asp-validation-for="Input.Password" class="text-red-600 text-sm mt-1"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Input.ConfirmPassword" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password *</label>
+                    <input asp-for="Input.ConfirmPassword" type="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent transition-colors" placeholder="Confirm password" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-red-600 text-sm mt-1"></span>
+                </div>
+
+                <!-- Roles and Permissions -->
+                <div class="md:col-span-2">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Roles and Permissions</h3>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label asp-for="Input.SelectedRole" class="block text-sm font-medium text-gray-700 mb-3">Select Role *</label>
+                        <select asp-for="Input.SelectedRole" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-green focus:border-transparent transition-colors bg-white">
+                            <option value="">-- Select a role --</option>
+                            @foreach (var role in Model.Roles)
+                            {
+                                <option value="@role.Name">@role.Name</option>
+                            }
+                        </select>
+                        <p class="text-sm text-gray-600 mt-2">Choose the appropriate role for this user</p>
+                        <span asp-validation-for="Input.SelectedRole" class="text-red-600 text-sm mt-1"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
+                <a href="/Admin/Users" class="px-6 py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors font-medium">
+                    <i class="fas fa-times mr-2"></i>Cancel
+                </a>
+                <button type="submit" class="px-6 py-3 bg-tanzanian-green text-white rounded-lg hover:bg-tanzanian-blue transition-colors font-medium">
+                    <i class="fas fa-user-plus mr-2"></i>Create User
+                </button>
+            </div>
+        </form>
+    </div>
+</section>

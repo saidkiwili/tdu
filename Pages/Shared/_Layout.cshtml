@@ -177,12 +177,10 @@
                     
                     <!-- Auth Buttons -->
                     @using Microsoft.AspNetCore.Identity
+                    @inject SignInManager<tae_app.Models.ApplicationUser> SignInManager
                     @inject UserManager<tae_app.Models.ApplicationUser> UserManager
 
                     <div class="flex items-center space-x-4">
-                        @using Microsoft.AspNetCore.Identity
-                        @inject SignInManager<tae_app.Models.ApplicationUser> SignInManager
-                        @inject UserManager<tae_app.Models.ApplicationUser> UserManager
 
                         @if (User?.Identity?.IsAuthenticated == true)
                         {
@@ -199,8 +197,16 @@
                                                 var l = currentUser.LastName ?? "";
                                                 initials = (f.Length > 0 ? f.Substring(0,1) : "") + (l.Length > 0 ? l.Substring(0,1) : "");
                                             }
+                                            var avatar = currentUser?.AvatarPath;
                                         }
-                                        <span class="text-white font-semibold">@initials.ToUpper()</span>
+                                        @if (!string.IsNullOrEmpty(avatar))
+                                        {
+                                            <img src="~/@avatar" alt="avatar" class="w-9 h-9 object-cover" />
+                                        }
+                                        else
+                                        {
+                                            <span class="text-white font-semibold">@initials.ToUpper()</span>
+                                        }
                                     </div>
                                     <div class="hidden md:block text-left">
                                         <div class="text-sm font-semibold text-gray-800">@currentUser?.FirstName @currentUser?.LastName</div>
@@ -214,18 +220,16 @@
                                         <a asp-page="/Account/Profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
                                             <i class="fas fa-user mr-2"></i>Profile
                                         </a>
-                                        @if (User.IsInRole("Admin"))
-                                        {
-                                            <a href="/Admin/Dashboard" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
-                                                <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
-                                            </a>
+                                        @{ 
+                                            var isMember = User.IsInRole("Member");
+                                            var isAdmin = User.IsInRole("Admin");
+                                            var targetLabel = isMember ? "Portal" : "Dashboard";
+                                            var targetIcon = isMember ? "fas fa-door-open" : "fas fa-tachometer-alt";
+                                            var targetHref = isMember ? Url.Page("/Account/Portal") : "/Admin/Dashboard";
                                         }
-                                        @if (User.IsInRole("Member"))
-                                        {
-                                            <a asp-page="/Account/Portal" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
-                                                <i class="fas fa-door-open mr-2"></i>Portal
-                                            </a>
-                                        }
+                                        <a href="@targetHref" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                            <i class="@targetIcon mr-2"></i>@targetLabel
+                                        </a>
                                         <hr class="my-2 border-gray-100">
                                         <form method="post" asp-page="/Account/Logout">
                                             <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
@@ -292,7 +296,6 @@
             </div>
         </div>
     </nav>
-
             <!-- Mobile menu -->
             <div class="md:hidden hidden" id="mobile-menu">
                 <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-200">
@@ -304,6 +307,22 @@
                 </div>
             </div>
         </nav>
+
+        <!-- TempData notifications (success / error) -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div id="global-success" class="mb-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div id="global-error" class="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
+        </div>
     </header>
     
     <!-- Main Content -->

@@ -31,15 +31,22 @@
         <div class="bg-white rounded-lg shadow-sm border p-4 mb-6">
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-4">
-                    <input type="text" placeholder="Search roles..." 
-                           class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                    <button class="btn-secondary">
-                        <i class="fas fa-search mr-2"></i>Search
-                    </button>
+                    <form method="get" class="flex items-center space-x-2">
+                        <input name="search" value="@Request.Query["search"]" type="text" placeholder="Search roles..." 
+                               class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        <button type="submit" class="btn-secondary">
+                            <i class="fas fa-search mr-2"></i>Search
+                        </button>
+                    </form>
                 </div>
-                <button onclick="openCreateRoleModal()" class="btn-primary">
-                    <i class="fas fa-plus mr-2"></i>Create Role
-                </button>
+                @if (Model.CanCreate)
+                {
+                    <a href="/Admin/Roles/Create" class="btn-primary inline-flex items-center"><i class="fas fa-plus mr-2"></i>Create Role</a>
+                }
+                else
+                {
+                    <button class="btn-primary" disabled title="You don't have permission"><i class="fas fa-plus mr-2"></i>Create Role</button>
+                }
             </div>
         </div>
 
@@ -96,18 +103,29 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div class="flex items-center justify-end space-x-2">
-                                    <button onclick="editRole('@role.Id', '@role.Name')" 
-                                            class="text-green-600 hover:text-green-900" title="Edit">
+                                    <a href="/Admin/Roles/Edit/@role.Id" 
+                                       class="bg-green-50 hover:bg-green-100 text-green-700 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-300 inline-flex items-center" title="Edit">
                                         <i class="fas fa-edit"></i>
-                                    </button>
+                                    </a>
                                     <button onclick="managePermissions('@role.Id', '@role.Name')" 
-                                            class="text-blue-600 hover:text-blue-900" title="Manage Permissions">
+                                            class="bg-blue-50 hover:bg-blue-100 text-blue-700 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300" title="Manage Permissions">
                                         <i class="fas fa-key"></i>
                                     </button>
-                                    <button onclick="confirmDelete('@role.Id', '@role.Name')" 
-                                            class="text-red-600 hover:text-red-900" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    @{
+                                        var name = role.Name ?? string.Empty;
+                                        var isProtected = string.Equals(name, "SuperAdmin", StringComparison.OrdinalIgnoreCase) || string.Equals(name, "Member", StringComparison.OrdinalIgnoreCase);
+                                    }
+                                    @if (!isProtected)
+                                    {
+                                        <button onclick="confirmDelete('@role.Id', '@role.Name')" 
+                                                class="bg-red-50 hover:bg-red-100 text-red-700 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-red-300" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <form id="delete-form-@role.Id" method="post" action="?handler=Delete" style="display:none;">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="id" value="@role.Id" />
+                                        </form>
+                                    }
                                 </div>
                             </td>
                         </tr>
@@ -118,124 +136,37 @@
     </div>
 </div>
 
-<!-- Create Role Modal -->
-<div id="createRoleModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Create New Role</h3>
-            <button onclick="closeCreateRoleModal()" class="modal-close">&times;</button>
-        </div>
-        <form method="post" asp-page-handler="Create">
-            <div class="modal-body">
-                <div class="form-group">
-                    <label asp-for="CreateRole.Name">Role Name</label>
-                    <input asp-for="CreateRole.Name" class="form-control" required>
-                    <span asp-validation-for="CreateRole.Name" class="text-red-600 text-sm"></span>
-                </div>
-                
-                <div class="form-group">
-                    <label>Permissions</label>
-                    <div class="grid grid-cols-2 gap-2 max-h-60 overflow-y-auto border rounded p-3">
-                        @foreach (var permission in Model.AvailablePermissions)
-                        {
-                            <label class="flex items-center space-x-2">
-                                <input type="checkbox" asp-for="CreateRole.SelectedPermissions" value="@permission" class="rounded">
-                                <span class="text-sm">@permission</span>
-                            </label>
-                        }
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="closeCreateRoleModal()" class="btn-secondary">Cancel</button>
-                <button type="submit" class="btn-primary">Create Role</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- Edit Role Modal -->
-<div id="editRoleModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Edit Role</h3>
-            <button onclick="closeEditRoleModal()" class="modal-close">&times;</button>
-        </div>
-        <form method="post" asp-page-handler="Edit">
-            <div class="modal-body">
-                <input type="hidden" asp-for="EditRole.Id">
-                <div class="form-group">
-                    <label asp-for="EditRole.Name">Role Name</label>
-                    <input asp-for="EditRole.Name" class="form-control" required>
-                    <span asp-validation-for="EditRole.Name" class="text-red-600 text-sm"></span>
-                </div>
-                
-                <div class="form-group">
-                    <label>Permissions</label>
-                    <div class="grid grid-cols-2 gap-2 max-h-60 overflow-y-auto border rounded p-3">
-                        @foreach (var permission in Model.AvailablePermissions)
-                        {
-                            <label class="flex items-center space-x-2">
-                                <input type="checkbox" asp-for="EditRole.SelectedPermissions" value="@permission" class="rounded">
-                                <span class="text-sm">@permission</span>
-                            </label>
-                        }
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="closeEditRoleModal()" class="btn-secondary">Cancel</button>
-                <button type="submit" class="btn-primary">Update Role</button>
-            </div>
-        </form>
-    </div>
-</div>
-
 <script>
-    function openCreateRoleModal() {
-        document.getElementById('createRoleModal').style.display = 'block';
-    }
-
-    function closeCreateRoleModal() {
-        document.getElementById('createRoleModal').style.display = 'none';
-    }
-
-    function editRole(id, name) {
-        document.querySelector('#editRoleModal input[name="EditRole.Id"]').value = id;
-        document.querySelector('#editRoleModal input[name="EditRole.Name"]').value = name;
-        document.getElementById('editRoleModal').style.display = 'block';
-    }
-
-    function closeEditRoleModal() {
-        document.getElementById('editRoleModal').style.display = 'none';
-    }
-
-    function managePermissions(roleId, roleName) {
-        // Redirect to permissions management page
-        window.location.href = `/Admin/Permissions?roleId=${roleId}`;
-    }
-
+    // Delete confirmation with SweetAlert
     function confirmDelete(roleId, roleName) {
-        if (confirm(`Are you sure you want to delete the role "${roleName}"?`)) {
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '?handler=Delete';
-            
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'id';
-            input.value = roleId;
-            
-            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
-            const tokenInput = document.createElement('input');
-            tokenInput.type = 'hidden';
-            tokenInput.name = '__RequestVerificationToken';
-            tokenInput.value = token;
-            
-            form.appendChild(input);
-            form.appendChild(tokenInput);
-            document.body.appendChild(form);
-            form.submit();
-        }
+        Swal.fire({
+            title: 'Delete Role?',
+            html: `Are you sure you want to delete the role <strong>${roleName}</strong>?<br><br>This action cannot be undone.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc2626',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: '<i class="fas fa-trash mr-2"></i>Yes, Delete',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit the delete form
+                document.getElementById('delete-form-' + roleId).submit();
+            }
+        });
+    }
+
+    // Placeholder for manage permissions (to be implemented)
+    function managePermissions(roleId, roleName) {
+        Swal.fire({
+            title: 'Manage Permissions',
+            text: `Permission management for ${roleName} will be implemented here.`,
+            icon: 'info',
+            confirmButtonText: 'OK'
+        });
     }
 </script>
+
+
+
+

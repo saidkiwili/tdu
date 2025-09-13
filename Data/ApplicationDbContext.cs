@@ -110,6 +110,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             entity.HasIndex(e => e.PhoneNumber);
             
             entity.Property(e => e.AmountPaid).HasPrecision(18, 2);
+
+            // Configure one-to-one relationship with ApplicationUser
+            entity.HasOne(m => m.ApplicationUser)
+                .WithOne(u => u.Member)
+                .HasForeignKey<Member>(m => m.ApplicationUserId)
+                .OnDelete(DeleteBehavior.Cascade); // Delete member when user is deleted
         });
 
         // Appointment configurations

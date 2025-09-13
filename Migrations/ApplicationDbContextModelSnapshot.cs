@@ -162,6 +162,9 @@ namespace tae_app.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
+                    b.Property<string>("AvatarPath")
+                        .HasColumnType("text");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text");
@@ -765,7 +768,8 @@ namespace tae_app.Migrations
                 {
                     b.HasOne("tae_app.Models.ApplicationUser", "ApplicationUser")
                         .WithOne("Member")
-                        .HasForeignKey("tae_app.Models.Member", "ApplicationUserId");
+                        .HasForeignKey("tae_app.Models.Member", "ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("ApplicationUser");
                 });

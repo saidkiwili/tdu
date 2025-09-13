@@ -1,0 +1,48 @@
+@model dynamic
+@{
+    // model expected properties:
+    // Name: string
+    // SelectedPermissions: List<string>
+    // AvailablePermissions: List<string>
+    // Prefix: string (e.g., "CreateRole" or "EditRole")
+    var name = Model?.Name as string ?? string.Empty;
+    var selected = Model?.SelectedPermissions as List<string> ?? new List<string>();
+    var perms = Model?.AvailablePermissions as List<string> ?? new List<string>();
+    var prefix = Model?.Prefix as string ?? "Role";
+}
+
+<div class="mb-4">
+    <label for="@($"{prefix}_Name")" class="block text-sm font-medium text-gray-700">Role Name</label>
+    <input id="@($"{prefix}_Name")" name="@($"{prefix}.Name")" value="@name" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500" required />
+    @if (ViewContext.ViewData.ModelState.ContainsKey($"{prefix}.Name"))
+    {
+        var errors = ViewContext.ViewData.ModelState[$"{prefix}.Name"]?.Errors;
+        if (errors != null && errors.Count > 0)
+        {
+            <div class="text-red-600 text-sm mt-1">@errors[0].ErrorMessage</div>
+        }
+    }
+</div>
+
+<div class="mb-4">
+    <label class="block text-sm font-medium text-gray-700 mb-2">Permissions</label>
+    <div class="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto border border-gray-300 p-3 rounded-md bg-gray-50">
+        @foreach (var permission in perms)
+        {
+            var isChecked = selected.Contains(permission);
+            var checkboxId = $"{prefix}_Permission_{permission.Replace(".", "_")}";
+            <div class="flex items-center">
+                <input type="checkbox" id="@checkboxId" name="@($"{prefix}.SelectedPermissions")" value="@permission" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" @(isChecked ? "checked" : "") />
+                <label for="@checkboxId" class="ml-2 block text-sm text-gray-900">@permission</label>
+            </div>
+        }
+    </div>
+    @if (ViewContext.ViewData.ModelState.ContainsKey($"{prefix}.SelectedPermissions"))
+    {
+        var errors = ViewContext.ViewData.ModelState[$"{prefix}.SelectedPermissions"]?.Errors;
+        if (errors != null && errors.Count > 0)
+        {
+            <div class="text-red-600 text-sm mt-1">@errors[0].ErrorMessage</div>
+        }
+    }
+</div>

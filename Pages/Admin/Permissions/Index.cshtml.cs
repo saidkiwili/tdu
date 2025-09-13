@@ -12,10 +12,12 @@ namespace tae_app.Pages.Admin.Permissions
     public class IndexModel : PageModel
     {
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IAuthorizationService _authorizationService;
 
-        public IndexModel(RoleManager<IdentityRole> roleManager)
+        public IndexModel(RoleManager<IdentityRole> roleManager, IAuthorizationService authorizationService)
         {
             _roleManager = roleManager;
+            _authorizationService = authorizationService;
         }
 
         public Dictionary<string, List<PermissionItem>> PermissionCategories { get; set; } = new();
@@ -39,10 +41,18 @@ namespace tae_app.Pages.Admin.Permissions
         public async Task OnGetAsync()
         {
             await LoadDataAsync();
+            CanEdit = (await _authorizationService.AuthorizeAsync(User, "permission:permissions.edit")).Succeeded;
         }
+
+        public bool CanEdit { get; set; }
 
         public async Task<IActionResult> OnPostUpdatePermissionAsync([FromBody] UpdatePermissionRequest request)
         {
+            if (!(await _authorizationService.AuthorizeAsync(User, "permission:permissions.edit")).Succeeded)
+            {
+                return Forbid();
+            }
+
             try
             {
                 var role = await _roleManager.FindByIdAsync(request.RoleId);

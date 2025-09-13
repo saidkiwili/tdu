@@ -132,12 +132,34 @@ namespace tae_app.Pages.Admin.Members
                 return Forbid();
             }
 
-            var member = await _context.Members.FindAsync(id);
+            var member = await _context.Members
+                .Include(m => m.Appointments)
+                .Include(m => m.EventRegistrations)
+                .Include(m => m.JobApplications)
+                .FirstOrDefaultAsync(m => m.Id == id);
+                
             if (member != null)
             {
+                // Remove related records first
+                if (member.Appointments.Any())
+                {
+                    _context.Appointments.RemoveRange(member.Appointments);
+                }
+                
+                if (member.EventRegistrations.Any())
+                {
+                    _context.EventRegistrations.RemoveRange(member.EventRegistrations);
+                }
+                
+                if (member.JobApplications.Any())
+                {
+                    _context.JobApplications.RemoveRange(member.JobApplications);
+                }
+                
+                // Remove the member
                 _context.Members.Remove(member);
                 await _context.SaveChangesAsync();
-                TempData["Success"] = "Member deleted successfully.";
+                TempData["Success"] = "Member and all related records deleted successfully.";
             }
             else
             {

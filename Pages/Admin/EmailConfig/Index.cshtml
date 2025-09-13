@@ -135,14 +135,30 @@
 
                         <!-- Action Buttons -->
                         <div class="mt-8 flex items-center justify-between">
-                            <button type="button" onclick="testConfiguration()" class="btn-secondary">
-                                <i class="fas fa-paper-plane mr-2"></i>Test Configuration
-                            </button>
+                            <div>
+                                @if (Model.CanEdit)
+                                {
+                                    <button type="button" onclick="testConfiguration()" class="btn-secondary">
+                                        <i class="fas fa-paper-plane mr-2"></i>Test Configuration
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn-secondary" disabled title="You don't have permission"> <i class="fas fa-paper-plane mr-2"></i>Test Configuration</button>
+                                }
+                            </div>
                             <div class="space-x-3">
-                                <button type="button" onclick="resetForm()" class="btn-secondary">Reset</button>
-                                <button type="submit" class="btn-primary">
-                                    <i class="fas fa-save mr-2"></i>Save Configuration
-                                </button>
+                                <button type="button" onclick="confirmReset()" class="btn-secondary">Reset</button>
+                                @if (Model.CanEdit)
+                                {
+                                    <button type="submit" class="btn-primary">
+                                        <i class="fas fa-save mr-2"></i>Save Configuration
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn-primary" disabled title="You don't have permission"><i class="fas fa-save mr-2"></i>Save Configuration</button>
+                                }
                             </div>
                         </div>
                     </form>
@@ -263,9 +279,22 @@
         document.querySelector('input[name="EmailConfig.UseSsl"]').checked = true;
     }
 
-    function resetForm() {
-        if (confirm('Are you sure you want to reset all email configuration?')) {
-            document.querySelector('form').reset();
+    function confirmReset(){
+        if (typeof Swal !== 'undefined'){
+            Swal.fire({
+                title: 'Reset configuration?',
+                text: 'This will clear the form fields. Continue?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, reset',
+                cancelButtonText: 'Cancel'
+            }).then((res) => {
+                if (res.isConfirmed) document.querySelector('form').reset();
+            });
+        } else {
+            if (confirm('Are you sure you want to reset all email configuration?')) {
+                document.querySelector('form').reset();
+            }
         }
     }
 

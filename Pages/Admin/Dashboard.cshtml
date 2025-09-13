@@ -30,7 +30,7 @@
             </div>
             <span class="text-tanzanian-green text-sm font-semibold">+12%</span>
         </div>
-        <div class="text-2xl font-bold text-gray-900 mb-1">1,247</div>
+        <div class="text-2xl font-bold text-gray-900 mb-1">@Model.Stats.TotalUsers.ToString("N0")</div>
         <div class="text-sm text-gray-500">Total Users</div>
     </div>
 
@@ -42,32 +42,32 @@
             </div>
             <span class="text-tanzanian-green text-sm font-semibold">+8%</span>
         </div>
-        <div class="text-2xl font-bold text-gray-900 mb-1">856</div>
-        <div class="text-sm text-gray-500">Active Members</div>
+        <div class="text-2xl font-bold text-gray-900 mb-1">@Model.Stats.TotalMembers.ToString("N0")</div>
+        <div class="text-sm text-gray-500">Total Members</div>
     </div>
 
-    <!-- Pending Approvals Card -->
+    <!-- Appointments Card -->
     <div class="stat-card bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
         <div class="flex items-center justify-between mb-4">
             <div class="w-12 h-12 bg-gradient-to-br from-uae-red to-tanzanian-green rounded-xl flex items-center justify-center">
-                <i class="fas fa-clock text-white text-xl"></i>
+                <i class="fas fa-calendar-check text-white text-xl"></i>
             </div>
-            <span class="text-amber-500 text-sm font-semibold">23</span>
+            <span class="text-amber-500 text-sm font-semibold">@Model.Stats.PendingAppointments</span>
         </div>
-        <div class="text-2xl font-bold text-gray-900 mb-1">23</div>
-        <div class="text-sm text-gray-500">Pending Approvals</div>
+        <div class="text-2xl font-bold text-gray-900 mb-1">@Model.Stats.TotalAppointments.ToString("N0")</div>
+        <div class="text-sm text-gray-500">Total Appointments</div>
     </div>
 
-    <!-- System Status Card -->
+    <!-- Recent Registrations Card -->
     <div class="stat-card bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
         <div class="flex items-center justify-between mb-4">
             <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center">
-                <i class="fas fa-server text-white text-xl"></i>
+                <i class="fas fa-user-plus text-white text-xl"></i>
             </div>
-            <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+            <span class="text-tanzanian-green text-sm font-semibold">+15%</span>
         </div>
-        <div class="text-lg font-bold text-emerald-500 mb-1">Online</div>
-        <div class="text-sm text-gray-500">System Status</div>
+        <div class="text-2xl font-bold text-gray-900 mb-1">@Model.Stats.RecentRegistrations.ToString("N0")</div>
+        <div class="text-sm text-gray-500">Recent Registrations (30 days)</div>
     </div>
 </div>
 
@@ -77,57 +77,78 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
         <!-- User Management -->
-        <div class="management-card bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-all cursor-pointer group">
+            <div class="management-card bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-all @(Model.CanViewUsers?"cursor-pointer":"opacity-60 cursor-not-allowed") group">
             <div class="w-16 h-16 bg-gradient-to-br from-tanzanian-green to-tanzanian-blue rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <i class="fas fa-users-cog text-white text-2xl"></i>
             </div>
             <h3 class="text-lg font-semibold text-center text-gray-900 mb-2">User Management</h3>
             <p class="text-center text-sm text-gray-500 mb-4 leading-relaxed">Manage user accounts, profiles, and access permissions</p>
             <div class="text-center">
-                <span class="text-tanzanian-green font-semibold text-sm group-hover:text-tanzanian-blue transition-colors">
-                    Manage Users <i class="fas fa-arrow-right ml-1"></i>
-                </span>
+                @if (Model.CanViewUsers)
+                {
+                    <a href="/Admin/Users" class="text-tanzanian-green font-semibold text-sm group-hover:text-tanzanian-blue transition-colors">Manage Users <i class="fas fa-arrow-right ml-1"></i></a>
+                }
+                else
+                {
+                    <span class="text-gray-400 text-sm">Manage Users</span>
+                }
             </div>
         </div>
 
         <!-- Member Management -->
-        <div class="management-card bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-all cursor-pointer group">
+            <div class="management-card bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-all @(Model.CanViewMembers?"cursor-pointer":"opacity-60 cursor-not-allowed") group">
             <div class="w-16 h-16 bg-gradient-to-br from-tanzanian-blue to-uae-red rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <i class="fas fa-id-card text-white text-2xl"></i>
             </div>
             <h3 class="text-lg font-semibold text-center text-gray-900 mb-2">Members</h3>
             <p class="text-center text-sm text-gray-500 mb-4 leading-relaxed">View and manage member registrations and profiles</p>
             <div class="text-center">
-                <a href="/Admin/Members" class="text-tanzanian-green font-semibold text-sm group-hover:text-tanzanian-blue transition-colors">
-                    View Members <i class="fas fa-arrow-right ml-1"></i>
-                </a>
+                @if (Model.CanViewMembers)
+                {
+                    <a href="/Admin/Members" class="text-tanzanian-green font-semibold text-sm group-hover:text-tanzanian-blue transition-colors">View Members <i class="fas fa-arrow-right ml-1"></i></a>
+                }
+                else
+                {
+                    <span class="text-gray-400 text-sm">View Members</span>
+                }
             </div>
         </div>
 
         <!-- Events Management -->
-        <div class="management-card bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-all cursor-pointer group">
+            <div class="management-card bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-all @(Model.CanViewEvents?"cursor-pointer":"opacity-60 cursor-not-allowed") group">
             <div class="w-16 h-16 bg-gradient-to-br from-uae-red to-tanzanian-green rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <i class="fas fa-calendar-alt text-white text-2xl"></i>
             </div>
             <h3 class="text-lg font-semibold text-center text-gray-900 mb-2">Events</h3>
             <p class="text-center text-sm text-gray-500 mb-4 leading-relaxed">Create and manage TAE events and activities</p>
             <div class="text-center">
-                <span class="text-tanzanian-green font-semibold text-sm group-hover:text-tanzanian-blue transition-colors">
-                    Manage Events <i class="fas fa-arrow-right ml-1"></i>
-                </span>
+                @if (Model.CanViewEvents)
+                {
+                    <a href="#" class="text-tanzanian-green font-semibold text-sm group-hover:text-tanzanian-blue transition-colors">Manage Events <i class="fas fa-arrow-right ml-1"></i></a>
+                }
+                else
+                {
+                    <span class="text-gray-400 text-sm">Manage Events</span>
+                }
             </div>
         </div>
 
         <!-- Reports -->
-        <div class="management-card bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-all cursor-pointer group">
+            <div class="management-card bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-all @(Model.CanViewReports?"cursor-pointer":"opacity-60 cursor-not-allowed") group">
             <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-105 transition-transform">
                 <i class="fas fa-chart-bar text-white text-2xl"></i>
             </div>
             <h3 class="text-lg font-semibold text-center text-gray-900 mb-2">Reports</h3>
             <p class="text-center text-sm text-gray-500 mb-4 leading-relaxed">Generate and view system reports and analytics</p>
             <div class="text-center">
-                <span class="text-tanzanian-green font-semibold text-sm group-hover:text-tanzanian-blue transition-colors">
-                </span>
+                @if (Model.CanViewReports)
+                {
+                    <a href="#" class="text-tanzanian-green font-semibold text-sm group-hover:text-tanzanian-blue transition-colors">View Reports <i class="fas fa-arrow-right ml-1"></i></a>
+                }
+                else
+                {
+                    <span class="text-gray-400 text-sm">View Reports</span>
+                }
             </div>
         </div>
     </div>
@@ -139,39 +160,32 @@
     <div class="bg-white rounded-xl p-6 shadow-sm">
         <div class="flex items-center justify-between mb-6">
             <h3 class="text-lg font-semibold text-gray-900">Recent Registrations</h3>
-            <a href="#" class="text-tanzanian-green text-sm font-semibold hover:text-tanzanian-blue transition-colors">View All</a>
+            <a href="/Admin/Members" class="text-tanzanian-green text-sm font-semibold hover:text-tanzanian-blue transition-colors">View All</a>
         </div>
         <div class="space-y-4">
-            <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
-                <div class="w-10 h-10 bg-gradient-to-br from-tanzanian-green to-tanzanian-blue rounded-full flex items-center justify-center text-white font-semibold">
-                    JD
+            @if (Model.Stats.RecentActivities.Any())
+            {
+                @foreach (var (activity, index) in Model.Stats.RecentActivities.Take(5).Select((a, i) => (a, i)))
+            {
+                    <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
+                        <div class="w-10 h-10 bg-gradient-to-br @Model.GetAvatarClass(index) rounded-full flex items-center justify-center text-white font-semibold">
+                            @Model.GetInitials(activity.User)
+                        </div>
+                        <div class="flex-1">
+                            <div class="font-medium text-gray-900">@activity.User</div>
+                            <div class="text-sm text-gray-500">@activity.Action @Model.GetTimeAgo(activity.Timestamp)</div>
+                        </div>
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full @Model.GetStatusClass(activity.Status)">@activity.Status</span>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="text-center py-8 text-gray-500">
+                    <i class="fas fa-users text-3xl mb-2"></i>
+                    <p>No recent registrations</p>
                 </div>
-                <div class="flex-1">
-                    <div class="font-medium text-gray-900">John Doe</div>
-                    <div class="text-sm text-gray-500">Registered 2 hours ago</div>
-                </div>
-                <span class="px-2 py-1 text-xs font-semibold text-amber-700 bg-amber-100 rounded-full">Pending</span>
-            </div>
-            <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
-                <div class="w-10 h-10 bg-gradient-to-br from-tanzanian-blue to-uae-red rounded-full flex items-center justify-center text-white font-semibold">
-                    SA
-                </div>
-                <div class="flex-1">
-                    <div class="font-medium text-gray-900">Sarah Ahmed</div>
-                    <div class="text-sm text-gray-500">Registered 5 hours ago</div>
-                </div>
-                <span class="px-2 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full">Approved</span>
-            </div>
-            <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
-                <div class="w-10 h-10 bg-gradient-to-br from-uae-red to-tanzanian-green rounded-full flex items-center justify-center text-white font-semibold">
-                    MK
-                </div>
-                <div class="flex-1">
-                    <div class="font-medium text-gray-900">Mohammed Khan</div>
-                    <div class="text-sm text-gray-500">Registered 1 day ago</div>
-                </div>
-                <span class="px-2 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full">Approved</span>
-            </div>
+            }
         </div>
     </div>
 
@@ -243,4 +257,120 @@
             });
         });
     });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    (function() {
+        const ctxId = 'membersChart';
+        const statsGrid = document.querySelector('.stats-grid');
+        
+        if (!statsGrid) {
+            console.warn('Stats grid not found, skipping chart creation');
+            return;
+        }
+        
+        const container = document.createElement('div');
+        container.className = 'bg-white rounded-xl p-6 shadow-sm mt-6';
+        container.innerHTML = `<h3 class="text-lg font-semibold text-gray-900 mb-4">Members (Last 12 months)</h3><div id="${ctxId}" style="height: 300px;"></div>`;
+        statsGrid.after(container);
+
+        const labels = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Stats?.MonthLabels ?? new List<string>()));
+        const rawData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Stats?.MonthCounts ?? new List<int>()));
+
+        // Sanitize data to prevent infinity/NaN issues
+        const data = Array.isArray(rawData) ? rawData.map(val => {
+            if (!isFinite(val) || isNaN(val) || val < 0) {
+                return 0;
+            }
+            // Cap very large values to prevent chart scaling issues
+            return Math.min(val, 10000);
+        }) : [];
+
+        // Ensure we have valid data
+        if (!Array.isArray(labels) || labels.length === 0 || !Array.isArray(data) || data.length === 0) {
+            container.innerHTML = `<h3 class="text-lg font-semibold text-gray-900 mb-4">Members (Last 12 months)</h3><div class="text-center py-8 text-gray-500">No data available</div>`;
+            return;
+        }
+
+        const options = {
+            series: [{
+                name: 'Registrations',
+                data: data
+            }],
+            chart: {
+                type: 'area',
+                height: 300,
+                toolbar: {
+                    show: false
+                },
+                fontFamily: 'Inter, sans-serif'
+            },
+            colors: ['#00B04F'],
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth',
+                width: 3
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shade: 'light',
+                    type: 'vertical',
+                    opacityFrom: 0.4,
+                    opacityTo: 0.1,
+                }
+            },
+            xaxis: {
+                categories: labels,
+                labels: {
+                    style: {
+                        colors: '#666',
+                        fontSize: '12px'
+                    }
+                }
+            },
+            yaxis: {
+                labels: {
+                    style: {
+                        colors: '#666',
+                        fontSize: '12px'
+                    },
+                    formatter: function(value) {
+                        return Math.floor(value);
+                    }
+                }
+            },
+            grid: {
+                borderColor: '#f1f1f1',
+                strokeDashArray: 3
+            },
+            tooltip: {
+                theme: 'light',
+                y: {
+                    formatter: function(value) {
+                        return value + ' registrations';
+                    }
+                }
+            },
+            responsive: [{
+                breakpoint: 768,
+                options: {
+                    chart: {
+                        height: 250
+                    }
+                }
+            }]
+        };
+
+        const chartElement = document.getElementById(ctxId);
+        if (chartElement) {
+            const chart = new ApexCharts(chartElement, options);
+            chart.render();
+        } else {
+            console.warn('Chart container not found');
+        }
+    })();
 </script>

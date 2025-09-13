@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using tae_app.Data;
 using tae_app.Models;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,28 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
+
+// Authorization: permission-based handler
+// Register the handler as Scoped so it can consume scoped services like UserManager
+builder.Services.AddScoped<IAuthorizationHandler, tae_app.Services.RoleClaimsAuthorizationHandler>();
+builder.Services.AddAuthorization(options =>
+{
+    var permissions = new[] {
+        "users.view","users.create","users.edit","users.delete",
+        "roles.view","roles.create","roles.edit","roles.delete",
+        "permissions.view","permissions.create","permissions.edit","permissions.delete",
+        "members.view","members.create","members.edit","members.delete",
+        "jobs.view","jobs.create","jobs.edit","jobs.delete",
+        "events.view","events.create","events.edit","events.delete",
+        "settings.view","settings.edit",
+        "reports.view","reports.export"
+    };
+
+    foreach (var p in permissions)
+    {
+        options.AddPolicy($"permission:{p}", policy => policy.Requirements.Add(new tae_app.Services.PermissionRequirement(p)));
+    }
+});
 
 var app = builder.Build();
 
