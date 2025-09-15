@@ -53,6 +53,7 @@ builder.Services.AddAuthorization(options =>
 // Register application services
 builder.Services.AddScoped<tae_app.Services.IOtpService, tae_app.Services.OtpService>();
 builder.Services.AddScoped<tae_app.Services.IEmailService, tae_app.Services.EmailService>();
+builder.Services.AddScoped<tae_app.Services.AdminSettingsService>();
 
 var app = builder.Build();
 

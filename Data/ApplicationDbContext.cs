@@ -101,6 +101,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<EventRegistration> EventRegistrations { get; set; }
     public DbSet<EmailSetting> EmailSettings { get; set; }
     public DbSet<OtpVerification> OtpVerifications { get; set; }
+    public DbSet<AdminSettings> AdminSettings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -224,6 +225,13 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             entity.Property(e => e.Password).HasMaxLength(255);
             entity.Property(e => e.FromAddress).HasMaxLength(255);
             entity.Property(e => e.FromName).HasMaxLength(255);
+        });
+
+        // Admin Settings configurations
+        builder.Entity<AdminSettings>(entity =>
+        {
+            entity.Property(e => e.NidaIndividualFee).HasPrecision(18, 2);
+            entity.Property(e => e.NidaFamilyFee).HasPrecision(18, 2);
         });
     }
 }

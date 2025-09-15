@@ -69,6 +69,7 @@ public static class SeedData
             if (result.Succeeded)
             {
                 await userManager.AddToRoleAsync(adminUser, "SuperAdmin");
+                await userManager.AddToRoleAsync(adminUser, "Admin");
             }
         }
     }

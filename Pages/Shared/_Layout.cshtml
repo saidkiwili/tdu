@@ -183,11 +183,11 @@
                                         <div class="text-sm text-gray-500">Programs for young Tanzanians</div>
                                     </div>
                                 </a>
-                                <a href="/Services/NIDA" class="dropdown-item flex items-center">
+                                <a href="/Home/CommunityServices" class="dropdown-item flex items-center">
                                     <i class="fas fa-id-card mr-3 text-green-600"></i>
                                     <div>
-                                        <div class="font-semibold">NIDA Service</div>
-                                        <div class="text-sm text-gray-500">National ID services</div>
+                                        <div class="font-semibold">NIDA Services</div>
+                                        <div class="text-sm text-gray-500">National ID applications & renewals</div>
                                     </div>
                                 </a>
                             </div>
@@ -222,7 +222,7 @@
                                 Media & Engagement <i class="fas fa-chevron-down ml-2 text-sm"></i>
                             </button>
                             <div class="dropdown-menu">
-                                <a href="/Home/MediaResources" class="dropdown-item flex items-center">
+                                <a href="/Home/Media" class="dropdown-item flex items-center">
                                     <i class="fas fa-newspaper mr-3 text-uae-red"></i>
                                     <div>
                                         <div class="font-semibold">Media & Resources</div>
@@ -306,6 +306,9 @@
                                             <a asp-page="/Account/Profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
                                                 <i class="fas fa-user mr-2"></i>Profile
                                             </a>
+                                            <a asp-page="/Account/Settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                                <i class="fas fa-cog mr-2"></i>Settings
+                                            </a>
                                             @{ 
                                                 var isMember = User.IsInRole("Member");
                                                 var isAdmin = User.IsInRole("Admin");
@@ -365,8 +368,8 @@
                             <a href="/Home/YouthStudents" class="nav-link block">
                                 <i class="fas fa-graduation-cap mr-2"></i>Youth & Students
                             </a>
-                            <a href="/Services/NIDA" class="nav-link block">
-                                <i class="fas fa-id-card mr-2"></i>NIDA Service
+                            <a href="/Home/CommunityServices" class="nav-link block">
+                                <i class="fas fa-id-card mr-2"></i>NIDA Services
                             </a>
                         </div>
                     </div>
@@ -388,7 +391,7 @@
                     <div class="px-4 py-2">
                         <div class="font-semibold mb-2 text-gray-700">Media & Engagement</div>
                         <div class="space-y-2 pl-4">
-                            <a href="/Home/MediaResources" class="nav-link block">
+                            <a href="/Home/Media" class="nav-link block">
                                 <i class="fas fa-newspaper mr-2"></i>Media & Resources
                             </a>
                             <a href="/Home/Media" class="nav-link block">

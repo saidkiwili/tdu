@@ -136,75 +136,145 @@
     </div>
 </div>
 
+@{
+    // Check if NIDA services should be shown
+    var showNidaServices = true; // Default to showing for non-authenticated users
+
+    if (User.Identity?.IsAuthenticated == true)
+    {
+        // For authenticated users, you would check their NIDA service preference
+        // For now, we'll show it by default, but this can be enhanced later
+        showNidaServices = true;
+    }
+}
+
 <!-- NIDA Services Highlight -->
-<div class="py-20 bg-gradient-to-r from-tanzanian-blue to-primary-600">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
-            <div class="mb-12 lg:mb-0">
-                <div class="inline-flex items-center bg-white bg-opacity-20 rounded-full px-4 py-2 mb-6">
-                    <svg class="w-5 h-5 text-white mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                    </svg>
-                    <span class="text-white font-semibold">Official NIDA Services</span>
-                </div>
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
-                    Get NIDA Services Support
-                </h2>
-                <p class="text-xl text-gray-100 mb-8 leading-relaxed">
-                    Professional assistance with National Identification Authority (NIDA) document processing and services. Our experienced team provides guidance every step of the way.
-                </p>
-                <div class="bg-white bg-opacity-10 rounded-2xl p-6 mb-8">
-                    <div class="flex items-center mb-4">
-                        <svg class="w-6 h-6 text-white mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
-                        </svg>
-                        <span class="text-white font-semibold text-lg">Service Fee: AED 50</span>
+@if (showNidaServices)
+{
+    <div class="py-20 bg-gradient-to-r from-tanzanian-blue to-primary-600">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+                <div class="mb-12 lg:mb-0">
+                    <div class="inline-flex items-center bg-white bg-opacity-20 rounded-full px-4 py-2 mb-6">
+                        <i class="fas fa-id-card text-white mr-2"></i>
+                        <span class="text-white font-semibold">Official NIDA Services</span>
                     </div>
-                    <ul class="text-gray-100 space-y-2">
-                        <li class="flex items-center">
-                            <svg class="w-4 h-4 text-white mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            Document verification and processing
-                        </li>
-                        <li class="flex items-center">
-                            <svg class="w-4 h-4 text-white mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            Personal consultation and guidance
-                        </li>
-                        <li class="flex items-center">
-                            <svg class="w-4 h-4 text-white mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                            Scheduled appointment assistance
-                        </li>
-                    </ul>
-                </div>
-                <a asp-controller="Registration" asp-action="Index"
-                   class="inline-flex items-center px-8 py-4 bg-white text-tanzanian-blue font-semibold rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                    </svg>
-                    Register & Get NIDA Help
-                </a>
-            </div>
-            <div class="relative">
-                <div class="bg-white bg-opacity-10 rounded-3xl p-8 backdrop-blur-sm">
-                    <div class="text-center">
-                        <div class="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+                        Streamlined NIDA Services
+                    </h2>
+                    <p class="text-xl text-gray-100 mb-8 leading-relaxed">
+                        Professional assistance with National ID applications and renewals for Tanzanians in the UAE. Individual and family packages available.
+                    </p>
+
+                    <!-- Service Packages -->
+                    <div class="bg-white bg-opacity-10 rounded-2xl p-6 mb-8">
+                        <h3 class="text-white font-semibold text-lg mb-4">Service Packages</h3>
+
+                        <!-- New Applications -->
+                        <div class="mb-6">
+                            <h4 class="text-white font-medium mb-3">New Applications</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-100">Individual Package</span>
+                                    <span class="font-bold text-tanzanian-green">AED 150</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-100">Family Package (2-5 members)</span>
+                                    <span class="font-bold text-tanzanian-blue">AED 400</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-100">Extended Family (6+ members)</span>
+                                    <span class="font-bold text-uae-red">AED 650</span>
+                                </div>
+                            </div>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-4">Trusted Service</h3>
-                        <p class="text-gray-100">Over 200 successful NIDA service completions</p>
+
+                        <!-- Renewals -->
+                        <div class="mb-6">
+                            <h4 class="text-white font-medium mb-3">Renewals</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-100">Individual Renewal</span>
+                                    <span class="font-bold text-tanzanian-green">AED 100</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-100">Family Renewal (2-5 members)</span>
+                                    <span class="font-bold text-tanzanian-blue">AED 280</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-100">Extended Family (6+ members)</span>
+                                    <span class="font-bold text-uae-red">AED 450</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Services Included -->
+                        <div>
+                            <h4 class="text-white font-medium mb-3">Services Included</h4>
+                            <ul class="text-gray-100 space-y-2 text-sm">
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-400 mr-2 flex-shrink-0"></i>
+                                    National ID renewal applications
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-400 mr-2 flex-shrink-0"></i>
+                                    New National ID applications
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-400 mr-2 flex-shrink-0"></i>
+                                    Individual and family packages
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-400 mr-2 flex-shrink-0"></i>
+                                    Document verification assistance
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-400 mr-2 flex-shrink-0"></i>
+                                    Personal consultation and guidance
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fas fa-check-circle text-green-400 mr-2 flex-shrink-0"></i>
+                                    Scheduled appointment assistance
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <a asp-controller="Home" asp-action="CommunityServices"
+                       class="inline-flex items-center px-8 py-4 bg-white text-tanzanian-blue font-semibold rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        <i class="fas fa-id-card mr-2"></i>
+                        Apply for NIDA Services
+                    </a>
+                </div>
+
+                <div class="relative">
+                    <div class="bg-white bg-opacity-10 rounded-3xl p-8 backdrop-blur-sm">
+                        <div class="text-center">
+                            <div class="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-check-circle text-white text-3xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-4">Trusted Service</h3>
+                            <p class="text-gray-100 mb-6">Over 200 successful NIDA service completions</p>
+
+                            <!-- Required Documents -->
+                            <div class="text-left">
+                                <h4 class="text-white font-semibold mb-3">Required Documents</h4>
+                                <ul class="text-gray-100 space-y-1 text-sm">
+                                    <li>• Valid passport</li>
+                                    <li>• Birth certificate</li>
+                                    <li>• Recent passport photos</li>
+                                    <li>• UAE residence visa</li>
+                                    <li>• Emirates ID</li>
+                                    <li>• Proof of UAE address</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+}
 
 <!-- Call to Action Section -->
 <div class="py-20 bg-white">

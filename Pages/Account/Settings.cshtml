@@ -1,0 +1,214 @@
+@page
+@model tae_app.Pages.Account.SettingsModel
+@{
+    ViewData["Title"] = "Settings - TDUAE";
+}
+
+<!-- Hero Section -->
+<section class="bg-gradient-to-br from-tanzanian-green via-tanzanian-blue to-uae-red text-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6">Account Settings</h1>
+        <p class="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed opacity-90">
+            Customize your experience and manage your service preferences
+        </p>
+    </div>
+</section>
+
+<!-- Settings Content -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <!-- Settings Header -->
+            <div class="bg-gradient-to-r from-tanzanian-blue to-tanzanian-green text-white p-6">
+                <h2 class="text-2xl font-bold">Service Preferences</h2>
+                <p class="text-blue-100 mt-2">Manage your service subscriptions and preferences</p>
+            </div>
+
+            <form method="post" class="p-8">
+                <!-- NIDA Services Section -->
+                <div class="mb-8">
+                    <div class="flex items-center justify-between p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border-l-4 border-tanzanian-blue">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-3">
+                                <i class="fas fa-id-card text-tanzanian-blue text-2xl mr-3"></i>
+                                <h3 class="text-xl font-bold text-gray-900">NIDA Services</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">
+                                Enable access to National Identification Authority (NIDA) document processing services including National ID applications and renewals.
+                            </p>
+
+                            <!-- Service Details -->
+                            <div class="grid md:grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <h4 class="font-semibold text-tanzanian-blue mb-2">Services Included:</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• National ID applications</li>
+                                        <li>• Document renewals</li>
+                                        <li>• Family packages</li>
+                                        <li>• Document verification</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-tanzanian-blue mb-2">Pricing:</h4>
+                                    <ul class="text-gray-600 space-y-1">
+                                        <li>• Individual: AED 150-100</li>
+                                        <li>• Family: AED 400-280</li>
+                                        <li>• Extended: AED 650-450</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Toggle Switch -->
+                        <div class="ml-6">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="EnableNidaServices" value="true"
+                                       class="sr-only peer" @(Model.EnableNidaServices ? "checked" : "")>
+                                <div class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-tanzanian-blue/25 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-tanzanian-green"></div>
+                                <span class="ml-3 text-sm font-medium text-gray-900">
+                                    @(Model.EnableNidaServices ? "Enabled" : "Disabled")
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Conditional Content Based on NIDA Setting -->
+                    @if (Model.EnableNidaServices)
+                    {
+                        <div class="mt-6 p-6 bg-green-50 rounded-xl border border-green-200">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-check-circle text-green-600 text-xl mr-2"></i>
+                                <h4 class="text-lg font-semibold text-green-800">NIDA Services Active</h4>
+                            </div>
+                            <p class="text-green-700 mb-4">
+                                You have access to all NIDA services. You can apply for National ID processing through our Community Services page.
+                            </p>
+                            <div class="flex flex-wrap gap-3">
+                                <a href="/Home/CommunityServices" class="inline-flex items-center px-4 py-2 bg-tanzanian-green text-white text-sm font-medium rounded-lg hover:bg-tanzanian-blue transition-colors">
+                                    <i class="fas fa-id-card mr-2"></i>
+                                    Apply for NIDA Services
+                                </a>
+                                <a href="/Services/NIDA" class="inline-flex items-center px-4 py-2 border border-tanzanian-green text-tanzanian-green text-sm font-medium rounded-lg hover:bg-tanzanian-green hover:text-white transition-colors">
+                                    <i class="fas fa-info-circle mr-2"></i>
+                                    Service Details
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mt-6 p-6 bg-gray-50 rounded-xl border border-gray-200">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-info-circle text-gray-600 text-xl mr-2"></i>
+                                <h4 class="text-lg font-semibold text-gray-800">NIDA Services Disabled</h4>
+                            </div>
+                            <p class="text-gray-700 mb-4">
+                                NIDA services are currently disabled. Enable this service to access National ID processing and document assistance.
+                            </p>
+                            <div class="text-sm text-gray-600">
+                                <strong>Note:</strong> You can enable NIDA services at any time to access our comprehensive document processing services.
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Other Settings Sections -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6">Communication Preferences</h3>
+
+                    <!-- Email Notifications -->
+                    <div class="mb-6 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border-l-4 border-purple-600">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-2">
+                                    <i class="fas fa-envelope text-purple-600 text-xl mr-3"></i>
+                                    <h4 class="text-lg font-semibold text-gray-900">Email Notifications</h4>
+                                </div>
+                                <p class="text-gray-600 text-sm">
+                                    Receive updates about events, services, and community news via email.
+                                </p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer ml-6">
+                                <input type="checkbox" name="EmailNotifications" value="true"
+                                       class="sr-only peer" checked>
+                                <div class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-purple-600"></div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- SMS Notifications -->
+                    <div class="mb-6 p-6 bg-gradient-to-r from-green-50 to-teal-50 rounded-xl border-l-4 border-teal-600">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-2">
+                                    <i class="fas fa-sms text-teal-600 text-xl mr-3"></i>
+                                    <h4 class="text-lg font-semibold text-gray-900">SMS Notifications</h4>
+                                </div>
+                                <p class="text-gray-600 text-sm">
+                                    Get important alerts and reminders via SMS for urgent services and appointments.
+                                </p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer ml-6">
+                                <input type="checkbox" name="SmsNotifications" value="true"
+                                       class="sr-only peer" checked>
+                                <div class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-teal-600"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Privacy Settings -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-gray-900 mb-6">Privacy & Security</h3>
+
+                    <!-- Profile Visibility -->
+                    <div class="mb-6 p-6 bg-gradient-to-r from-orange-50 to-red-50 rounded-xl border-l-4 border-orange-600">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-2">
+                                    <i class="fas fa-user-shield text-orange-600 text-xl mr-3"></i>
+                                    <h4 class="text-lg font-semibold text-gray-900">Profile Visibility</h4>
+                                </div>
+                                <p class="text-gray-600 text-sm">
+                                    Control who can see your profile information in the community directory.
+                                </p>
+                            </div>
+                            <select name="ProfileVisibility" class="ml-6 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                                <option value="public">Public</option>
+                                <option value="members">Members Only</option>
+                                <option value="private">Private</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-tanzanian-green to-tanzanian-blue text-white py-3 px-6 rounded-lg font-semibold hover:from-tanzanian-blue hover:to-uae-red transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-save mr-2"></i>
+                        Save Settings
+                    </button>
+                    <a href="/Account/Profile" class="flex-1 bg-gray-200 text-gray-700 py-3 px-6 rounded-lg font-semibold text-center hover:bg-gray-300 transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Back to Profile
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Help Section -->
+        <div class="mt-8 bg-gradient-to-r from-tanzanian-blue to-tanzanian-green text-white p-6 rounded-xl">
+            <div class="text-center">
+                <i class="fas fa-question-circle text-3xl mb-4"></i>
+                <h3 class="text-xl font-bold mb-2">Need Help?</h3>
+                <p class="mb-4 opacity-90">
+                    Have questions about your settings or need assistance with our services?
+                </p>
+                <a href="/Home/Contact" class="inline-flex items-center px-6 py-3 bg-white text-tanzanian-blue font-semibold rounded-lg hover:bg-gray-100 transition-colors">
+                    <i class="fas fa-envelope mr-2"></i>
+                    Contact Support
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

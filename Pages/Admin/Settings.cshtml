@@ -1,0 +1,345 @@
+@page
+@model tae_app.Pages.Admin.SettingsModel
+@{
+    ViewData["Title"] = "Admin Settings - TDUAE";
+    Layout = "_AdminLayout";
+}
+
+<!-- Page Header -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">System Settings</h1>
+            <p class="text-gray-600 mt-1">Manage system-wide settings and configurations</p>
+        </div>
+        <div class="flex items-center space-x-3">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                <i class="fas fa-circle text-green-500 mr-2 text-xs"></i>
+                System Active
+            </span>
+        </div>
+    </div>
+</div>
+
+<!-- Settings Tabs -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div class="border-b border-gray-200">
+        <nav class="flex">
+            <button class="tab-button active px-6 py-4 text-sm font-medium text-gray-900 border-b-2 border-tanzanian-blue" onclick="showTab('general')">
+                <i class="fas fa-cogs mr-2"></i>General Settings
+            </button>
+            <button class="tab-button px-6 py-4 text-sm font-medium text-gray-500 hover:text-gray-700" onclick="showTab('services')">
+                <i class="fas fa-concierge-bell mr-2"></i>Service Settings
+            </button>
+            <button class="tab-button px-6 py-4 text-sm font-medium text-gray-500 hover:text-gray-700" onclick="showTab('security')">
+                <i class="fas fa-shield-alt mr-2"></i>Security Settings
+            </button>
+            <button class="tab-button px-6 py-4 text-sm font-medium text-gray-500 hover:text-gray-700" onclick="showTab('notifications')">
+                <i class="fas fa-bell mr-2"></i>Notifications
+            </button>
+        </nav>
+    </div>
+
+    <form method="post" class="p-6">
+        <!-- General Settings Tab -->
+        <div id="general-tab" class="tab-content">
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Site Configuration</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Site Name</label>
+                            <input type="text" name="Input.SiteName" value="@Model.Input.SiteName"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-blue focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Site Description</label>
+                            <input type="text" name="Input.SiteDescription" value="@Model.Input.SiteDescription"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-blue focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Contact Email</label>
+                            <input type="email" name="Input.ContactEmail" value="@Model.Input.ContactEmail"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-blue focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Contact Phone</label>
+                            <input type="tel" name="Input.ContactPhone" value="@Model.Input.ContactPhone"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-blue focus:border-transparent">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Maintenance Mode</h3>
+                    <div class="flex items-center">
+                        <input type="checkbox" name="Input.MaintenanceMode" id="maintenanceMode"
+                               class="h-4 w-4 text-tanzanian-blue focus:ring-tanzanian-blue border-gray-300 rounded" @(Model.Input.MaintenanceMode ? "checked" : "")>
+                        <label for="maintenanceMode" class="ml-2 block text-sm text-gray-900">
+                            Enable maintenance mode (users will see a maintenance page)
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service Settings Tab -->
+        <div id="services-tab" class="tab-content hidden">
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">NIDA Services Configuration</h3>
+
+                    <!-- NIDA Service Toggle -->
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border-l-4 border-tanzanian-blue">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-3">
+                                    <i class="fas fa-id-card text-tanzanian-blue text-2xl mr-3"></i>
+                                    <div>
+                                        <h4 class="text-lg font-bold text-gray-900">NIDA Services</h4>
+                                        <p class="text-gray-600">Enable/disable NIDA document processing services system-wide</p>
+                                    </div>
+                                </div>
+                                <div class="ml-11">
+                                    <p class="text-sm text-gray-600 mb-2">
+                                        When enabled, users can access National ID application and renewal services.
+                                        When disabled, NIDA-related content and links will be hidden from the website.
+                                    </p>
+                                    <div class="text-xs text-gray-500">
+                                        <strong>Current Status:</strong>
+                                        <span class="text-tanzanian-green font-medium">@(Model.Input.NidaServicesEnabled ? "Enabled" : "Disabled")</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Toggle Switch -->
+                            <div class="ml-6">
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" name="Input.NidaServicesEnabled" value="true"
+                                           class="sr-only peer" @(Model.Input.NidaServicesEnabled ? "checked" : "")>
+                                    <div class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-tanzanian-blue/25 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-tanzanian-green"></div>
+                                    <span class="ml-3 text-sm font-medium text-gray-900">
+                                        @(Model.Input.NidaServicesEnabled ? "Enabled" : "Disabled")
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Service Configuration -->
+                        @if (Model.Input.NidaServicesEnabled)
+                        {
+                            <div class="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
+                                <h5 class="font-semibold text-green-800 mb-3">Service Configuration</h5>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Processing Fee (Individual)</label>
+                                        <input type="number" name="Input.NidaIndividualFee" value="@Model.Input.NidaIndividualFee"
+                                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-blue focus:border-transparent"
+                                               step="0.01" min="0">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Processing Fee (Family)</label>
+                                        <input type="number" name="Input.NidaFamilyFee" value="@Model.Input.NidaFamilyFee"
+                                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-blue focus:border-transparent"
+                                               step="0.01" min="0">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Processing Time (Days)</label>
+                                        <input type="number" name="Input.NidaProcessingTime" value="@Model.Input.NidaProcessingTime"
+                                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-blue focus:border-transparent"
+                                               min="1">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Max Applications/Day</label>
+                                        <input type="number" name="Input.NidaMaxApplications" value="@Model.Input.NidaMaxApplications"
+                                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-blue focus:border-transparent"
+                                               min="1">
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Other Services -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Other Services</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-gray-900">Job Portal</h4>
+                                <p class="text-sm text-gray-600">Enable job posting and application system</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="Input.JobPortalEnabled" value="true" @(Model.Input.JobPortalEnabled ? "checked" : "")
+                                       class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-tanzanian-blue/25 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-tanzanian-green"></div>
+                            </label>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-gray-900">Events System</h4>
+                                <p class="text-sm text-gray-600">Enable event creation and management</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="Input.EventsEnabled" value="true" @(Model.Input.EventsEnabled ? "checked" : "")
+                                       class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-tanzanian-blue/25 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-tanzanian-green"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Settings Tab -->
+        <div id="security-tab" class="tab-content hidden">
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Password Policy</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <input type="checkbox" name="Input.RequireStrongPassword" @(Model.Input.RequireStrongPassword ? "checked" : "")
+                                   class="h-4 w-4 text-tanzanian-blue focus:ring-tanzanian-blue border-gray-300 rounded">
+                            <label class="ml-2 block text-sm text-gray-900">
+                                Require strong passwords (minimum 8 characters, mixed case, numbers, symbols)
+                            </label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" name="Input.PasswordExpiration" @(Model.Input.PasswordExpiration ? "checked" : "")
+                                   class="h-4 w-4 text-tanzanian-blue focus:ring-tanzanian-blue border-gray-300 rounded">
+                            <label class="ml-2 block text-sm text-gray-900">
+                                Password expiration (90 days)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Session Management</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Session Timeout (minutes)</label>
+                            <input type="number" name="Input.SessionTimeout" value="@Model.Input.SessionTimeout"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-blue focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Max Login Attempts</label>
+                            <input type="number" name="Input.MaxLoginAttempts" value="@Model.Input.MaxLoginAttempts"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-blue focus:border-transparent">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications Tab -->
+        <div id="notifications-tab" class="tab-content hidden">
+            <div class="space-y-6">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Email Notifications</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-gray-900">New Member Registration</h4>
+                                <p class="text-sm text-gray-600">Send notification when new member registers</p>
+                            </div>
+                            <input type="checkbox" name="Input.NotifyNewRegistration" @(Model.Input.NotifyNewRegistration ? "checked" : "")
+                                   class="h-5 w-5 text-tanzanian-blue focus:ring-tanzanian-blue border-gray-300 rounded">
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-gray-900">NIDA Application Submitted</h4>
+                                <p class="text-sm text-gray-600">Send notification when NIDA application is submitted</p>
+                            </div>
+                            <input type="checkbox" name="Input.NotifyNidaApplication" @(Model.Input.NotifyNidaApplication ? "checked" : "")
+                                   class="h-5 w-5 text-tanzanian-blue focus:ring-tanzanian-blue border-gray-300 rounded">
+                        </input>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Admin Alerts</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-gray-900">System Errors</h4>
+                                <p class="text-sm text-gray-600">Send alerts for system errors and issues</p>
+                            </div>
+                            <input type="checkbox" name="Input.AlertSystemErrors" @(Model.Input.AlertSystemErrors ? "checked" : "")
+                                   class="h-5 w-5 text-tanzanian-blue focus:ring-tanzanian-blue border-gray-300 rounded">
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-gray-900">Security Threats</h4>
+                                <p class="text-sm text-gray-600">Send alerts for security threats and suspicious activities</p>
+                            </div>
+                            <input type="checkbox" name="Input.AlertSecurityThreats" @(Model.Input.AlertSecurityThreats ? "checked" : "")
+                                   class="h-5 w-5 text-tanzanian-blue focus:ring-tanzanian-blue border-gray-300 rounded">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons - Always Visible -->
+        <div class="action-buttons flex justify-end space-x-4 pt-6 border-t border-gray-200 mt-8 bg-white px-6 py-4 rounded-b-lg">
+            <button type="button" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                <i class="fas fa-undo mr-2"></i>Reset to Defaults
+            </button>
+            <button type="submit" class="px-6 py-2 bg-tanzanian-blue text-white rounded-lg hover:bg-tanzanian-green transition-colors">
+                <i class="fas fa-save mr-2"></i>Save Settings
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function showTab(tabName) {
+        // Hide all tabs
+        const tabs = document.querySelectorAll('.tab-content');
+        tabs.forEach(tab => tab.classList.add('hidden'));
+
+        // Remove active class from all buttons
+        const buttons = document.querySelectorAll('.tab-button');
+        buttons.forEach(button => {
+            button.classList.remove('active', 'text-gray-900', 'border-tanzanian-blue');
+            button.classList.add('text-gray-500');
+        });
+
+        // Show selected tab
+        document.getElementById(tabName + '-tab').classList.remove('hidden');
+
+        // Add active class to clicked button
+        event.target.classList.add('active', 'text-gray-900', 'border-tanzanian-blue');
+        event.target.classList.remove('text-gray-500');
+    }
+</script>
+
+<style>
+    .tab-button.active {
+        color: #1f2937 !important;
+        border-bottom-color: #00B04F !important;
+    }
+
+    .tab-content {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    /* Ensure action buttons are always visible */
+    .action-buttons {
+        position: sticky;
+        bottom: 0;
+        background: white;
+        border-top: 1px solid #e5e7eb;
+        z-index: 10;
+    }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>

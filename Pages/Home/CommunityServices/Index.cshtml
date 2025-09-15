@@ -1,4 +1,5 @@
 @page
+@model tae_app.Pages.Home.CommunityServices.IndexModel
 @{
     ViewData["Title"] = "Community Services - TDUAE";
 }
@@ -230,39 +231,151 @@
                 </button>
             </div>
 
-            <!-- Volunteer Coordination -->
-            <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
-                <div class="text-center mb-6">
-                    <div class="w-16 h-16 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-users text-white text-2xl"></i>
+            <!-- NIDA Services -->
+            @if (Model.ShowNidaServices)
+            {
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-id-card text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">NIDA Services</h3>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Volunteer Coordination</h3>
+                    <ul class="space-y-3 text-sm text-gray-600 mb-6">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span>National ID renewal applications</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span>New National ID applications</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span>Individual and family packages</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span>Document verification assistance</span>
+                        </li>
+                    </ul>
+                    <button class="w-full bg-green-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 transition-all duration-300">
+                        Apply Now
+                    </button>
                 </div>
-                <ul class="space-y-3 text-sm text-gray-600 mb-6">
-                    <li class="flex items-start">
-                        <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
-                        <span>Community outreach programs</span>
-                    </li>
-                    <li class="flex items-start">
-                        <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
-                        <span>Charity event organization</span>
-                    </li>
-                    <li class="flex items-start">
-                        <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
-                        <span>Fundraising campaigns</span>
-                    </li>
-                    <li class="flex items-start">
-                        <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
-                        <span>Skill-based volunteering</span>
-                    </li>
-                </ul>
-                <button class="w-full bg-teal-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-teal-700 transition-all duration-300">
-                    Volunteer Now
-                </button>
-            </div>
+            }
         </div>
     </div>
 </section>
+
+<!-- NIDA Services Section -->
+@if (Model.ShowNidaServices)
+{
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">
+                    NIDA <span class="text-tanzanian-green">Services</span>
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Streamlined National ID application and renewal services for Tanzanians in the UAE
+                </p>
+            </div>
+
+            <!-- Application Types -->
+            <div class="grid md:grid-cols-2 gap-8 mb-16">
+                <!-- New Application -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 bg-gradient-to-r from-tanzanian-green to-tanzanian-blue rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-plus-circle text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">New Application</h3>
+                        <p class="text-gray-600">First-time National ID registration for Tanzanian citizens</p>
+                    </div>
+
+                    <div class="space-y-4 mb-8">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Individual Package</span>
+                            <span class="font-bold text-tanzanian-green">AED 150</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Family Package (2-5 members)</span>
+                            <span class="font-bold text-tanzanian-blue">AED 400</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Extended Family (6+ members)</span>
+                            <span class="font-bold text-uae-red">AED 650</span>
+                        </div>
+                    </div>
+
+                    <button class="w-full bg-tanzanian-green text-white py-3 px-6 rounded-lg font-semibold hover:bg-tanzanian-blue transition-all duration-300">
+                        Start New Application
+                    </button>
+                </div>
+
+                <!-- Renewal Application -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 bg-gradient-to-r from-tanzanian-blue to-uae-red rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-sync-alt text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Renewal Application</h3>
+                        <p class="text-gray-600">Renew your existing National ID card</p>
+                    </div>
+
+                    <div class="space-y-4 mb-8">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Individual Renewal</span>
+                            <span class="font-bold text-tanzanian-green">AED 100</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Family Renewal (2-5 members)</span>
+                            <span class="font-bold text-tanzanian-blue">AED 280</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Extended Family (6+ members)</span>
+                            <span class="font-bold text-uae-red">AED 450</span>
+                        </div>
+                    </div>
+
+                    <button class="w-full bg-tanzanian-blue text-white py-3 px-6 rounded-lg font-semibold hover:bg-uae-red transition-all duration-300">
+                        Start Renewal
+                    </button>
+                </div>
+            </div>
+
+            <!-- Required Documents -->
+            <div class="bg-white p-8 rounded-2xl shadow-lg">
+                <h3 class="text-2xl font-bold text-gray-900 mb-8 text-center">Required Documents</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-semibold text-lg text-tanzanian-blue mb-4">For Individual Applications</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• Valid passport</li>
+                            <li>• Birth certificate</li>
+                            <li>• Recent passport-sized photos (2)</li>
+                            <li>• UAE residence visa (if applicable)</li>
+                            <li>• Emirates ID</li>
+                            <li>• Proof of address in UAE</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-lg text-tanzanian-green mb-4">For Family Applications</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• All individual documents above</li>
+                            <li>• Marriage certificate (for spouse)</li>
+                            <li>• Birth certificates for children under 21</li>
+                            <li>• Parent consent for children 18-21</li>
+                            <li>• Family relationship proof</li>
+                            <li>• Additional photos for each member</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
 
 <!-- How to Get Involved -->
 <section class="py-20 bg-white">
