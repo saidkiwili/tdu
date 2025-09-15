@@ -117,17 +117,20 @@ namespace tae_app.Pages.Admin.Roles
                     var nameKey = "CreateRole.Name";
                     if (string.IsNullOrWhiteSpace(CreateRole?.Name) && Request.Form.ContainsKey(nameKey))
                     {
-                        CreateRole.Name = Request.Form[nameKey];
+                        CreateRole.Name = Request.Form[nameKey].ToString() ?? "";
                     }
                     var permsKey = "CreateRole.SelectedPermissions";
                     if ((CreateRole?.SelectedPermissions == null || !CreateRole.SelectedPermissions.Any()) && Request.Form.ContainsKey(permsKey))
                     {
-                        CreateRole.SelectedPermissions = Request.Form[permsKey].ToList();
+                        CreateRole.SelectedPermissions = Request.Form[permsKey].Select(x => x.ToString() ?? "").ToList();
                     }
 
                     // Re-run validation for CreateRole
                     ModelState.Clear();
-                    TryValidateModel(CreateRole, nameof(CreateRole));
+                    if (CreateRole != null)
+                    {
+                        TryValidateModel(CreateRole, nameof(CreateRole));
+                    }
                 }
 
                 // If still invalid, return errors
@@ -213,20 +216,23 @@ namespace tae_app.Pages.Admin.Roles
                     var permsKey = "EditRole.SelectedPermissions";
                     if (string.IsNullOrWhiteSpace(EditRole?.Id) && Request.Form.ContainsKey(idKey))
                     {
-                        EditRole.Id = Request.Form[idKey];
+                        EditRole.Id = Request.Form[idKey].ToString() ?? "";
                     }
                     if (string.IsNullOrWhiteSpace(EditRole?.Name) && Request.Form.ContainsKey(nameKey))
                     {
-                        EditRole.Name = Request.Form[nameKey];
+                        EditRole.Name = Request.Form[nameKey].ToString() ?? "";
                     }
                     if ((EditRole?.SelectedPermissions == null || !EditRole.SelectedPermissions.Any()) && Request.Form.ContainsKey(permsKey))
                     {
-                        EditRole.SelectedPermissions = Request.Form[permsKey].ToList();
+                        EditRole.SelectedPermissions = Request.Form[permsKey].Select(x => x.ToString() ?? "").ToList();
                     }
 
                     // Re-run validation for EditRole
                     ModelState.Clear();
-                    TryValidateModel(EditRole, nameof(EditRole));
+                    if (EditRole != null)
+                    {
+                        TryValidateModel(EditRole, nameof(EditRole));
+                    }
                 }
 
                 if (isAjax)

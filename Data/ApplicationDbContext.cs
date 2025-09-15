@@ -92,11 +92,15 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Member> Members { get; set; }
     public DbSet<Appointment> Appointments { get; set; }
     public DbSet<Job> Jobs { get; set; }
+    public DbSet<JobCategory> JobCategories { get; set; }
     public DbSet<JobApplication> JobApplications { get; set; }
+    public DbSet<AttachmentType> AttachmentTypes { get; set; }
+    public DbSet<ApplicationAttachment> ApplicationAttachments { get; set; }
     public DbSet<Event> Events { get; set; }
     public DbSet<EventFormField> EventFormFields { get; set; }
     public DbSet<EventRegistration> EventRegistrations { get; set; }
     public DbSet<EmailSetting> EmailSettings { get; set; }
+    public DbSet<OtpVerification> OtpVerifications { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -107,7 +111,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         {
             entity.HasIndex(e => e.MemberId).IsUnique();
             entity.HasIndex(e => e.EmailAddress).IsUnique();
-            entity.HasIndex(e => e.PhoneNumber);
+            entity.HasIndex(e => e.PhoneNumber).IsUnique();
+            entity.HasIndex(e => e.EmiratesId).IsUnique();
             
             entity.Property(e => e.AmountPaid).HasPrecision(18, 2);
 
@@ -128,6 +133,19 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         });
 
         // Job configurations
+        builder.Entity<Job>(entity =>
+        {
+            entity.HasOne(j => j.JobCategory)
+                .WithMany(jc => jc.Jobs)
+                .HasForeignKey(j => j.JobCategoryId)
+                .OnDelete(DeleteBehavior.SetNull);
+        });
+
+        builder.Entity<JobCategory>(entity =>
+        {
+            entity.HasIndex(e => e.Name).IsUnique();
+        });
+
         builder.Entity<JobApplication>(entity =>
         {
             entity.HasOne(ja => ja.Job)
@@ -139,6 +157,24 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
                 .WithMany(m => m.JobApplications)
                 .HasForeignKey(ja => ja.MemberId)
                 .OnDelete(DeleteBehavior.SetNull);
+        });
+
+        builder.Entity<AttachmentType>(entity =>
+        {
+            entity.HasIndex(e => e.Name).IsUnique();
+        });
+
+        builder.Entity<ApplicationAttachment>(entity =>
+        {
+            entity.HasOne(aa => aa.JobApplication)
+                .WithMany(ja => ja.Attachments)
+                .HasForeignKey(aa => aa.JobApplicationId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(aa => aa.AttachmentType)
+                .WithMany(at => at.Attachments)
+                .HasForeignKey(aa => aa.AttachmentTypeId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         // Event configurations
@@ -164,6 +200,30 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
             // Ensure one registration per member per event
             entity.HasIndex(e => new { e.EventId, e.MemberId }).IsUnique();
+        });
+
+        // OTP Verification configurations
+        builder.Entity<OtpVerification>(entity =>
+        {
+            entity.HasIndex(e => e.Code).IsUnique();
+            entity.HasIndex(e => new { e.Email, e.IsUsed });
+            entity.HasIndex(e => e.ExpiresAt);
+
+            entity.Property(e => e.Code).HasMaxLength(4);
+            entity.Property(e => e.Email).HasMaxLength(256);
+        });
+
+        // Email Settings configurations
+        builder.Entity<EmailSetting>(entity =>
+        {
+            entity.HasIndex(e => e.IsActive)
+                .HasFilter("[IsActive] = 1");
+
+            entity.Property(e => e.SmtpServer).HasMaxLength(255);
+            entity.Property(e => e.Username).HasMaxLength(255);
+            entity.Property(e => e.Password).HasMaxLength(255);
+            entity.Property(e => e.FromAddress).HasMaxLength(255);
+            entity.Property(e => e.FromName).HasMaxLength(255);
         });
     }
 }

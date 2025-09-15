@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using tae_app.Models;
 using tae_app.Data;
+using tae_app.Services;
 
 namespace tae_app.Pages.Account;
 
@@ -111,8 +112,8 @@ public class RegisterModel : PageModel
         [Display(Name = "Company Name")]
         public string? CompanyName { get; set; }
 
-        // TAE Information
-        [Display(Name = "Do you know about TAE?")]
+        // TDUAE Information
+        [Display(Name = "Do you know about TDUAE?")]
         public bool DoYouKnowAboutTAE { get; set; }
 
         [Display(Name = "Any advice or comments?")]
@@ -162,93 +163,100 @@ public class RegisterModel : PageModel
             return Page();
         }
 
+        // Validate uniqueness constraints
+        var existingMemberByEmail = await _context.Members
+            .FirstOrDefaultAsync(m => m.EmailAddress.ToLower() == Input.Email.ToLower());
+        if (existingMemberByEmail != null)
+        {
+            ModelState.AddModelError("Input.Email", "An account with this email address already exists.");
+            return Page();
+        }
+
+        var existingMemberByPhone = await _context.Members
+            .FirstOrDefaultAsync(m => m.PhoneNumber == Input.PhoneNumber);
+        if (existingMemberByPhone != null)
+        {
+            ModelState.AddModelError("Input.PhoneNumber", "An account with this phone number already exists.");
+            return Page();
+        }
+
+        if (!string.IsNullOrEmpty(Input.EmiratesId))
+        {
+            var existingMemberByEmiratesId = await _context.Members
+                .FirstOrDefaultAsync(m => m.EmiratesId == Input.EmiratesId);
+            if (existingMemberByEmiratesId != null)
+            {
+                ModelState.AddModelError("Input.EmiratesId", "An account with this Emirates ID already exists.");
+                return Page();
+            }
+        }
+
         try
         {
-            // Create ApplicationUser
-            var user = new ApplicationUser
+            // Generate Member ID
+            var year = DateTime.Now.Year;
+            var count = await _context.Members.CountAsync() + 1;
+            var memberId = $"TAE-{year}-{count:D4}";
+
+            // Prepare registration data for temporary storage
+            var registrationData = new
             {
-                UserName = Input.Email,
-                Email = Input.Email,
                 FirstName = Input.FirstName,
+                MiddleName = Input.MiddleName,
                 LastName = Input.LastName,
-                EmailConfirmed = true, // Auto-confirm for now
-                IsActive = true,
-                CreatedAt = DateTime.UtcNow
+                DateOfBirth = Input.DateOfBirth,
+                Gender = Input.Gender,
+                Nationality = Input.Nationality,
+                Email = Input.Email,
+                PhoneNumber = Input.PhoneNumber,
+                Address = Input.Address,
+                Emirate = Input.Emirate,
+                City = Input.City,
+                PassportNumber = Input.PassportNumber,
+                EmiratesId = Input.EmiratesId,
+                VisaType = Input.VisaType,
+                EmploymentStatus = Input.EmploymentStatus,
+                CompanyName = Input.CompanyName,
+                DoYouKnowAboutTAE = Input.DoYouKnowAboutTAE,
+                Advice = Input.Advice,
+                OptInNidaService = Input.OptInNidaService,
+                Password = Input.Password,
+                MemberId = memberId,
+                VisaIdFileName = Input.VisaIdFile?.FileName,
+                VisaIdFileContent = Input.VisaIdFile != null ? await ConvertFileToBase64(Input.VisaIdFile) : null
             };
 
-            var result = await _userManager.CreateAsync(user, Input.Password);
+            // Serialize registration data
+            var registrationJson = System.Text.Json.JsonSerializer.Serialize(registrationData);
 
-            if (result.Succeeded)
+            // Generate and send OTP
+            var otpService = HttpContext.RequestServices.GetRequiredService<IOtpService>();
+            var otp = await otpService.GenerateOtpAsync(Input.Email);
+
+            // Store registration data in OTP record
+            var otpRecord = await _context.OtpVerifications
+                .FirstOrDefaultAsync(o => o.Email == Input.Email && !o.IsUsed);
+
+            if (otpRecord != null)
             {
-                _logger.LogInformation("User created a new account with password.");
-
-                // Assign "Member" role to the new user
-                await _userManager.AddToRoleAsync(user, "Member");
-
-                // Generate Member ID
-                var year = DateTime.Now.Year;
-                var count = await _context.Members.CountAsync() + 1;
-                var memberId = $"TAE-{year}-{count:D4}";
-
-                // Handle file upload
-                string? visaIdFilePath = null;
-                if (Input.VisaIdFile != null)
-                {
-                    visaIdFilePath = await SaveVisaIdFile(Input.VisaIdFile, memberId);
-                }
-
-                // Create Member record
-                var member = new Member
-                {
-                    MemberId = memberId,
-                    ApplicationUserId = user.Id,
-                    FirstName = Input.FirstName,
-                    MiddleName = Input.MiddleName,
-                    LastName = Input.LastName,
-                    DateOfBirth = Input.DateOfBirth.HasValue ? DateTime.SpecifyKind(Input.DateOfBirth.Value, DateTimeKind.Utc) : null,
-                    Gender = Input.Gender,
-                    Nationality = Input.Nationality,
-                    EmailAddress = Input.Email,
-                    PhoneNumber = Input.PhoneNumber,
-                    Address = Input.Address,
-                    Emirate = Input.Emirate,
-                    City = Input.City,
-                    PassportNumber = Input.PassportNumber,
-                    EmiratesId = Input.EmiratesId,
-                    VisaType = Input.VisaType,
-                    VisaIdFilePath = visaIdFilePath,
-                    EmploymentStatus = Input.EmploymentStatus,
-                    CompanyName = Input.CompanyName,
-                    DoYouKnowAboutTAE = Input.DoYouKnowAboutTAE,
-                    Advice = Input.Advice,
-                    OptInNidaService = Input.OptInNidaService,
-                    CreatedAt = DateTime.UtcNow,
-                    // Auto-approve new registrations by default
-                    NidaServiceStatus = NidaServiceStatus.Completed
-                };
-
-                _context.Members.Add(member);
+                otpRecord.RegistrationData = registrationJson;
                 await _context.SaveChangesAsync();
-
-                // Sign in the user
-                await _signInManager.SignInAsync(user, isPersistent: false);
-
-                TempData["SuccessMessage"] = $"Welcome to TAE! Your member ID is: {memberId}";
-                return RedirectToPage("/Index");
             }
 
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
+            // Send OTP email
+            await otpService.SendOtpEmailAsync(Input.Email, otp);
+
+            _logger.LogInformation("OTP sent to email: {Email} for registration", Input.Email);
+
+            // Don't show success message here - show it after OTP verification
+            return RedirectToPage("/Account/VerifyOtp", new { email = Input.Email });
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error creating user account");
-            ModelState.AddModelError(string.Empty, "An error occurred while creating your account. Please try again.");
+            _logger.LogError(ex, "Error sending OTP for email: {Email}", Input.Email);
+            ModelState.AddModelError("", "An error occurred while sending the verification code. Please try again.");
+            return Page();
         }
-
-        return Page();
     }
 
     private async Task LoadStaticData()
@@ -304,5 +312,15 @@ public class RegisterModel : PageModel
         }
 
         return Path.Combine("uploads", "visa-ids", DateTime.Now.Year.ToString(), fileName);
+    }
+
+    private async Task<string> ConvertFileToBase64(IFormFile file)
+    {
+        using (var memoryStream = new MemoryStream())
+        {
+            await file.CopyToAsync(memoryStream);
+            var fileBytes = memoryStream.ToArray();
+            return Convert.ToBase64String(fileBytes);
+        }
     }
 }

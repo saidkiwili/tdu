@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "UPMaTFhs9WxZ53w7gVdJ/elT0cwO0sXB8J+EouugKpA=",
+  "Hash": "m/dD7VzQl8C91XG+vuuQ88raVMicmNz2JIbZuH9U8Bw=",
   "Source": "tae_app",
   "BasePath": "_content/tae_app",
   "Mode": "Default",
@@ -1252,6 +1252,25 @@
       "OriginalItemSpec": "wwwroot/lib/jquery/LICENSE.txt"
     },
     {
+      "Identity": "/Users/admin/Documents/projects/tae_projects/tae_app/wwwroot/uploads/visa-ids/2025/TAE-2025-0001_096c9b80-fa34-4722-828e-ed4e399e6fc1.pdf",
+      "SourceId": "tae_app",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Documents/projects/tae_projects/tae_app/wwwroot/",
+      "BasePath": "_content/tae_app",
+      "RelativePath": "uploads/visa-ids/2025/TAE-2025-0001_096c9b80-fa34-4722-828e-ed4e399e6fc1.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/visa-ids/2025/TAE-2025-0001_096c9b80-fa34-4722-828e-ed4e399e6fc1.pdf"
+    },
+    {
       "Identity": "/Users/admin/Documents/projects/tae_projects/tae_app/wwwroot/uploads/visa-ids/2025/TAE-2025-0001_35571fbc-377f-4104-aca4-581f94cfa0b9.pdf",
       "SourceId": "tae_app",
       "SourceType": "Discovered",
@@ -1307,6 +1326,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/uploads/visa-ids/2025/TAE-2025-0002_a5419797-70a2-4f3d-98c6-aa1f8f910c8b.pdf"
+    },
+    {
+      "Identity": "/Users/admin/Documents/projects/tae_projects/tae_app/wwwroot/uploads/visa-ids/2025/TAE-2025-0003_e15c7d73-1cd8-44fc-b4bd-af76e768d23b.pdf",
+      "SourceId": "tae_app",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/admin/Documents/projects/tae_projects/tae_app/wwwroot/",
+      "BasePath": "_content/tae_app",
+      "RelativePath": "uploads/visa-ids/2025/TAE-2025-0003_e15c7d73-1cd8-44fc-b4bd-af76e768d23b.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/visa-ids/2025/TAE-2025-0003_e15c7d73-1cd8-44fc-b4bd-af76e768d23b.pdf"
     }
   ]
 }

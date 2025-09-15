@@ -30,6 +30,10 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWNjb3VudC9DaGFuZ2VQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Account/CompleteRegistration.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWNjb3VudC9Db21wbGV0ZVJlZ2lzdHJhdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Account/EditProfile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWNjb3VudC9FZGl0UHJvZmlsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -54,6 +58,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWNjb3VudC9SZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Account/VerifyOtp.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWNjb3VudC9WZXJpZnlPdHAuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Admin/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -64,6 +72,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Admin/EmailConfig/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vRW1haWxDb25maWcvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Admin/JobApplications/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vSm9iQXBwbGljYXRpb25zL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Admin/Jobs/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vSm9icy9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Admin/Members.cshtml]
@@ -106,6 +122,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vUm9sZXMvX1JvbGVGb3JtLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Admin/Settings.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vU2V0dGluZ3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Admin/Users.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vVXNlcnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -126,6 +146,54 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Home/About/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9BYm91dC9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Home/BusinessOpportunities/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9CdXNpbmVzc09wcG9ydHVuaXRpZXMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Home/CommunityServices/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9Db21tdW5pdHlTZXJ2aWNlcy9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Home/Contact/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9Db250YWN0L0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Home/CultureHeritage/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9DdWx0dXJlSGVyaXRhZ2UvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Home/EventsActivities/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9FdmVudHNBY3Rpdml0aWVzL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Home/KnowledgeBase/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9Lbm93bGVkZ2VCYXNlL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Home/Media/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9NZWRpYS9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Home/Membership/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9NZW1iZXJzaGlwL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Home/Resources/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9SZXNvdXJjZXMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Home/SafetyAwareness/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9TYWZldHlBd2FyZW5lc3MvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Home/YouthStudents/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS9Zb3V0aFN0dWRlbnRzL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -134,12 +202,36 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXhfTW9kZXJuLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Jobs/Apply.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSm9icy9BcHBseS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Jobs/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSm9icy9EZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Jobs/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSm9icy9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Services/NIDA.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2VydmljZXMvTklEQS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Shared/Components/NidaServiceLinks/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL0NvbXBvbmVudHMvTmlkYVNlcnZpY2VMaW5rcy9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Shared/Components/NidaServiceLinks/Footer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL0NvbXBvbmVudHMvTmlkYVNlcnZpY2VMaW5rcy9Gb290ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Shared/Components/NidaServiceLinks/Mobile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL0NvbXBvbmVudHMvTmlkYVNlcnZpY2VMaW5rcy9Nb2JpbGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/admin/Documents/projects/tae_projects/tae_app/Pages/Shared/_AdminLayout.cshtml]
@@ -178,8 +270,56 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vTWVtYmVycy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/admin/Documents/projects/tae_projects/tae_app/Views/Home/About.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9BYm91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Views/Home/Business.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9CdXNpbmVzcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Views/Home/Contact.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Db250YWN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Views/Home/Events.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9FdmVudHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/admin/Documents/projects/tae_projects/tae_app/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Views/Home/Jobs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Kb2JzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Views/Home/KnowledgeBase.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Lbm93bGVkZ2VCYXNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Views/Home/Media.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9NZWRpYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Views/Jobs/Apply.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSm9icy9BcHBseS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Views/Jobs/Categories.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSm9icy9DYXRlZ29yaWVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Views/Jobs/Category.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSm9icy9DYXRlZ29yeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Views/Jobs/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSm9icy9EZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/admin/Documents/projects/tae_projects/tae_app/Views/Jobs/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSm9icy9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/admin/Documents/projects/tae_projects/tae_app/Views/Registration/AppointmentConfirmation.cshtml]
@@ -200,14 +340,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/admin/Documents/projects/tae_projects/tae_app/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/admin/Documents/projects/tae_projects/tae_app/Views/Shared/_Layout_Clean.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXRfQ2xlYW4uY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/admin/Documents/projects/tae_projects/tae_app/Views/Shared/_Layout_Modern.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXRfTW9kZXJuLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/admin/Documents/projects/tae_projects/tae_app/Views/Shared/_Layout_New.cshtml]

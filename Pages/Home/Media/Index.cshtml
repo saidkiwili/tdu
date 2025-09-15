@@ -1,0 +1,466 @@
+@page
+@{
+    ViewData["Title"] = "Media Gallery - TDUAE";
+}
+
+<!-- Hero Section -->
+<section class="bg-gradient-to-br from-tanzanian-blue via-uae-red to-tanzanian-green text-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6">Media Gallery</h1>
+        <p class="text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed opacity-90">
+            Explore our collection of photos, videos, and stories showcasing the vibrant Tanzanian community in the UAE
+        </p>
+    </div>
+</section>
+
+<!-- Gallery Navigation -->
+<section class="py-12 bg-white border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap justify-center space-x-4 space-y-4 sm:space-y-0">
+            <button class="gallery-filter active bg-tanzanian-blue text-white px-6 py-3 rounded-lg font-semibold hover:bg-tanzanian-green transition-all duration-300" data-filter="all">
+                All Media
+            </button>
+            <button class="gallery-filter bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-tanzanian-blue hover:text-white transition-all duration-300" data-filter="events">
+                Events
+            </button>
+            <button class="gallery-filter bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-tanzanian-blue hover:text-white transition-all duration-300" data-filter="cultural">
+                Cultural
+            </button>
+            <button class="gallery-filter bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-tanzanian-blue hover:text-white transition-all duration-300" data-filter="business">
+                Business
+            </button>
+            <button class="gallery-filter bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-tanzanian-blue hover:text-white transition-all duration-300" data-filter="community">
+                Community
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Gallery -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-900 mb-6">
+                Featured <span class="text-tanzanian-blue">Moments</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Highlights from our most memorable community events and celebrations
+            </p>
+        </div>
+
+        <!-- Featured Image/Video -->
+        <div class="mb-12">
+            <div class="relative bg-gray-900 rounded-2xl overflow-hidden shadow-2xl">
+                <div class="aspect-w-16 aspect-h-9 bg-gradient-to-r from-tanzanian-green to-tanzanian-blue flex items-center justify-center">
+                    <div class="text-center text-white">
+                        <i class="fas fa-play-circle text-6xl mb-4 opacity-80"></i>
+                        <h3 class="text-2xl font-bold mb-2">Tanzanian Independence Day 2024</h3>
+                        <p class="text-lg opacity-90">Watch the highlights from our grand celebration</p>
+                    </div>
+                </div>
+                <div class="absolute bottom-6 left-6 right-6">
+                    <div class="flex items-center justify-between text-white">
+                        <div class="flex items-center">
+                            <i class="fas fa-eye mr-2"></i>
+                            <span>2.5K views</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-calendar mr-2"></i>
+                            <span>December 9, 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Image 1 -->
+            <div class="gallery-item bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300" data-category="cultural">
+                <div class="aspect-w-4 aspect-h-3 bg-gradient-to-r from-tanzanian-green to-tanzanian-blue flex items-center justify-center">
+                    <i class="fas fa-image text-white text-4xl"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-900 mb-2">Cultural Dance Performance</h3>
+                    <p class="text-gray-600 text-sm mb-3">Traditional Tanzanian dances at our annual festival</p>
+                    <div class="flex items-center justify-between text-xs text-gray-500">
+                        <span>December 2024</span>
+                        <span>245 likes</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image 2 -->
+            <div class="gallery-item bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300" data-category="events">
+                <div class="aspect-w-4 aspect-h-3 bg-gradient-to-r from-tanzanian-blue to-uae-red flex items-center justify-center">
+                    <i class="fas fa-image text-white text-4xl"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-900 mb-2">Business Networking Mixer</h3>
+                    <p class="text-gray-600 text-sm mb-3">Entrepreneurs connecting at our monthly networking event</p>
+                    <div class="flex items-center justify-between text-xs text-gray-500">
+                        <span>March 2024</span>
+                        <span>189 likes</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image 3 -->
+            <div class="gallery-item bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300" data-category="community">
+                <div class="aspect-w-4 aspect-h-3 bg-gradient-to-r from-uae-red to-tanzanian-green flex items-center justify-center">
+                    <i class="fas fa-image text-white text-4xl"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-900 mb-2">Community Potluck Dinner</h3>
+                    <p class="text-gray-600 text-sm mb-3">Families sharing traditional Tanzanian cuisine</p>
+                    <div class="flex items-center justify-between text-xs text-gray-500">
+                        <span>February 2024</span>
+                        <span>312 likes</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image 4 -->
+            <div class="gallery-item bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300" data-category="cultural">
+                <div class="aspect-w-4 aspect-h-3 bg-gradient-to-r from-tanzanian-green to-uae-red flex items-center justify-center">
+                    <i class="fas fa-image text-white text-4xl"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-900 mb-2">Youth Cultural Workshop</h3>
+                    <p class="text-gray-600 text-sm mb-3">Young Tanzanians learning traditional crafts</p>
+                    <div class="flex items-center justify-between text-xs text-gray-500">
+                        <span>March 2024</span>
+                        <span>156 likes</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image 5 -->
+            <div class="gallery-item bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300" data-category="business">
+                <div class="aspect-w-4 aspect-h-3 bg-gradient-to-r from-tanzanian-blue to-tanzanian-green flex items-center justify-center">
+                    <i class="fas fa-image text-white text-4xl"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-900 mb-2">Trade Partnership Signing</h3>
+                    <p class="text-gray-600 text-sm mb-3">Successful business partnership announcement</p>
+                    <div class="flex items-center justify-between text-xs text-gray-500">
+                        <span>April 2024</span>
+                        <span>278 likes</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image 6 -->
+            <div class="gallery-item bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300" data-category="events">
+                <div class="aspect-w-4 aspect-h-3 bg-gradient-to-r from-uae-red to-tanzanian-blue flex items-center justify-center">
+                    <i class="fas fa-image text-white text-4xl"></i>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-900 mb-2">Charity Fundraiser</h3>
+                    <p class="text-gray-600 text-sm mb-3">Community coming together for a noble cause</p>
+                    <div class="flex items-center justify-between text-xs text-gray-500">
+                        <span>January 2024</span>
+                        <span>423 likes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Load More Button -->
+        <div class="text-center mt-12">
+            <button class="bg-gradient-to-r from-tanzanian-blue to-uae-red text-white px-8 py-4 rounded-lg font-semibold text-lg hover:from-tanzanian-green hover:to-tanzanian-blue transition-all duration-300 transform hover:scale-105 shadow-lg">
+                <i class="fas fa-plus mr-2"></i>
+                Load More Photos
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Video Gallery -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-900 mb-6">
+                Video <span class="text-tanzanian-green">Gallery</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Watch inspiring stories, event highlights, and community moments
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Video 1 -->
+            <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg">
+                <div class="aspect-w-16 aspect-h-9 bg-gradient-to-r from-tanzanian-green to-tanzanian-blue flex items-center justify-center relative">
+                    <i class="fas fa-play-circle text-white text-4xl absolute"></i>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <div class="flex items-center text-sm">
+                            <i class="fas fa-clock mr-1"></i>
+                            <span>5:32</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Success Story: From Tanzania to UAE</h3>
+                    <p class="text-gray-600 mb-4 leading-relaxed">
+                        Hear inspiring stories from Tanzanian entrepreneurs who have successfully built their businesses in the UAE.
+                    </p>
+                    <div class="flex items-center justify-between text-sm text-gray-500">
+                        <div class="flex items-center">
+                            <i class="fas fa-eye mr-1"></i>
+                            <span>1.2K views</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-calendar mr-1"></i>
+                            <span>2 weeks ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 2 -->
+            <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg">
+                <div class="aspect-w-16 aspect-h-9 bg-gradient-to-r from-tanzanian-blue to-uae-red flex items-center justify-center relative">
+                    <i class="fas fa-play-circle text-white text-4xl absolute"></i>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <div class="flex items-center text-sm">
+                            <i class="fas fa-clock mr-1"></i>
+                            <span>8:15</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Cultural Festival Highlights 2024</h3>
+                    <p class="text-gray-600 mb-4 leading-relaxed">
+                        Relive the magic of our annual cultural festival with performances, food, and celebrations.
+                    </p>
+                    <div class="flex items-center justify-between text-sm text-gray-500">
+                        <div class="flex items-center">
+                            <i class="fas fa-eye mr-1"></i>
+                            <span>2.8K views</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-calendar mr-1"></i>
+                            <span>1 month ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video 3 -->
+            <div class="bg-gray-50 rounded-xl overflow-hidden shadow-lg">
+                <div class="aspect-w-16 aspect-h-9 bg-gradient-to-r from-uae-red to-tanzanian-green flex items-center justify-center relative">
+                    <i class="fas fa-play-circle text-white text-4xl absolute"></i>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <div class="flex items-center text-sm">
+                            <i class="fas fa-clock mr-1"></i>
+                            <span>12:45</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Business Networking Masterclass</h3>
+                    <p class="text-gray-600 mb-4 leading-relaxed">
+                        Learn essential networking skills and business development strategies from UAE experts.
+                    </p>
+                    <div class="flex items-center justify-between text-sm text-gray-500">
+                        <div class="flex items-center">
+                            <i class="fas fa-eye mr-1"></i>
+                            <span>956 views</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-calendar mr-1"></i>
+                            <span>3 weeks ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Photo Albums -->
+<section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-900 mb-6">
+                Photo <span class="text-tanzanian-blue">Albums</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Browse through our organized collections of memorable moments
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Album 1 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
+                <div class="aspect-w-4 aspect-h-3 bg-gradient-to-r from-tanzanian-green to-tanzanian-blue flex items-center justify-center relative">
+                    <i class="fas fa-images text-white text-3xl"></i>
+                    <div class="absolute top-4 right-4 bg-white bg-opacity-90 rounded-full w-8 h-8 flex items-center justify-center">
+                        <span class="text-xs font-bold text-gray-900">24</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-900 mb-2">Independence Day 2024</h3>
+                    <p class="text-gray-600 text-sm mb-3">Celebrating Tanzania's independence with traditional ceremonies and cultural performances</p>
+                    <div class="flex items-center text-xs text-gray-500">
+                        <i class="fas fa-calendar mr-1"></i>
+                        <span>December 9, 2024</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Album 2 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
+                <div class="aspect-w-4 aspect-h-3 bg-gradient-to-r from-tanzanian-blue to-uae-red flex items-center justify-center relative">
+                    <i class="fas fa-images text-white text-3xl"></i>
+                    <div class="absolute top-4 right-4 bg-white bg-opacity-90 rounded-full w-8 h-8 flex items-center justify-center">
+                        <span class="text-xs font-bold text-gray-900">18</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-900 mb-2">Business Excellence Awards</h3>
+                    <p class="text-gray-600 text-sm mb-3">Honoring outstanding Tanzanian entrepreneurs and business leaders in the UAE</p>
+                    <div class="flex items-center text-xs text-gray-500">
+                        <i class="fas fa-calendar mr-1"></i>
+                        <span>November 2024</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Album 3 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
+                <div class="aspect-w-4 aspect-h-3 bg-gradient-to-r from-uae-red to-tanzanian-green flex items-center justify-center relative">
+                    <i class="fas fa-images text-white text-3xl"></i>
+                    <div class="absolute top-4 right-4 bg-white bg-opacity-90 rounded-full w-8 h-8 flex items-center justify-center">
+                        <span class="text-xs font-bold text-gray-900">32</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-900 mb-2">Youth Leadership Summit</h3>
+                    <p class="text-gray-600 text-sm mb-3">Empowering the next generation of Tanzanian leaders in the UAE</p>
+                    <div class="flex items-center text-xs text-gray-500">
+                        <i class="fas fa-calendar mr-1"></i>
+                        <span>October 2024</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Album 4 -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
+                <div class="aspect-w-4 aspect-h-3 bg-gradient-to-r from-tanzanian-green to-uae-red flex items-center justify-center relative">
+                    <i class="fas fa-images text-white text-3xl"></i>
+                    <div class="absolute top-4 right-4 bg-white bg-opacity-90 rounded-full w-8 h-8 flex items-center justify-center">
+                        <span class="text-xs font-bold text-gray-900">15</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-900 mb-2">Cultural Food Festival</h3>
+                    <p class="text-gray-600 text-sm mb-3">Showcasing authentic Tanzanian cuisine and culinary traditions</p>
+                    <div class="flex items-center text-xs text-gray-500">
+                        <i class="fas fa-calendar mr-1"></i>
+                        <span>September 2024</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Media Upload -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-900 mb-6">
+                Share Your <span class="text-tanzanian-green">Moments</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Help us build our community gallery by sharing your photos and videos
+            </p>
+        </div>
+
+        <div class="max-w-2xl mx-auto">
+            <div class="bg-gray-50 p-8 rounded-2xl shadow-lg">
+                <div class="text-center mb-8">
+                    <div class="w-20 h-20 bg-gradient-to-r from-tanzanian-blue to-uae-red rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-cloud-upload-alt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Upload Your Media</h3>
+                    <p class="text-gray-600">Share photos and videos from community events, cultural celebrations, or business achievements</p>
+                </div>
+
+                <form class="space-y-6">
+                    <!-- File Upload -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Select Files</label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-tanzanian-blue transition-all duration-300 cursor-pointer">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-gray-600 mb-2">Drag and drop files here or click to browse</p>
+                            <p class="text-sm text-gray-500">Supported formats: JPG, PNG, MP4, MOV (Max 50MB each)</p>
+                            <input type="file" multiple accept="image/*,video/*" class="hidden">
+                        </div>
+                    </div>
+
+                    <!-- Category -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                        <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-blue focus:border-transparent">
+                            <option>Select a category</option>
+                            <option>Events</option>
+                            <option>Cultural</option>
+                            <option>Business</option>
+                            <option>Community</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <!-- Description -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                        <textarea rows="3" placeholder="Tell us about these photos/videos..."
+                                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-blue focus:border-transparent"></textarea>
+                    </div>
+
+                    <!-- Tags -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tags</label>
+                        <input type="text" placeholder="Add tags (e.g., festival, business, culture)"
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-tanzanian-blue focus:border-transparent">
+                    </div>
+
+                    <!-- Submit -->
+                    <button class="w-full bg-gradient-to-r from-tanzanian-blue to-uae-red text-white py-4 px-6 rounded-lg font-semibold hover:from-tanzanian-green hover:to-tanzanian-blue transition-all duration-300">
+                        <i class="fas fa-upload mr-2"></i>
+                        Upload Media
+                    </button>
+                </form>
+
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-gray-500">
+                        By uploading, you agree to our <a href="#" class="text-tanzanian-blue hover:text-tanzanian-green">media sharing guidelines</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-16 bg-gradient-to-br from-tanzanian-green to-tanzanian-blue text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl font-bold mb-6">Explore More Content</h2>
+        <p class="text-xl mb-8 max-w-3xl mx-auto opacity-90">
+            Discover more stories, events, and community highlights from the Tanzanian Diaspora UAE
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+            <a href="/Home/Events" class="bg-white text-tanzanian-blue hover:bg-gray-100 px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                <i class="fas fa-calendar-alt mr-2"></i>
+                View Events
+            </a>
+            <a href="/Home/KnowledgeBase" class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-tanzanian-blue px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105">
+                <i class="fas fa-book mr-2"></i>
+                Knowledge Base
+            </a>
+        </div>
+    </div>
+</section>

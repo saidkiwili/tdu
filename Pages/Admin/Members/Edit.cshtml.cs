@@ -61,6 +61,29 @@ namespace tae_app.Pages.Admin.Members
                 return Page();
             }
 
+            // Check for duplicate phone number (excluding current member)
+            var duplicatePhone = await _context.Members
+                .AnyAsync(m => m.PhoneNumber == Member.PhoneNumber && m.Id != Member.Id);
+
+            if (duplicatePhone)
+            {
+                ModelState.AddModelError("Member.PhoneNumber", "Phone number is already in use by another member.");
+                return Page();
+            }
+
+            // Check for duplicate emirates ID (excluding current member)
+            if (!string.IsNullOrEmpty(Member.EmiratesId))
+            {
+                var duplicateEmiratesId = await _context.Members
+                    .AnyAsync(m => m.EmiratesId == Member.EmiratesId && m.Id != Member.Id);
+
+                if (duplicateEmiratesId)
+                {
+                    ModelState.AddModelError("Member.EmiratesId", "Emirates ID is already in use by another member.");
+                    return Page();
+                }
+            }
+
             try
             {
                 // Preserve original values that shouldn't be modified

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("tae_app")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+23100fe4d97f5651f15b3473d9dc98f7d001343c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d31aa31b69dbedc993b1349c0bbf69a727f89c6a")]
 [assembly: System.Reflection.AssemblyProductAttribute("tae_app")]
 [assembly: System.Reflection.AssemblyTitleAttribute("tae_app")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - TAE Admin Portal</title>
+    <title>@ViewData["Title"] - TDUAE Admin Portal</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/tae_app.styles.css" asp-append-version="true" />
     <link rel="icon" type="image/x-icon" href="~/favicon.ico">
@@ -41,6 +41,16 @@
         }
         /* Support custom confirm button class used elsewhere */
         .swal-confirm-btn { background-color: #dc2626 !important; color: #fff !important; border: none !important; }
+        
+        /* SweetAlert2 width constraints for admin layout */
+        .swal2-popup {
+            width: 400px !important;
+            max-width: 90vw !important;
+        }
+        .swal2-html-container {
+            max-height: 300px;
+            overflow-y: auto;
+        }
     </style>
     
     <style>

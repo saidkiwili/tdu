@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Mail;
-using System.Text.Json;
 using tae_app.Data;
 using tae_app.Models;
 
 namespace tae_app.Pages.Admin.EmailConfig
 {
     [Authorize(Roles = "SuperAdmin,Admin")]
+    [ValidateAntiForgeryToken]
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -44,7 +44,6 @@ namespace tae_app.Pages.Admin.EmailConfig
             [Required]
             public string Username { get; set; } = "";
 
-            [Required]
             public string Password { get; set; } = "";
 
             [Required]
@@ -70,6 +69,14 @@ namespace tae_app.Pages.Admin.EmailConfig
             {
                 return Forbid();
             }
+
+            // Custom validation: Password is required only for new configurations
+            var existingEmailSetting = await _context.EmailSettings.FirstOrDefaultAsync();
+            if (existingEmailSetting == null && string.IsNullOrEmpty(EmailConfig.Password))
+            {
+                ModelState.AddModelError("EmailConfig.Password", "Password is required when setting up email configuration for the first time.");
+            }
+
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -89,7 +96,11 @@ namespace tae_app.Pages.Admin.EmailConfig
                 emailSetting.SmtpServer = EmailConfig.SmtpServer;
                 emailSetting.SmtpPort = EmailConfig.SmtpPort;
                 emailSetting.Username = EmailConfig.Username;
-                emailSetting.Password = EmailConfig.Password; // In production, encrypt this
+                // Only update password if a new one is provided
+                if (!string.IsNullOrEmpty(EmailConfig.Password))
+                {
+                    emailSetting.Password = EmailConfig.Password; // In production, encrypt this
+                }
                 emailSetting.FromAddress = EmailConfig.FromAddress;
                 emailSetting.FromName = EmailConfig.FromName;
                 emailSetting.UseSsl = EmailConfig.UseSsl;
@@ -109,50 +120,101 @@ namespace tae_app.Pages.Admin.EmailConfig
             }
         }
 
-        public async Task<IActionResult> OnPostTestEmailAsync([FromBody] TestEmailRequest request)
+        public async Task<IActionResult> OnPostTestEmailAsync()
         {
-            if (!(await _authorizationService.AuthorizeAsync(User, "permission:settings.edit")).Succeeded)
+            _logger.LogInformation("TestEmail handler called - using database configuration only");
+
+            // Check if user has admin role instead of specific permission
+            if (!User.IsInRole("Admin") && !User.IsInRole("SuperAdmin"))
             {
-                return Forbid();
+                _logger.LogWarning("User {User} does not have admin role", User?.Identity?.Name);
+                return new JsonResult(new { success = false, message = "You don't have permission to test email configuration." });
             }
+
             try
             {
+                // Load email configuration from database only
                 var emailSetting = await _context.EmailSettings.FirstOrDefaultAsync();
                 if (emailSetting == null)
                 {
-                    return BadRequest("Email configuration not found");
+                    _logger.LogWarning("Email configuration not found in database");
+                    return new JsonResult(new { success = false, message = "Email configuration not found. Please configure email settings first." });
                 }
+
+                // Validate required fields
+                if (string.IsNullOrEmpty(emailSetting.SmtpServer) ||
+                    string.IsNullOrEmpty(emailSetting.Username) ||
+                    string.IsNullOrEmpty(emailSetting.Password) ||
+                    string.IsNullOrEmpty(emailSetting.FromAddress))
+                {
+                    _logger.LogWarning("Email configuration is incomplete - missing required fields");
+                    return new JsonResult(new { success = false, message = "Email configuration is incomplete. Please ensure all required fields (SMTP Server, Username, Password, From Address) are configured." });
+                }
+
+             
+
+                // Use a default test email (could be made configurable in the future)
+                var testEmail = "saidkiwilii@gmail.com";
+
+               
 
                 using var client = new SmtpClient(emailSetting.SmtpServer, emailSetting.SmtpPort)
                 {
                     EnableSsl = emailSetting.UseSsl,
-                    Credentials = new NetworkCredential(emailSetting.Username, emailSetting.Password)
+                    Credentials = new NetworkCredential(emailSetting.Username, emailSetting.Password),
+                    Timeout = 30000 // 30 second timeout
                 };
 
                 var mailMessage = new MailMessage
                 {
                     From = new MailAddress(emailSetting.FromAddress, emailSetting.FromName),
-                    Subject = "TAE - Email Configuration Test",
-                    Body = @"
+                    Subject = "TDUAE - Email Configuration Test",
+                    Body = $@"
                         <h2>Email Configuration Test</h2>
-                        <p>This is a test email from the TAE (Tanzanian Association in Emirates) system.</p>
+                        <p>This is a test email from the TDUAE (Tanzania Diaspora UAE) system.</p>
+                        <p><strong>Configuration Details:</strong></p>
+                        <ul>
+                            <li>SMTP Server: {emailSetting.SmtpServer}:{emailSetting.SmtpPort}</li>
+                            <li>SSL/TLS: {(emailSetting.UseSsl ? "Enabled" : "Disabled")}</li>
+                            <li>From: {emailSetting.FromAddress}</li>
+                        </ul>
                         <p>If you received this email, your email configuration is working correctly!</p>
                         <hr>
-                        <p><small>Sent at: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + @"</small></p>
+                        <p><small>Test sent at: {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}</small></p>
                     ",
                     IsBodyHtml = true
                 };
 
-                mailMessage.To.Add(request.TestEmail);
+                mailMessage.To.Add(testEmail);
 
                 await client.SendMailAsync(mailMessage);
 
-                return new JsonResult(new { success = true, message = "Test email sent successfully!" });
+                _logger.LogInformation("Test email sent successfully to {Email} using database configuration", testEmail);
+                return new JsonResult(new { success = true, message = $"Test email sent successfully to {testEmail} using saved configuration!" });
+            }
+            catch (System.Net.Mail.SmtpException smtpEx)
+            {
+                _logger.LogError(smtpEx, "SMTP error sending test email: {Message}", smtpEx.Message);
+
+                string errorMessage = "SMTP Authentication failed. Please check your email configuration:\n";
+                errorMessage += "• Verify your username and password are correct\n";
+                errorMessage += "• Check if your email provider requires an app password instead of your regular password\n";
+                errorMessage += "• Ensure SSL/TLS settings match your email provider's requirements\n";
+                errorMessage += $"• SMTP Error: {smtpEx.Message}";
+
+                return new JsonResult(new { success = false, message = errorMessage });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error sending test email");
-                return BadRequest($"Failed to send test email: {ex.Message}");
+                _logger.LogError(ex, "Error sending test email using database configuration: {Message}", ex.Message);
+
+                string errorMessage = $"Failed to send test email: {ex.Message}";
+                if (ex.InnerException != null)
+                {
+                    errorMessage += $" (Inner: {ex.InnerException.Message})";
+                }
+
+                return new JsonResult(new { success = false, message = errorMessage });
             }
         }
 
@@ -166,7 +228,7 @@ namespace tae_app.Pages.Admin.EmailConfig
                     SmtpServer = emailSetting.SmtpServer ?? "",
                     SmtpPort = emailSetting.SmtpPort,
                     Username = emailSetting.Username ?? "",
-                    Password = emailSetting.Password ?? "", // In production, don't expose this
+                    Password = "", // Don't expose existing password for security
                     FromAddress = emailSetting.FromAddress ?? "",
                     FromName = emailSetting.FromName ?? "",
                     UseSsl = emailSetting.UseSsl
@@ -180,14 +242,11 @@ namespace tae_app.Pages.Admin.EmailConfig
                 {
                     SmtpPort = 587,
                     UseSsl = true,
-                    FromName = "TAE - Tanzanian Association Emirates"
+                    FromName = "TDUAE"
                 };
             }
         }
 
-        public class TestEmailRequest
-        {
-            public string TestEmail { get; set; } = "";
-        }
+
     }
 }

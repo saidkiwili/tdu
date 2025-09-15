@@ -257,6 +257,10 @@
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.map"
     },
     {
+      "Id": "/Users/admin/Documents/projects/tae_projects/tae_app/wwwroot/uploads/visa-ids/2025/TAE-2025-0001_096c9b80-fa34-4722-828e-ed4e399e6fc1.pdf",
+      "PackagePath": "staticwebassets/uploads/visa-ids/2025/TAE-2025-0001_096c9b80-fa34-4722-828e-ed4e399e6fc1.pdf"
+    },
+    {
       "Id": "/Users/admin/Documents/projects/tae_projects/tae_app/wwwroot/uploads/visa-ids/2025/TAE-2025-0001_35571fbc-377f-4104-aca4-581f94cfa0b9.pdf",
       "PackagePath": "staticwebassets/uploads/visa-ids/2025/TAE-2025-0001_35571fbc-377f-4104-aca4-581f94cfa0b9.pdf"
     },
@@ -267,6 +271,10 @@
     {
       "Id": "/Users/admin/Documents/projects/tae_projects/tae_app/wwwroot/uploads/visa-ids/2025/TAE-2025-0002_a5419797-70a2-4f3d-98c6-aa1f8f910c8b.pdf",
       "PackagePath": "staticwebassets/uploads/visa-ids/2025/TAE-2025-0002_a5419797-70a2-4f3d-98c6-aa1f8f910c8b.pdf"
+    },
+    {
+      "Id": "/Users/admin/Documents/projects/tae_projects/tae_app/wwwroot/uploads/visa-ids/2025/TAE-2025-0003_e15c7d73-1cd8-44fc-b4bd-af76e768d23b.pdf",
+      "PackagePath": "staticwebassets/uploads/visa-ids/2025/TAE-2025-0003_e15c7d73-1cd8-44fc-b4bd-af76e768d23b.pdf"
     },
     {
       "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.tae_app.props",

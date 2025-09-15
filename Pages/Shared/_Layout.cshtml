@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - TAE</title>
+    <title>@ViewData["Title"] - TDUAE</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/tae_app.styles.css" asp-append-version="true" />
     <link rel="icon" type="image/x-icon" href="~/favicon.ico">
@@ -129,122 +129,209 @@
     <!-- Clean Navigation -->
     <nav class="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
+            <div class="flex items-center h-16">
                 <!-- Logo -->
-                <div class="flex items-center">
+                <div class="flex items-center flex-shrink-0">
                     <a href="/" class="flex items-center">
-                        <img src="~/img/logo.png" alt="TAE Logo" class="nav-logo" />
+                        <img src="~/img/logo.png" alt="TDUAE Logo" class="nav-logo" />
                     </a>
                 </div>
                 
-                <!-- Desktop Navigation -->
-                <div class="desktop-nav hidden md:flex items-center space-x-6">
-                    <a href="/" class="nav-link">Home</a>
-                    <a href="/About" class="nav-link">About</a>
-                    
-                    <!-- Services Dropdown -->
-                    <div class="dropdown">
-                        <button class="nav-link flex items-center">
-                            Services <i class="fas fa-chevron-down ml-2 text-sm"></i>
-                        </button>
-                        <div class="dropdown-menu">
-                            <a href="/Services/NIDA" class="dropdown-item flex items-center">
-                                <i class="fas fa-id-card mr-3 text-green-600"></i>
-                                <div>
-                                    <div class="font-semibold">NIDA Services</div>
-                                    <div class="text-sm text-gray-500">Identity verification</div>
-                                </div>
-                            </a>
-                            <a href="/Services/Community" class="dropdown-item flex items-center">
-                                <i class="fas fa-users mr-3 text-blue-600"></i>
-                                <div>
-                                    <div class="font-semibold">Community</div>
-                                    <div class="text-sm text-gray-500">Events & networking</div>
-                                </div>
-                            </a>
-                            <a href="/Services/Business" class="dropdown-item flex items-center">
-                                <i class="fas fa-briefcase mr-3 text-red-600"></i>
-                                <div>
-                                    <div class="font-semibold">Business</div>
-                                    <div class="text-sm text-gray-500">Professional network</div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <a href="/Events" class="nav-link">Events</a>
-                    <a href="/Contact" class="nav-link">Contact</a>
-                    
-                    <!-- Auth Buttons -->
-                    @using Microsoft.AspNetCore.Identity
-                    @inject SignInManager<tae_app.Models.ApplicationUser> SignInManager
-                    @inject UserManager<tae_app.Models.ApplicationUser> UserManager
+                <!-- Desktop Navigation - Right aligned -->
+                <div class="flex-1 flex justify-end">
+                    <div class="desktop-nav hidden md:flex items-center space-x-4">
+                        <a href="/" class="nav-link">Home</a>
 
-                    <div class="flex items-center space-x-4">
-
-                        @if (User?.Identity?.IsAuthenticated == true)
-                        {
-                            <!-- Profile avatar dropdown (public site) -->
-                            <div class="relative">
-                                <button id="publicUserToggle" class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                                    <div class="w-9 h-9 bg-tanzanian-green rounded-full flex items-center justify-center overflow-hidden">
-                                        @{
-                                            var currentUser = await UserManager.GetUserAsync(User);
-                                            var initials = "";
-                                            if (currentUser != null)
-                                            {
-                                                var f = currentUser.FirstName ?? "";
-                                                var l = currentUser.LastName ?? "";
-                                                initials = (f.Length > 0 ? f.Substring(0,1) : "") + (l.Length > 0 ? l.Substring(0,1) : "");
-                                            }
-                                            var avatar = currentUser?.AvatarPath;
-                                        }
-                                        @if (!string.IsNullOrEmpty(avatar))
-                                        {
-                                            <img src="~/@avatar" alt="avatar" class="w-9 h-9 object-cover" />
-                                        }
-                                        else
-                                        {
-                                            <span class="text-white font-semibold">@initials.ToUpper()</span>
-                                        }
+                        <!-- Group A: Culture & Community Dropdown -->
+                        <div class="dropdown">
+                            <button class="nav-link flex items-center">
+                                Culture & Community <i class="fas fa-chevron-down ml-2 text-sm"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="/Home/About" class="dropdown-item flex items-center">
+                                    <i class="fas fa-info-circle mr-3 text-tanzanian-green"></i>
+                                    <div>
+                                        <div class="font-semibold">About Us</div>
+                                        <div class="text-sm text-gray-500">Learn about TDUAE</div>
                                     </div>
-                                    <div class="hidden md:block text-left">
-                                        <div class="text-sm font-semibold text-gray-800">@currentUser?.FirstName @currentUser?.LastName</div>
-                                        <div class="text-xs text-gray-500">@currentUser?.Email</div>
+                                </a>
+                                <a href="/Home/CultureHeritage" class="dropdown-item flex items-center">
+                                    <i class="fas fa-landmark mr-3 text-tanzanian-green"></i>
+                                    <div>
+                                        <div class="font-semibold">Culture & Heritage</div>
+                                        <div class="text-sm text-gray-500">Preserve our Tanzanian culture</div>
                                     </div>
-                                    <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
-                                </button>
-
-                                <div id="publicUserDropdown" class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 z-50 hidden">
-                                    <div class="py-2">
-                                        <a asp-page="/Account/Profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
-                                            <i class="fas fa-user mr-2"></i>Profile
-                                        </a>
-                                        @{ 
-                                            var isMember = User.IsInRole("Member");
-                                            var isAdmin = User.IsInRole("Admin");
-                                            var targetLabel = isMember ? "Portal" : "Dashboard";
-                                            var targetIcon = isMember ? "fas fa-door-open" : "fas fa-tachometer-alt";
-                                            var targetHref = isMember ? Url.Page("/Account/Portal") : "/Admin/Dashboard";
-                                        }
-                                        <a href="@targetHref" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
-                                            <i class="@targetIcon mr-2"></i>@targetLabel
-                                        </a>
-                                        <hr class="my-2 border-gray-100">
-                                        <form method="post" asp-page="/Account/Logout">
-                                            <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
-                                                <i class="fas fa-sign-out-alt mr-2"></i>Logout
-                                            </button>
-                                        </form>
+                                </a>
+                                <a href="/Home/CommunityServices" class="dropdown-item flex items-center">
+                                    <i class="fas fa-hands-helping mr-3 text-tanzanian-blue"></i>
+                                    <div>
+                                        <div class="font-semibold">Community Services</div>
+                                        <div class="text-sm text-gray-500">Support & assistance services</div>
                                     </div>
-                                </div>
+                                </a>
+                                <a href="/Home/EventsActivities" class="dropdown-item flex items-center">
+                                    <i class="fas fa-calendar-alt mr-3 text-uae-red"></i>
+                                    <div>
+                                        <div class="font-semibold">Events & Activities</div>
+                                        <div class="text-sm text-gray-500">Community events & gatherings</div>
+                                    </div>
+                                </a>
+                                <a href="/Home/YouthStudents" class="dropdown-item flex items-center">
+                                    <i class="fas fa-graduation-cap mr-3 text-primary-600"></i>
+                                    <div>
+                                        <div class="font-semibold">Youth & Students</div>
+                                        <div class="text-sm text-gray-500">Programs for young Tanzanians</div>
+                                    </div>
+                                </a>
+                                <a href="/Services/NIDA" class="dropdown-item flex items-center">
+                                    <i class="fas fa-id-card mr-3 text-green-600"></i>
+                                    <div>
+                                        <div class="font-semibold">NIDA Service</div>
+                                        <div class="text-sm text-gray-500">National ID services</div>
+                                    </div>
+                                </a>
                             </div>
-                        }
-                        else
-                        {
-                            <a href="/Account/Login" class="nav-link">Login</a>
-                            <a href="/Account/Register" class="bg-gradient-to-r from-tanzanian-green to-tanzanian-blue text-white px-4 py-2 rounded-lg hover:from-tanzanian-blue hover:to-primary-700 transition-all duration-300 transform hover:scale-105 shadow-lg font-semibold">Join Us</a>
-                        }
+                        </div>
+
+                        <!-- Group B: Opportunities Growth & Investment Dropdown -->
+                        <div class="dropdown">
+                            <button class="nav-link flex items-center">
+                                Opportunities <i class="fas fa-chevron-down ml-2 text-sm"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="/Home/BusinessOpportunities" class="dropdown-item flex items-center">
+                                    <i class="fas fa-briefcase mr-3 text-tanzanian-green"></i>
+                                    <div>
+                                        <div class="font-semibold">Business & Opportunities</div>
+                                        <div class="text-sm text-gray-500">Business growth & investment</div>
+                                    </div>
+                                </a>
+                                <a href="/Home/KnowledgeBase" class="dropdown-item flex items-center">
+                                    <i class="fas fa-book mr-3 text-tanzanian-blue"></i>
+                                    <div>
+                                        <div class="font-semibold">Knowledge Base</div>
+                                        <div class="text-sm text-gray-500">Guides & resources</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Group C: Media & Engagement Dropdown -->
+                        <div class="dropdown">
+                            <button class="nav-link flex items-center">
+                                Media & Engagement <i class="fas fa-chevron-down ml-2 text-sm"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="/Home/MediaResources" class="dropdown-item flex items-center">
+                                    <i class="fas fa-newspaper mr-3 text-uae-red"></i>
+                                    <div>
+                                        <div class="font-semibold">Media & Resources</div>
+                                        <div class="text-sm text-gray-500">News & community updates</div>
+                                    </div>
+                                </a>
+                                <a href="/Home/Media" class="dropdown-item flex items-center">
+                                    <i class="fas fa-images mr-3 text-primary-600"></i>
+                                    <div>
+                                        <div class="font-semibold">Gallery</div>
+                                        <div class="text-sm text-gray-500">Photos & videos</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Group D: Support Dropdown -->
+                        <div class="dropdown">
+                            <button class="nav-link flex items-center">
+                                Support <i class="fas fa-chevron-down ml-2 text-sm"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="/Home/SafetyAwareness" class="dropdown-item flex items-center">
+                                    <i class="fas fa-shield-alt mr-3 text-tanzanian-green"></i>
+                                    <div>
+                                        <div class="font-semibold">Safety & Awareness</div>
+                                        <div class="text-sm text-gray-500">Safety tips & emergency contacts</div>
+                                    </div>
+                                </a>
+                                <a href="/Home/Contact" class="dropdown-item flex items-center">
+                                    <i class="fas fa-envelope mr-3 text-tanzanian-blue"></i>
+                                    <div>
+                                        <div class="font-semibold">Contact Us</div>
+                                        <div class="text-sm text-gray-500">Get in touch with us</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Auth Buttons -->
+                        @using Microsoft.AspNetCore.Identity
+                        @inject SignInManager<tae_app.Models.ApplicationUser> SignInManager
+                        @inject UserManager<tae_app.Models.ApplicationUser> UserManager
+
+                        <div class="flex items-center space-x-3 ml-4 pl-4 border-l border-gray-300">
+                            @if (User?.Identity?.IsAuthenticated == true)
+                            {
+                                <!-- Profile avatar dropdown (public site) -->
+                                <div class="relative">
+                                    <button id="publicUserToggle" class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                                        <div class="w-9 h-9 bg-tanzanian-green rounded-full flex items-center justify-center overflow-hidden">
+                                            @{
+                                                var currentUser = await UserManager.GetUserAsync(User);
+                                                var initials = "";
+                                                if (currentUser != null)
+                                                {
+                                                    var f = currentUser.FirstName ?? "";
+                                                    var l = currentUser.LastName ?? "";
+                                                    initials = (f.Length > 0 ? f.Substring(0,1) : "") + (l.Length > 0 ? l.Substring(0,1) : "");
+                                                }
+                                                var avatar = currentUser?.AvatarPath;
+                                            }
+                                            @if (!string.IsNullOrEmpty(avatar))
+                                            {
+                                                <img src="~/@avatar" alt="avatar" class="w-9 h-9 object-cover" />
+                                            }
+                                            else
+                                            {
+                                                <span class="text-white font-semibold">@initials.ToUpper()</span>
+                                            }
+                                        </div>
+                                        <div class="hidden md:block text-left">
+                                            <div class="text-sm font-semibold text-gray-800">@currentUser?.FirstName @currentUser?.LastName</div>
+                                            <div class="text-xs text-gray-500">@currentUser?.Email</div>
+                                        </div>
+                                        <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
+                                    </button>
+
+                                    <div id="publicUserDropdown" class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 z-50 hidden">
+                                        <div class="py-2">
+                                            <a asp-page="/Account/Profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                                <i class="fas fa-user mr-2"></i>Profile
+                                            </a>
+                                            @{ 
+                                                var isMember = User.IsInRole("Member");
+                                                var isAdmin = User.IsInRole("Admin");
+                                                var targetLabel = isMember ? "Portal" : "Dashboard";
+                                                var targetIcon = isMember ? "fas fa-door-open" : "fas fa-tachometer-alt";
+                                                var targetHref = isMember ? Url.Page("/Account/Portal") : "/Admin/Dashboard";
+                                            }
+                                            <a href="@targetHref" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                                <i class="@targetIcon mr-2"></i>@targetLabel
+                                            </a>
+                                            <hr class="my-2 border-gray-100">
+                                            <form method="post" asp-page="/Account/Logout">
+                                                <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                                                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <a href="/Account/Login" class="nav-link">Login</a>
+                                <a href="/Account/Register" class="bg-gradient-to-r from-tanzanian-green to-tanzanian-blue text-white px-4 py-2 rounded-lg hover:from-tanzanian-blue hover:to-primary-700 transition-all duration-300 transform hover:scale-105 shadow-lg font-semibold">Join Us</a>
+                            }
+                        </div>
                     </div>
                 </div>
                 
@@ -258,26 +345,71 @@
             <div id="mobile-menu" class="mobile-menu">
                 <div class="py-4 space-y-2 border-t border-gray-200">
                     <a href="/" class="nav-link block">Home</a>
-                    <a href="/About" class="nav-link block">About</a>
-                    
+
+                    <!-- Group A: Culture & Community Mobile -->
                     <div class="px-4 py-2">
-                        <div class="font-semibold mb-2 text-gray-700">Services</div>
+                        <div class="font-semibold mb-2 text-gray-700">Culture & Community</div>
                         <div class="space-y-2 pl-4">
+                            <a href="/Home/About" class="nav-link block">
+                                <i class="fas fa-info-circle mr-2"></i>About Us
+                            </a>
+                            <a href="/Home/CultureHeritage" class="nav-link block">
+                                <i class="fas fa-landmark mr-2"></i>Culture & Heritage
+                            </a>
+                            <a href="/Home/CommunityServices" class="nav-link block">
+                                <i class="fas fa-hands-helping mr-2"></i>Community Services
+                            </a>
+                            <a href="/Home/EventsActivities" class="nav-link block">
+                                <i class="fas fa-calendar-alt mr-2"></i>Events & Activities
+                            </a>
+                            <a href="/Home/YouthStudents" class="nav-link block">
+                                <i class="fas fa-graduation-cap mr-2"></i>Youth & Students
+                            </a>
                             <a href="/Services/NIDA" class="nav-link block">
-                                <i class="fas fa-id-card mr-2"></i>NIDA Services
-                            </a>
-                            <a href="/Services/Community" class="nav-link block">
-                                <i class="fas fa-users mr-2"></i>Community
-                            </a>
-                            <a href="/Services/Business" class="nav-link block">
-                                <i class="fas fa-briefcase mr-2"></i>Business
+                                <i class="fas fa-id-card mr-2"></i>NIDA Service
                             </a>
                         </div>
                     </div>
-                    
-                    <a href="/Events" class="nav-link block">Events</a>
-                    <a href="/Contact" class="nav-link block">Contact</a>
-                    
+
+                    <!-- Group B: Opportunities Mobile -->
+                    <div class="px-4 py-2">
+                        <div class="font-semibold mb-2 text-gray-700">Opportunities</div>
+                        <div class="space-y-2 pl-4">
+                            <a href="/Home/BusinessOpportunities" class="nav-link block">
+                                <i class="fas fa-briefcase mr-2"></i>Business & Opportunities
+                            </a>
+                            <a href="/Home/KnowledgeBase" class="nav-link block">
+                                <i class="fas fa-book mr-2"></i>Knowledge Base
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Group C: Media & Engagement Mobile -->
+                    <div class="px-4 py-2">
+                        <div class="font-semibold mb-2 text-gray-700">Media & Engagement</div>
+                        <div class="space-y-2 pl-4">
+                            <a href="/Home/MediaResources" class="nav-link block">
+                                <i class="fas fa-newspaper mr-2"></i>Media & Resources
+                            </a>
+                            <a href="/Home/Media" class="nav-link block">
+                                <i class="fas fa-images mr-2"></i>Gallery
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Group D: Support Mobile -->
+                    <div class="px-4 py-2">
+                        <div class="font-semibold mb-2 text-gray-700">Support</div>
+                        <div class="space-y-2 pl-4">
+                            <a href="/Home/SafetyAwareness" class="nav-link block">
+                                <i class="fas fa-shield-alt mr-2"></i>Safety & Awareness
+                            </a>
+                            <a href="/Home/Contact" class="nav-link block">
+                                <i class="fas fa-envelope mr-2"></i>Contact Us
+                            </a>
+                        </div>
+                    </div>
+
                     <div class="px-4 py-4 space-y-2 border-t border-gray-200">
                         @if (User?.Identity?.IsAuthenticated == true)
                         {
@@ -336,7 +468,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <!-- Logo & Description -->
                 <div class="md:col-span-2">
-                    <img src="~/img/logo.png" alt="TAE Logo" style="height: auto; width: 100px;" class="mb-4" />
+                    <img src="~/img/logo.png" alt="TDUAE Logo" style="height: auto; width: 100px;" class="mb-4" />
                     <p class="text-gray-600 max-w-md">
                         Connecting Tanzanians in the UAE through community, culture, and shared opportunities.
                     </p>
@@ -357,7 +489,7 @@
                 <div>
                     <h4 class="font-semibold text-gray-900 mb-4">Contact</h4>
                     <ul class="space-y-2 text-gray-600">
-                        <li><i class="fas fa-envelope mr-2 text-tanzanian-green"></i>info@tae-uae.org</li>
+                        <li><i class="fas fa-envelope mr-2 text-tanzanian-green"></i>info@tduae-uae.org</li>
                         <li><i class="fas fa-phone mr-2 text-tanzanian-green"></i>+971 XX XXX XXXX</li>
                         <li><i class="fas fa-map-marker-alt mr-2 text-tanzanian-green"></i>Dubai, UAE</li>
                     </ul>
@@ -368,7 +500,7 @@
             
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="text-gray-500 text-sm mb-4 md:mb-0">
-                    &copy; 2025 TAE - Tanzanian Association Emirates. All rights reserved.
+                    &copy; 2025 TDUAE - Tanzanian Diaspora UAE. All rights reserved.
                 </div>
                 <div class="flex space-x-6">
                     <a href="#" class="text-gray-400 hover:text-tanzanian-green transition-colors">

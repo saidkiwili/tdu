@@ -3,9 +3,9 @@
     <!-- Sidebar Header -->
     <div style="padding: 24px; border-bottom: 1px solid #475569;">
         <div class="flex items-center">
-            <img src="~/images/logo.png" alt="TAE Logo" style="width: 40px; height: auto; margin-right: 12px;">
+            <img src="~/images/logo.png" alt="TDUAE Logo" style="width: 40px; height: auto; margin-right: 12px;">
             <div>
-                <h2 style="font-size: 18px; font-weight: 700; margin: 0; color: white;">TAE Admin</h2>
+                <h2 style="font-size: 18px; font-weight: 700; margin: 0; color: white;">TDUAE Admin</h2>
                 <p style="font-size: 12px; color: #94a3b8; margin: 0;">Management Portal</p>
             </div>
         </div>
@@ -29,6 +29,21 @@
                 <span style="font-weight: 500;">All Members</span>
             </a>
             <!-- Pending Approvals removed as requested -->
+        </div>
+        
+        <!-- Job Portal Management -->
+        <div class="sidebar-section" style="margin-top: 16px;">
+            <div style="padding: 8px 24px; font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">
+                Job Portal
+            </div>
+            <a href="/Admin/Jobs/Index" class="sidebar-link" style="display: flex; align-items: center; padding: 12px 24px; color: #e2e8f0; text-decoration: none; transition: all 0.2s ease; border-left: 3px solid transparent;">
+                <i class="fas fa-briefcase" style="width: 20px; margin-right: 12px; font-size: 16px;"></i>
+                <span style="font-weight: 500;">Job Management</span>
+            </a>
+            <a href="/Admin/JobApplications/Index" class="sidebar-link" style="display: flex; align-items: center; padding: 12px 24px; color: #e2e8f0; text-decoration: none; transition: all 0.2s ease; border-left: 3px solid transparent;">
+                <i class="fas fa-file-alt" style="width: 20px; margin-right: 12px; font-size: 16px;"></i>
+                <span style="font-weight: 500;">Job Applications</span>
+            </a>
         </div>
         
         <!-- Events Management -->
@@ -71,9 +86,13 @@
                 <i class="fas fa-shield-alt" style="width: 20px; margin-right: 12px; font-size: 16px;"></i>
                 <span style="font-weight: 500;">Roles & Permissions</span>
             </a>
-            <a href="/Admin/Settings" class="sidebar-link" style="display: flex; align-items: center; padding: 12px 24px; color: #e2e8f0; text-decoration: none; transition: all 0.2s ease; border-left: 3px solid transparent;">
+            <a href="/Admin/Settings/Index" class="sidebar-link" style="display: flex; align-items: center; padding: 12px 24px; color: #e2e8f0; text-decoration: none; transition: all 0.2s ease; border-left: 3px solid transparent;">
                 <i class="fas fa-cog" style="width: 20px; margin-right: 12px; font-size: 16px;"></i>
                 <span style="font-weight: 500;">Settings</span>
+            </a>
+            <a href="/Admin/EmailConfig/Index" class="sidebar-link" style="display: flex; align-items: center; padding: 12px 24px; color: #e2e8f0; text-decoration: none; transition: all 0.2s ease; border-left: 3px solid transparent;">
+                <i class="fas fa-envelope" style="width: 20px; margin-right: 12px; font-size: 16px;"></i>
+                <span style="font-weight: 500;">Email Configuration</span>
             </a>
         </div>
     </div>
@@ -81,7 +100,7 @@
     <!-- Sidebar Footer -->
     <div style="margin-top: auto; padding: 24px; border-top: 1px solid #475569;">
         <div style="font-size: 12px; color: #94a3b8; text-align: center;">
-            TAE Admin Portal v1.0<br>
+            TDUAE Admin Portal v1.0<br>
             © 2025 Tanzanian Association Emirates
         </div>
     </div>

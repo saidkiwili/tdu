@@ -28,6 +28,34 @@ public class RegistrationController : Controller
     {
         if (ModelState.IsValid)
         {
+            // Validate uniqueness constraints
+            var existingMemberByEmail = await _context.Members
+                .FirstOrDefaultAsync(m => m.EmailAddress.ToLower() == model.EmailAddress.ToLower());
+            if (existingMemberByEmail != null)
+            {
+                ModelState.AddModelError("EmailAddress", "An account with this email address already exists.");
+                return View(model);
+            }
+
+            var existingMemberByPhone = await _context.Members
+                .FirstOrDefaultAsync(m => m.PhoneNumber == model.PhoneNumber);
+            if (existingMemberByPhone != null)
+            {
+                ModelState.AddModelError("PhoneNumber", "An account with this phone number already exists.");
+                return View(model);
+            }
+
+            if (!string.IsNullOrEmpty(model.EmiratesId))
+            {
+                var existingMemberByEmiratesId = await _context.Members
+                    .FirstOrDefaultAsync(m => m.EmiratesId == model.EmiratesId);
+                if (existingMemberByEmiratesId != null)
+                {
+                    ModelState.AddModelError("EmiratesId", "An account with this Emirates ID already exists.");
+                    return View(model);
+                }
+            }
+
             try
             {
                 // Generate unique MemberID

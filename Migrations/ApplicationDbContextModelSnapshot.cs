@@ -154,6 +154,45 @@ namespace tae_app.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("tae_app.Models.ApplicationAttachment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AttachmentTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("JobApplicationId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UploadedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttachmentTypeId");
+
+                    b.HasIndex("JobApplicationId");
+
+                    b.ToTable("ApplicationAttachments");
+                });
+
             modelBuilder.Entity("tae_app.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -276,6 +315,45 @@ namespace tae_app.Migrations
                     b.ToTable("Appointments");
                 });
 
+            modelBuilder.Entity("tae_app.Models.AttachmentType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AllowedExtensions")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsRequired")
+                        .HasColumnType("boolean");
+
+                    b.Property<long>("MaxFileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("AttachmentTypes");
+                });
+
             modelBuilder.Entity("tae_app.Models.EmailSetting", b =>
                 {
                     b.Property<int>("Id")
@@ -325,6 +403,9 @@ namespace tae_app.Migrations
                         .HasColumnType("character varying(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IsActive")
+                        .HasFilter("[IsActive] = 1");
 
                     b.ToTable("EmailSettings");
                 });
@@ -445,9 +526,25 @@ namespace tae_app.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Benefits")
+                        .HasColumnType("text");
+
                     b.Property<string>("Company")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("ContactEmail")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ContactPhone")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
 
                     b.Property<DateTime?>("Deadline")
                         .HasColumnType("timestamp with time zone");
@@ -456,8 +553,25 @@ namespace tae_app.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("ExperienceLevel")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
+
+                    b.Property<bool>("IsFeatured")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("JobCategoryId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("JobType")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Location")
                         .HasMaxLength(100)
@@ -466,9 +580,15 @@ namespace tae_app.Migrations
                     b.Property<DateTime>("PostedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("SalaryRange")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                    b.Property<string>("Requirements")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal?>("SalaryMax")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("SalaryMin")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -476,6 +596,8 @@ namespace tae_app.Migrations
                         .HasColumnType("character varying(200)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("JobCategoryId");
 
                     b.ToTable("Jobs");
                 });
@@ -503,10 +625,6 @@ namespace tae_app.Migrations
                     b.Property<DateTime>("AppliedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("CVFilePath")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
                     b.Property<string>("CoverLetter")
                         .HasColumnType("text");
 
@@ -516,6 +634,15 @@ namespace tae_app.Migrations
                     b.Property<int?>("MemberId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("ReviewNotes")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ReviewedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("JobId");
@@ -523,6 +650,37 @@ namespace tae_app.Migrations
                     b.HasIndex("MemberId");
 
                     b.ToTable("JobApplications");
+                });
+
+            modelBuilder.Entity("tae_app.Models.JobCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<string>("IconClass")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("JobCategories");
                 });
 
             modelBuilder.Entity("tae_app.Models.Member", b =>
@@ -646,12 +804,105 @@ namespace tae_app.Migrations
                     b.HasIndex("EmailAddress")
                         .IsUnique();
 
+                    b.HasIndex("EmiratesId")
+                        .IsUnique();
+
                     b.HasIndex("MemberId")
                         .IsUnique();
 
-                    b.HasIndex("PhoneNumber");
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique();
 
                     b.ToTable("Members");
+                });
+
+            modelBuilder.Entity("tae_app.Models.OtpVerification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(4)
+                        .HasColumnType("character varying(4)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("MemberId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("RegistrationData")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UsedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.HasIndex("ExpiresAt");
+
+                    b.HasIndex("MemberId");
+
+                    b.HasIndex("Email", "IsUsed");
+
+                    b.ToTable("OtpVerifications");
+                });
+
+            modelBuilder.Entity("tae_app.Models.SystemSetting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SystemSettings");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -705,6 +956,25 @@ namespace tae_app.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("tae_app.Models.ApplicationAttachment", b =>
+                {
+                    b.HasOne("tae_app.Models.AttachmentType", "AttachmentType")
+                        .WithMany("Attachments")
+                        .HasForeignKey("AttachmentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("tae_app.Models.JobApplication", "JobApplication")
+                        .WithMany("Attachments")
+                        .HasForeignKey("JobApplicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AttachmentType");
+
+                    b.Navigation("JobApplication");
+                });
+
             modelBuilder.Entity("tae_app.Models.Appointment", b =>
                 {
                     b.HasOne("tae_app.Models.Member", "Member")
@@ -746,6 +1016,16 @@ namespace tae_app.Migrations
                     b.Navigation("Member");
                 });
 
+            modelBuilder.Entity("tae_app.Models.Job", b =>
+                {
+                    b.HasOne("tae_app.Models.JobCategory", "JobCategory")
+                        .WithMany("Jobs")
+                        .HasForeignKey("JobCategoryId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("JobCategory");
+                });
+
             modelBuilder.Entity("tae_app.Models.JobApplication", b =>
                 {
                     b.HasOne("tae_app.Models.Job", "Job")
@@ -774,9 +1054,23 @@ namespace tae_app.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
+            modelBuilder.Entity("tae_app.Models.OtpVerification", b =>
+                {
+                    b.HasOne("tae_app.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberId");
+
+                    b.Navigation("Member");
+                });
+
             modelBuilder.Entity("tae_app.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Member");
+                });
+
+            modelBuilder.Entity("tae_app.Models.AttachmentType", b =>
+                {
+                    b.Navigation("Attachments");
                 });
 
             modelBuilder.Entity("tae_app.Models.Event", b =>
@@ -789,6 +1083,16 @@ namespace tae_app.Migrations
             modelBuilder.Entity("tae_app.Models.Job", b =>
                 {
                     b.Navigation("JobApplications");
+                });
+
+            modelBuilder.Entity("tae_app.Models.JobApplication", b =>
+                {
+                    b.Navigation("Attachments");
+                });
+
+            modelBuilder.Entity("tae_app.Models.JobCategory", b =>
+                {
+                    b.Navigation("Jobs");
                 });
 
             modelBuilder.Entity("tae_app.Models.Member", b =>
